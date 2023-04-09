@@ -11,6 +11,7 @@
     "start": "nodemon",
     "test": "jest --detectOpenHandles",
     "test-coverage": "jest --coverage",
+    "test-invoke": "ts-node --transpile-only ./src/test-invoke.ts",
     "lint": "eslint src/ --ext .js,.jsx,.ts,.tsx",
     "clean": "rm -rf dist build",
     "ts-node": "ts-node"
@@ -22,6 +23,7 @@
     "url": "https://github.com/ikenley/typescript-node-boilerplate"
   },
   "dependencies": {
+    "@vendia/serverless-express": "^4.10.1",
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
@@ -35,6 +37,7 @@
     "winston": "^3.6.0"
   },
   "devDependencies": {
+    "@types/aws-lambda": "^8.10.114",
     "@types/cors": "^2.8.12",
     "@types/express": "^4.17.13",
     "@types/jest": "^27.4.1",
