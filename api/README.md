@@ -5,63 +5,39 @@ Boilerplate application for creating a REST-ful API using Typscript + Node
 ## Getting Started
 
 ```
+cp ./.env.example .env
+cd api
 npm install
 npm run start
 ```
 
 ---
 
-## Features
+## Docker (lambda entrypoint)
 
-- [Typescript](https://www.typescriptlang.org/)
-- [Node](https://nodejs.org/en/)
-- [Express](https://expressjs.com/)
-- [jest](https://jestjs.io/) and [supertest](https://github.com/visionmedia/supertest) for testing
-- [winston](https://github.com/winstonjs/winston) for logging
-- TODO exception handling
-- Environment configuration
-  - `dotenv` (see [./src/config/index.ts](./src/config/index.ts))
-  - consider https://www.npmjs.com/package/rc
-- [typeorm](https://typeorm.io/#/) for data access
-- [tsyringe](https://github.com/microsoft/tsyringe) for dependency injection
-- [linting](eslintrc.js)
-- [routing](src/routes/index.ts)
-- [Flyway](https://flywaydb.org/) SQL migrations. See `./sql/flyway`
-- [Terraform](https://www.terraform.io/): See `./terraform`
-- [Docker](https://www.docker.com/) and TODO ECS Fargate for hosting
-- TODO Amazon CodePipeline and CodeBuild for CI/CD
+This project can be run as a Lambda function behind an Application Load Balancer to save money.
 
----
-
-## Project Structure
-
-TODO
-
----
-
----
-
-## Terraform
-
+Example commands below taken from [Deploy Node.js Lambda functions with container images](https://docs.aws.amazon.com/lambda/latest/dg/nodejs-image.html):
 ```
-cd terraform/dev
-terraform init
-terraform apply
+# Build the Docker image 
+docker build -t ik-dev-ai-lambda-test:test -f Dockerfile-lambda --build-arg VERSION=TEST .
+
+# Start the Docker image with the docker run command.
+docker run -p 9000:8080 ik-dev-ai-lambda-test:test
+
+# Test your application locally using the RIE
+curl -XPOST "http://localhost:9000/2015-03-31/functions/function/invocations" -d '{}'
+
+# Deploy
+aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 924586450630.dkr.ecr.us-east-1.amazonaws.com
+aws ecr create-repository --repository-name ik-dev-ai-lambda-test --image-scanning-configuration scanOnPush=true --image-tag-mutability MUTABLE
+docker tag ik-dev-ai-lambda-test:test 924586450630.dkr.ecr.us-east-1.amazonaws.com/ik-dev-ai-lambda-test:latest
+docker push 924586450630.dkr.ecr.us-east-1.amazonaws.com/ik-dev-ai-lambda-test
 ```
 
 ---
 
-## Flyway Migrations
-
-```
-docker run --network="host" --rm -v /$(pwd)/sql/flyway/conf:/flyway/conf -v /$(pwd)/sql/flyway/sql:/flyway/sql flyway/flyway migrate
-
-docker run --network="host" --rm --env-file .env -v C:\Users\ikenl\git\typescript-node-boilerplate\sql\flyway\conf:/flyway/conf -v C:\Users\ikenl\git\typescript-node-boilerplate\sql\flyway\sql:/flyway/sql flyway/flyway migrate
-```
-
----
-
-## Docker
+## Docker (webser)
 
 This project uses [Docker](https://www.docker.com/) along with ECS Fargate for hosting.
 
@@ -75,13 +51,4 @@ docker tag typescript-node-boilerplate:latest typescript-node-boilerplate:1.0.0
 
 ---
 
-## Further Reading
 
-- https://github.com/metachris/typescript-boilerplate
-- https://github.com/GeekyAnts/express-typescript
-- https://github.com/w3tecch/express-typescript-boilerplate
-- https://developer.okta.com/blog/2018/11/15/node-express-typescript
-- https://github.com/goldbergyoni/nodebestpractices
-- https://github.com/HappyZombies/express-backend-starter
-- https://softwareontheroad.com/ideal-nodejs-project-structure/
-- https://github.com/santiq/bulletproof-nodejs

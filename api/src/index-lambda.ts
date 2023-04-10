@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import "express-async-errors";
-import "source-map-support/register";
+//import "source-map-support/register";
 import serverlessExpress from "@vendia/serverless-express";
 import { ALBEvent, Context } from "aws-lambda";
 import config from "./config";
@@ -46,3 +46,5 @@ export const handler = (event: ALBEvent, context: Context) => {
 
   return setup(event, context);
 };
+
+export default handler;
