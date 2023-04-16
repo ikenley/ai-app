@@ -17,8 +17,8 @@ phases:
       - cd api
       - IMAGE_URI="$REPOSITORY_URL:$IMAGE_TAG"
       - echo IMAGE_URI=$IMAGE_URI
-      - docker build -t $IMAGE_URI:$IMAGE_TAG --build-arg --build-arg VERSION=$IMAGE_TAG .
-      - docker tag $IMAGE_URI:$IMAGE_TAG $IMAGE_URI
+      - docker build -t $REPOSITORY_URL:$IMAGE_TAG --build-arg --build-arg VERSION=$IMAGE_TAG .
+      - docker tag $REPOSITORY_URL:$IMAGE_TAG $IMAGE_URI
   post_build:
     commands:
       - echo Build completed on `date`
