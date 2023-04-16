@@ -25,4 +25,4 @@ phases:
       - echo Pushing the Docker image...
       - docker push $REPOSITORY_URL:$IMAGE_TAG
       - echo "Updating lambda function image_uri..."
-      - aws lambda update-function-code --no-paginate --function_name $FUNCTION_NAME --image-uri $IMAGE_URI
+      - aws lambda update-function-code --no-paginate --function-name $FUNCTION_NAME --image-uri $IMAGE_URI

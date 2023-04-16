@@ -1,5 +1,5 @@
 {
-  "name": "typescript-node-boilerplate",
+  "name": "ai-app",
   "version": "1.0.0",
   "description": "Boilerplate for Typescript Node application",
   "main": "src/index.ts",
@@ -20,7 +20,7 @@
   "license": "SEE LICENSE IN LICENSE.txt",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ikenley/typescript-node-boilerplate"
+    "url": "https://github.com/ikenley/ai-app"
   },
   "dependencies": {
     "@vendia/serverless-express": "^4.10.1",
