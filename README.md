@@ -8,7 +8,6 @@ This is also a test of the "dollar full stack app". The goal is to
     - Front-end: Static React app on an S3 bucket behind a CloudFront CDN
 2. Maintain the option value to convert it to an enterprise-ready Docker-based hosting strategy with minimal refactoring.
 
-
 ## IaC
 
 See [https://github.com/ikenley/template-infrastructure](https://github.com/ikenley/template-infrastructure)
