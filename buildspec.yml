@@ -23,6 +23,7 @@ phases:
       - cd "$CWD/frontend"
       - REACT_APP_VERSION=$IMAGE_TAG
       - echo "REACT_APP_VERSION=$REACT_APP_VERSION"
+      - npm ci
       - npm run build
   post_build:
     commands:
