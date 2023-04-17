@@ -12,6 +12,8 @@ function App() {
       setApiInfo(res.data)
     }
     getApiInfo()
+
+    console.log(`VERSION`, config.version)
   }, [setApiInfo])
 
   return (
