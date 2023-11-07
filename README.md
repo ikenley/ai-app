@@ -11,3 +11,36 @@ This is also a test of the "dollar full stack app". The goal is to
 ## IaC
 
 See [https://github.com/ikenley/template-infrastructure](https://github.com/ikenley/template-infrastructure)
+
+---
+
+## Git Submodules
+
+For local development, this project uses the prediction-app repo as a submodule. 
+
+```
+git submodule add https://github.com/ikenley/prediction-app.git
+```
+
+## Getting Started
+
+```
+# Install aws ecr cli helper
+# https://github.com/awslabs/amazon-ecr-credential-helper
+
+# Configure env vars
+cp ./.env.example ./.env
+
+# Start docker dependencies
+make deps
+
+# Run API service
+cd ./api
+npm i
+npm run start
+
+# Run front-end service
+cd ./front-end
+npm i
+npm run start
+```
