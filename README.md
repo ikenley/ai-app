@@ -44,3 +44,13 @@ cd ./front-end
 npm i
 npm run start
 ```
+
+---
+
+## TODO
+
+- deploy
+- de minimus ai client
+- form
+- private route
+- auth redirect loop

@@ -1,31 +1,53 @@
-import { useState, useEffect } from "react"; 
-import axios from "axios"
-import config from "./config"
+import React, { useEffect } from "react";
+import axios from "axios";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "react-query";
+import CssBaseline from "@mui/material/CssBaseline";
+import { ThemeProvider } from "@mui/material/styles";
+import { AuthContextProvider } from "./auth/AuthContext";
+import { ApiClientContextProvider } from "./hooks/ApiClientContext";
+import theme from "./theme";
+import config from "./config";
+import MainPage from "./main/MainPage";
 
-function App() {
-  const [apiInfo, setApiInfo] = useState<object|null>(null)
+const queryClient = new QueryClient();
 
+const router = createBrowserRouter(
+  [
+    {
+      path: "/",
+      element: <MainPage />,
+    },
+  ],
+  { basename: config.homepage }
+);
+
+const App = () => {
+  // Log API info
   useEffect(() => {
     const getApiInfo = async () => {
-      const res = await axios.get(`${config.apiPrefix}/status/info`)
-      console.log("res", res)
-      setApiInfo(res.data)
-    }
-    getApiInfo()
+      const res = await axios.get(`${config.apiPrefix}/status/info`);
+      console.log("res", res);
+    };
+    getApiInfo();
 
-    console.log(`VERSION`, config.version)
-  }, [setApiInfo])
+    console.log(`VERSION`, config.version);
+  }, []);
 
   return (
-    <div className="ai-app">
-      <header className="App-header"></header>
-      <div className="container">
-        <p>Open the pod bay doors, HAL.</p>
-        <div>API info:</div>
-        {apiInfo ? <div>{JSON.stringify(apiInfo)}</div> : null}
-      </div>
-    </div>
+    <React.StrictMode>
+      <ThemeProvider theme={theme}>
+        <QueryClientProvider client={queryClient}>
+          <ApiClientContextProvider>
+            <AuthContextProvider>
+              <CssBaseline />
+              <RouterProvider router={router} />
+            </AuthContextProvider>
+          </ApiClientContextProvider>
+        </QueryClientProvider>
+      </ThemeProvider>
+    </React.StrictMode>
   );
-}
+};
 
 export default App;
