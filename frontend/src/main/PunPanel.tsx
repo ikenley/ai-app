@@ -54,9 +54,7 @@ const PunPanel = () => {
           <Skeleton data-testid="pun-panel-result-loading" height={100} />
         ) : punResponse ? (
           punResponse.content
-        ) : (
-          "No response"
-        )}
+        ) : null}
       </Box>
     </Box>
   );
