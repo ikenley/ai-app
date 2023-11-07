@@ -49,3 +49,4 @@ npm run start
 
 ---
 
+- narrow CORS on ai app to be base-domain

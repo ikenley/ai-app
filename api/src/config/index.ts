@@ -5,7 +5,7 @@ process.env.NODE_ENV = process.env.NODE_ENV || "development";
 
 dotenv.config({ path: "../.env" });
 
-type AppEnv = "local" | "test" | "dev" | "staging" | "prod";
+export type AppEnv = "local" | "test" | "dev" | "staging" | "prod";
 
 export class ConfigOptions {
   api: { prefix: string };
@@ -13,6 +13,7 @@ export class ConfigOptions {
   aws: {
     region: string;
   };
+  baseDomain: string | null;
   cognito: {
     userPoolId: string;
     userPoolClientId: string;
@@ -46,6 +47,7 @@ export const getConfigOptions = () => {
     aws: {
       region: process.env.AWS_REGION!,
     },
+    baseDomain: process.env.BASE_DOMAIN || null,
     cognito: {
       userPoolId: process.env.COGNITO_USER_POOL_ID!,
       userPoolClientId: process.env.COGNITO_USER_POOL_CLIENT_ID!,
