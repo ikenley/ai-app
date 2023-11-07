@@ -50,7 +50,8 @@ npm run start
 ## TODO
 
 - deploy
+- private route
 - de minimus ai client
 - form
-- private route
-- auth redirect loop
+- auth middleware
+- endpoint
