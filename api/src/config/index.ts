@@ -13,11 +13,11 @@ export class ConfigOptions {
   aws: {
     region: string;
   };
-  // cognito: {
-  //   userPoolId: string;
-  //   userPoolClientId: string;
-  //   userPoolClientSecret: string;
-  // };
+  cognito: {
+    userPoolId: string;
+    userPoolClientId: string;
+    userPoolClientSecret: string;
+  };
   // db: {
   //   host: string;
   //   port: number;
@@ -46,11 +46,11 @@ export const getConfigOptions = () => {
     aws: {
       region: process.env.AWS_REGION!,
     },
-    // cognito: {
-    //   userPoolId: process.env.COGNITO_USER_POOL_ID!,
-    //   userPoolClientId: process.env.COGNITO_USER_POOL_CLIENT_ID!,
-    //   userPoolClientSecret: process.env.COGNITO_USER_POOL_CLIENT_SECRET!,
-    // },
+    cognito: {
+      userPoolId: process.env.COGNITO_USER_POOL_ID!,
+      userPoolClientId: process.env.COGNITO_USER_POOL_CLIENT_ID!,
+      userPoolClientSecret: process.env.COGNITO_USER_POOL_CLIENT_SECRET!,
+    },
     // db: {
     //   host: process.env.DB_HOST!,
     //   port: parseInt(process.env.DB_PORT!),
