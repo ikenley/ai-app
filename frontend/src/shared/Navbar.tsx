@@ -31,7 +31,7 @@ const Navbar = () => {
     <AppBar position="static" color="default" className="nabar">
       <Toolbar sx={{ flexWrap: "wrap" }}>
         <Typography variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
-          AI App
+          Pun Generator
         </Typography>
         {user === null ? (
           <Skeleton />

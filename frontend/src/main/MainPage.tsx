@@ -1,6 +1,7 @@
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Navbar from "../shared/Navbar";
+import PunPanel from "./PunPanel";
 
 // Based on:
 // https://github.com/mui/material-ui/tree/v5.14.17/docs/data/material/getting-started/templates/pricing
@@ -17,7 +18,7 @@ const MainPage = () => {
           color="text.primary"
           gutterBottom
         >
-          AI App
+          Pun GenerAItor
         </Typography>
         <Typography
           variant="h5"
@@ -27,6 +28,7 @@ const MainPage = () => {
         >
           A very simple AI client
         </Typography>
+        <PunPanel />
       </Container>
     </div>
   );

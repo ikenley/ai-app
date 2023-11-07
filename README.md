@@ -53,8 +53,5 @@ npm run start
 
 - deploy
 - inject env from SSM parameter
-- private route
-- de minimus ai client
 - form
-- auth middleware
 - endpoint
