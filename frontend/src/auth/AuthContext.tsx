@@ -73,8 +73,6 @@ export const AuthContextProvider = ({ children }: Props) => {
         // Add authorization header to all requests
         axios.defaults.headers.common["Authorization"] = `bearer ${idToken}`;
 
-        axios.get("https://api.ai.ikenley.com/ai/api/status/info");
-
         setAuthState({
           isLoading: false,
           isAuthenticated: true,
