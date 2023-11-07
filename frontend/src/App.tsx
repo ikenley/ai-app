@@ -8,6 +8,7 @@ import { AuthContextProvider } from "./auth/AuthContext";
 import { ApiClientContextProvider } from "./hooks/ApiClientContext";
 import theme from "./theme";
 import config from "./config";
+import PrivateRoute from "./auth/PrivateRoute";
 import MainPage from "./main/MainPage";
 
 const queryClient = new QueryClient();
@@ -16,7 +17,11 @@ const router = createBrowserRouter(
   [
     {
       path: "/",
-      element: <MainPage />,
+      element: (
+        <PrivateRoute>
+          <MainPage />
+        </PrivateRoute>
+      ),
     },
   ],
   { basename: config.homepage }
