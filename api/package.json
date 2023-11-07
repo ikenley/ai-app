@@ -23,6 +23,7 @@
     "url": "https://github.com/ikenley/ai-app"
   },
   "dependencies": {
+    "@aws-sdk/client-ssm": "^3.441.0",
     "@vendia/serverless-express": "^4.10.1",
     "cognito-express": "^3.0.3",
     "cors": "^2.8.5",

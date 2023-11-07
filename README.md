@@ -52,6 +52,14 @@ npm run start
 ## TODO
 
 - deploy
+    - api env CONFIG_SSM_PARAM_NAME
+COGNITO_USER_POOL_ID=TODO
+COGNITO_USER_POOL_CLIENT_ID=TODO
+COGNITO_USER_POOL_CLIENT_SECRET=TODO
+BASE_DOMAIN=localhost:8085
+OPENAI_API_KEY=TODO
+
+# auth-service
+
+    - fe REACT_APP_AUTH_API_URL_PREFIX
 - inject env from SSM parameter
-- form
-- endpoint
