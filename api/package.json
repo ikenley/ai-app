@@ -23,7 +23,9 @@
     "url": "https://github.com/ikenley/ai-app"
   },
   "dependencies": {
+    "@aws-sdk/client-ssm": "^3.441.0",
     "@vendia/serverless-express": "^4.10.1",
+    "cognito-express": "^3.0.3",
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
@@ -31,6 +33,7 @@
     "helmet": "^5.0.2",
     "method-override": "^3.0.0",
     "morgan": "^1.10.0",
+    "openai": "^4.16.1",
     "reflect-metadata": "^0.1.13",
     "tsyringe": "^4.7.0",
     "uuid": "^9.0.0",

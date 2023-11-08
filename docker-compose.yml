@@ -1,0 +1,71 @@
+version: "3.9"
+services:
+  # api:
+  #   build:
+  #     context: ./TemplateApi
+  #   container_name: template-app
+  #   ports:
+  #     - "5000:5000"
+  #   restart: always
+  # client:
+  #   build:
+  #     context: ./client
+  #   container_name: template-api
+  #   ports:
+  #     - "8080:80"
+  #   restart: always
+  #   links:
+  #     - "api"
+  db:
+    image: postgres:14
+    ports:
+      - 5435:5432
+    environment:
+      POSTGRES_PASSWORD: $PGPASSWORD
+      
+  flyway:
+    image: flyway/flyway:9.15.1
+    command: migrate
+    volumes:
+      - ./prediction-app/migrations/sql:/flyway/sql
+      - ./prediction-app/migrations/local:/flyway/local
+    environment:
+      FLYWAY_URL: "jdbc:postgresql://host.docker.internal:${PGPORT}/${PGDATABASE}"
+      FLYWAY_USER: $PGUSER
+      FLYWAY_PASSWORD: $PGPASSWORD
+      FLYWAY_DEFAULT_SCHEMA: flyway
+      FLYWAY_CONNECT_RETRIES: 2
+      FLYWAY_LOCATIONS: "filesystem:./sql,filesystem:./local"
+      FLYWAY_PLACEHOLDERS_USER_ID: $PGUSER
+      FLYWAY_PLACEHOLDERS_PREDICTION_APP_USER_PW: $PGPASSWORD
+      FLYWAY_PLACEHOLDERS_REVISIT_PREDICTION_USER_PW: $PGPASSWORD 
+      FLYWAY_PLACEHOLDERS_AUTH_SERVICE_USER_PW: $PGPASSWORD
+    depends_on:
+      - db
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  auth_api:
+    image: 924586450630.dkr.ecr.us-east-1.amazonaws.com/ik-dev-auth-api:5e09b12
+    ports:
+      - 8088:8088
+    extra_hosts:
+    - "host.docker.internal:host-gateway"
+    environment:
+      AWS_REGION: $AWS_REGION
+      AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+      AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+      COGNITO_USER_POOL_ID: $COGNITO_USER_POOL_ID
+      COGNITO_USER_POOL_CLIENT_ID: $COGNITO_USER_POOL_CLIENT_ID
+      COGNITO_USER_POOL_CLIENT_SECRET: $COGNITO_USER_POOL_CLIENT_SECRET
+      PGHOST: host.docker.internal
+      PGPORT: $PGPORT
+      PGUSER: $PGUSER
+      PGPASSWORD: $PGPASSWORD
+      PGDATABASE: $PGDATABASE
+      BASE_DOMAIN: $BASE_DOMAIN
+      APP_ENV: local
+      PORT: $AUTH__PORT
+      CONFIG_SSM_PARAM_NAME: $AUTH__CONFIG_SSM_PARAM_NAME
+      COGNITO_OAUTH_URL_PREFIX: $COGNITO_OAUTH_URL_PREFIX
+      COGNITO_OAUTH_REDIRECT_URL_PREFIX: $COGNITO_OAUTH_REDIRECT_URL_PREFIX
