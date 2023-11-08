@@ -66,7 +66,13 @@ const PunPanel = () => {
         ) : punResponse ? (
           <div>
             <div>{punResponse.content}</div>
-            <Button fullWidth size="large" sx={{ mt: 1 }} onClick={handleCopy}>
+            <Button
+              variant="outlined"
+              fullWidth
+              size="large"
+              sx={{ mt: 1 }}
+              onClick={handleCopy}
+            >
               <ContentCopyIcon /> Copy to Clipboard
             </Button>
           </div>
