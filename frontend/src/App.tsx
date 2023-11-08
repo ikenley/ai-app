@@ -1,6 +1,10 @@
 import React, { useEffect } from "react";
 import axios from "axios";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  Navigate,
+  RouterProvider,
+} from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
@@ -22,6 +26,10 @@ const router = createBrowserRouter(
           <MainPage />
         </PrivateRoute>
       ),
+    },
+    {
+      path: "*",
+      element: <Navigate to="/" />,
     },
   ],
   { basename: config.homepage }
