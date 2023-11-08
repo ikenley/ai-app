@@ -3,6 +3,8 @@ import axios from "axios";
 import { QueryClient, QueryClientProvider } from "react-query";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { AuthContextProvider } from "./auth/AuthContext";
 import { ApiClientContextProvider } from "./hooks/ApiClientContext";
 import theme from "./theme";
@@ -34,6 +36,7 @@ const App = () => {
               <PrivateRoute>
                 <MainPage />
               </PrivateRoute>
+              <ToastContainer />
             </AuthContextProvider>
           </ApiClientContextProvider>
         </QueryClientProvider>

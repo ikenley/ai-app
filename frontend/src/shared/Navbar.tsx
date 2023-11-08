@@ -1,8 +1,12 @@
 import { useState, useMemo } from "react";
 import AppBar from "@mui/material/AppBar";
 import Button from "@mui/material/Button";
+import ListItemText from "@mui/material/ListItemText";
+import ListItemIcon from "@mui/material/ListItemIcon";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
+import GitHubIcon from "@mui/icons-material/GitHub";
+import LogoutIcon from "@mui/icons-material/Logout";
 import Skeleton from "@mui/material/Skeleton";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
@@ -55,8 +59,17 @@ const Navbar = () => {
               open={Boolean(anchorEl)}
               onClose={handleClose}
             >
+              <MenuItem href="https://github.com/ikenley/ai-app" component="a">
+                <ListItemIcon>
+                  <GitHubIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText>Github Source</ListItemText>
+              </MenuItem>
               <MenuItem href={logoutUrl} component="a">
-                Logout
+                <ListItemIcon>
+                  <LogoutIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText>Logout</ListItemText>
               </MenuItem>
             </Menu>
           </>

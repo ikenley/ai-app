@@ -3,7 +3,10 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Skeleton from "@mui/material/Skeleton";
 import TextField from "@mui/material/TextField";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { useMutation } from "react-query";
+import copy from "copy-to-clipboard";
+import { toast } from "react-toastify";
 import { useApiClient } from "../hooks/ApiClientContext";
 
 const PunPanel = () => {
@@ -23,6 +26,14 @@ const PunPanel = () => {
     data: punResponse,
   } = useMutation(createPun, {});
 
+  const handleCopy = useCallback(() => {
+    if (!punResponse) {
+      return;
+    }
+    copy(punResponse.content);
+    toast.success("Copied to clipboard");
+  }, [punResponse]);
+
   return (
     <Box className="pun-panel" sx={{ mt: 5 }}>
       <form onSubmit={(event) => event.preventDefault()}>
@@ -41,7 +52,7 @@ const PunPanel = () => {
           size="large"
           type="submit"
           sx={{ mt: 3 }}
-          disabled={!prompt}
+          disabled={!prompt || punIsLoading}
           onClick={() => {
             handleCreatePun({ prompt });
           }}
@@ -53,7 +64,12 @@ const PunPanel = () => {
         {punIsLoading ? (
           <Skeleton data-testid="pun-panel-result-loading" height={100} />
         ) : punResponse ? (
-          punResponse.content
+          <div>
+            <div>{punResponse.content}</div>
+            <Button fullWidth size="large" sx={{ mt: 1 }} onClick={handleCopy}>
+              <ContentCopyIcon /> Copy to Clipboard
+            </Button>
+          </div>
         ) : null}
       </Box>
     </Box>
