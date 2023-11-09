@@ -50,6 +50,11 @@ const defaultApiClient: ApiClientType = {
         }
       );
       const idToken = response.data as string;
+
+      // Add authorization header to all requests
+      _axios.defaults.headers["Authorization"] = `bearer ${idToken}`;
+      _axios.defaults.headers.common["Authorization"] = `bearer ${idToken}`;
+
       return idToken;
     } catch {
       return null;
