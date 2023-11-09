@@ -7,9 +7,12 @@ import React, {
   useContext,
 } from "react";
 import axios from "axios";
-import config from "../config";
 import { useApiClient } from "../hooks/ApiClientContext";
+import useInterval from "../hooks/useInterval";
 import User from "./User";
+import redirectToLogin from "./redirectToLogin";
+
+const REFRESH_TOKEN_TIMEOUT = 1740000; // 29 minutes
 
 export type AuthState = {
   isLoading: boolean;
@@ -36,13 +39,6 @@ export const AuthContext = createContext(defaultAuthState);
 
 export const useAuthContext = () => {
   return useContext(AuthContext);
-};
-
-/** Redirect to login page */
-const redirectToLogin = () => {
-  const returnUrl = encodeURI(global.location.toString());
-  const loginUrl = `${config.authApiPrefix}/login?r=${returnUrl}`;
-  global.location.href = loginUrl;
 };
 
 type Props = {
@@ -92,6 +88,9 @@ export const AuthContextProvider = ({ children }: Props) => {
   useEffect(() => {
     getIdToken();
   }, [getIdToken]);
+
+  /** Refresh token at regular interval */
+  useInterval(getIdToken, REFRESH_TOKEN_TIMEOUT);
 
   const authValue = useMemo(() => {
     const value: AuthValue = {
