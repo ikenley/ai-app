@@ -66,9 +66,6 @@ export const AuthContextProvider = ({ children }: Props) => {
       if (idToken) {
         const user = User.fromIdToken(idToken);
 
-        // Add authorization header to all requests
-        axios.defaults.headers.common["Authorization"] = `bearer ${idToken}`;
-
         setAuthState({
           isLoading: false,
           isAuthenticated: true,
