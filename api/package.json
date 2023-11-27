@@ -7,6 +7,7 @@
     "build": "tsc -p tsconfig.json",
     "cli": "ts-node src/cli.ts",
     "dev": "tsc --project tsconfig.json --watch & NODE_ENV=development nodemon dist",
+    "run-job-runner": "ts-node --transpile-only ./src/index-job-runner.ts",
     "prestart": "npm run build",
     "start": "nodemon",
     "test": "jest --detectOpenHandles",
@@ -23,6 +24,7 @@
     "url": "https://github.com/ikenley/ai-app"
   },
   "dependencies": {
+    "@aws-sdk/client-bedrock-runtime": "^3.458.0",
     "@aws-sdk/client-ssm": "^3.441.0",
     "@vendia/serverless-express": "^4.10.1",
     "cognito-express": "^3.0.3",
