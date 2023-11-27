@@ -25,7 +25,9 @@
   },
   "dependencies": {
     "@aws-sdk/client-bedrock-runtime": "^3.458.0",
+    "@aws-sdk/client-s3": "^3.458.0",
     "@aws-sdk/client-ssm": "^3.441.0",
+    "@aws-sdk/lib-storage": "^3.458.0",
     "@vendia/serverless-express": "^4.10.1",
     "cognito-express": "^3.0.3",
     "cors": "^2.8.5",

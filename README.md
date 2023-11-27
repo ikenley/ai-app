@@ -52,5 +52,8 @@ npm run start
 
 ---
 
-- figure out ideal way to host on cloudfront w/ react-router
-    - https://dev.to/santisbon/serving-a-react-router-app-through-cloudfront-1h28
+- send email
+- lambda entrypoint e.g. index + Dockerfile update
+- lambda function + SQS queue
+- REST API publish to SQS
+- Front-end

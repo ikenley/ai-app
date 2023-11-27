@@ -19,6 +19,7 @@ export class ConfigOptions {
     userPoolClientId: string;
     userPoolClientSecret: string;
   };
+  imageS3BucketName: string;
   // db: {
   //   host: string;
   //   port: number;
@@ -64,6 +65,7 @@ export const getConfigOptions = () => {
     logs: { level: process.env.LOGS__LEVEL || "http" },
     nodeEnv: process.env.NODE_ENV!,
     port: parseInt(process.env.PORT || "8086", 10),
+    imageS3BucketName: process.env.IMAGE_S3_BUCKET_NAME!,
   };
 
   return config;
