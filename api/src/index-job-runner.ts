@@ -1,11 +1,8 @@
 import "reflect-metadata";
 import "express-async-errors";
 import { container } from "tsyringe";
-import serverlessExpress from "@vendia/serverless-express";
 import { SQSEvent, Context } from "aws-lambda";
 import { SSMClient } from "@aws-sdk/client-ssm";
-import { getConfigOptions } from "./config";
-import Logger from "./loaders/logger";
 import registerJobRunnerDependencies from "./loaders/registerJobRunnerDependencies";
 import JobRunnerService from "./components/image/JobRunnerService";
 import SsmParamLoader from "./loaders/SsmParamLoader";

@@ -1,4 +1,4 @@
-import { SQSEvent, Context, SQSRecord } from "aws-lambda";
+import { SQSEvent, Context } from "aws-lambda";
 import { handler } from "./index-job-runner";
 
 const sqsRecord: any = {

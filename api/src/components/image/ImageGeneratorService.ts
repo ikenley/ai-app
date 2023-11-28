@@ -30,7 +30,7 @@ export default class ImageGeneratorService {
   public async generate(message: CreateImageMessage) {
     const { imageId, prompt, email } = message;
 
-    const filePath = "/tmp/img/cf3dd937-d292-40aa-b782-1741dc9e8b11.png"; //await this.createImage(imageId, prompt);
+    const filePath = await this.createImage(imageId, prompt);
 
     const s3Key = await this.uploadToS3(imageId, filePath);
 
