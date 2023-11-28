@@ -75,6 +75,7 @@ export default class ImageGeneratorService {
       Bucket: this.config.imageS3BucketName,
       Key: s3Key,
     };
+    this.logger.info("uploadToS3", { s3Key });
     const command = new PutObjectCommand(input);
     await this.s3Client.send(command);
 
@@ -86,6 +87,7 @@ export default class ImageGeneratorService {
     s3Key: string,
     prompt: string
   ) {
+    this.logger.info("sendEmail", { destinationEmail });
     const input = {
       Source: this.config.fromEmailAddress,
       Destination: {
