@@ -5,6 +5,7 @@ import {
   InvokeModelCommand,
 } from "@aws-sdk/client-bedrock-runtime";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses";
 import { ConfigOptions } from "../../config";
 import CreateImageMessage from "./CreateImageMessage";
 
@@ -12,17 +13,20 @@ export default class ImageGeneratorService {
   constructor(
     protected config: ConfigOptions,
     protected bedrockRuntimeClient: BedrockRuntimeClient,
-    protected s3Client: S3Client
+    protected s3Client: S3Client,
+    protected sesClient: SESClient
   ) {}
 
   /** Generate an image based on a prompt, save it to S3, and send image link. */
   public async generate(message: CreateImageMessage) {
-    const { imageId, prompt } = message;
+    const { imageId, prompt, email } = message;
 
-    const filePath = await this.createImage(imageId, prompt);
-    console.log("filePath", filePath);
+    const filePath = "/tmp/img/cf3dd937-d292-40aa-b782-1741dc9e8b11.png"; //await this.createImage(imageId, prompt);
+    //console.log("filePath", filePath);
 
-    await this.uploadToS3(imageId, filePath);
+    const s3Key = await this.uploadToS3(imageId, filePath);
+
+    await this.sendEmail(email, s3Key, prompt);
   }
 
   /** Generate an image based on a prompt */
@@ -59,7 +63,6 @@ export default class ImageGeneratorService {
         }
       );
       return filePath;
-      //console.log("parsedData", parsedData.artifacts[0].base64);
     } catch (error: any) {
       console.error("Error parsing JSON:", error);
       throw new Error(error);
@@ -68,13 +71,53 @@ export default class ImageGeneratorService {
 
   private async uploadToS3(imageId: string, filePath: string) {
     const fileContent = readFileSync(filePath); // This is inefficient, but works for small images
+    const s3Key = `img/${imageId}.png`;
     const input = {
       Body: fileContent,
       Bucket: this.config.imageS3BucketName,
-      Key: `img/${imageId}.png`,
+      Key: s3Key,
     };
     const command = new PutObjectCommand(input);
-    const response = await this.s3Client.send(command);
-    console.log("uploadToS3:response", response);
+    await this.s3Client.send(command);
+
+    return s3Key;
+  }
+
+  private async sendEmail(
+    destinationEmail: string,
+    s3Key: string,
+    prompt: string
+  ) {
+    const input = {
+      Source: this.config.fromEmailAddress,
+      Destination: {
+        ToAddresses: [destinationEmail],
+      },
+      Message: {
+        Subject: {
+          Data: "Your AI-generated image is ready",
+          Charset: "UTF-8",
+        },
+        Body: {
+          Text: {
+            Data: `Your AI-generated image is ready.
+            Prompt: "${prompt}"
+            Result https://${this.config.imageS3BucketName}/${s3Key}
+            To create more images, visit https://ai.ikenley.com/image`,
+            Charset: "UTF-8",
+          },
+          Html: {
+            Data: `<p>Your AI-generated image is ready.</p>
+            <p>Prompt: "${prompt}"</p>
+            <p>Result: <br />
+            <img src="https://${this.config.imageS3BucketName}/${s3Key}" /></p>
+            <p>To create more images, visit <a href="https://ai.ikenley.com/image">ai.ikenley.com/image</a></p>`,
+            Charset: "UTF-8",
+          },
+        },
+      },
+    };
+    const command = new SendEmailCommand(input);
+    await this.sesClient.send(command);
   }
 }

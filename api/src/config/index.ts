@@ -19,6 +19,7 @@ export class ConfigOptions {
     userPoolClientId: string;
     userPoolClientSecret: string;
   };
+  fromEmailAddress: string;
   imageS3BucketName: string;
   // db: {
   //   host: string;
@@ -54,6 +55,7 @@ export const getConfigOptions = () => {
       userPoolClientId: process.env.COGNITO_USER_POOL_CLIENT_ID!,
       userPoolClientSecret: process.env.COGNITO_USER_POOL_CLIENT_SECRET!,
     },
+    fromEmailAddress: process.env.FROM_EMAIL_ADDRESS!,
     // db: {
     //   host: process.env.DB_HOST!,
     //   port: parseInt(process.env.DB_PORT!),
