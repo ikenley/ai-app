@@ -1,31 +1,39 @@
-import { BedrockRuntimeClient } from "@aws-sdk/client-bedrock-runtime";
-import { S3Client } from "@aws-sdk/client-s3";
-import { SESClient } from "@aws-sdk/client-ses"; // ES Modules import
+import "reflect-metadata";
+import "express-async-errors";
+import { container } from "tsyringe";
+import serverlessExpress from "@vendia/serverless-express";
+import { SQSEvent, Context } from "aws-lambda";
+import { SSMClient } from "@aws-sdk/client-ssm";
 import { getConfigOptions } from "./config";
-import ImageGeneratorService from "./components/image/ImageGeneratorService";
-import CreateImageMessage from "./components/image/CreateImageMessage";
+import Logger from "./loaders/logger";
+import registerJobRunnerDependencies from "./loaders/registerJobRunnerDependencies";
+import JobRunnerService from "./components/image/JobRunnerService";
+import SsmParamLoader from "./loaders/SsmParamLoader";
 
-const run = async () => {
-  const bedrockClient = new BedrockRuntimeClient();
-  const s3Client = new S3Client();
-  const sesClient = new SESClient();
+let jobRunnerService: JobRunnerService | null = null;
 
-  // TODO get config values from SSM
-  const config = getConfigOptions();
-  const service = new ImageGeneratorService(
-    config,
-    bedrockClient,
-    s3Client,
-    sesClient
-  );
+/** Initial setup which should run on lambda startup. */
+const setup = async (event: SQSEvent) => {
+  // Inject SSM param configuration into env vars
+  const ssmClient = new SSMClient();
+  const ssmParamLoader = new SsmParamLoader(ssmClient);
+  const configParamName = process.env.CONFIG_SSM_PARAM_NAME!;
+  await ssmParamLoader.loadToEnv(configParamName);
 
-  const message: CreateImageMessage = {
-    imageId: "cf3dd937-d292-40aa-b782-1741dc9e8b11",
-    prompt: `Bird flying over small new england town, in the style of Hopper`,
-    userId: "12a9e338-3d23-47eb-8804-78f7e723d81d",
-    email: "ikenley6@gmail.com",
-  };
-  await service.generate(message);
+  // Register dependencies
+  await registerJobRunnerDependencies();
+
+  jobRunnerService = container.resolve(JobRunnerService);
+  return jobRunnerService.handleEvent(event);
 };
 
-run();
+/** Main entrypoint for Lambda function version of express app */
+export const handler = (event: SQSEvent, _context: Context) => {
+  if (jobRunnerService) {
+    return jobRunnerService.handleEvent(event);
+  }
+
+  return setup(event);
+};
+
+export default handler;

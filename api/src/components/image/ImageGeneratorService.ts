@@ -6,23 +6,31 @@ import {
 } from "@aws-sdk/client-bedrock-runtime";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses";
+import { injectable } from "tsyringe";
+import winston from "winston";
+import LoggerProvider from "../../utils/LoggerProvider";
 import { ConfigOptions } from "../../config";
 import CreateImageMessage from "./CreateImageMessage";
 
+@injectable()
 export default class ImageGeneratorService {
+  private logger: winston.Logger;
+
   constructor(
+    protected loggerProvider: LoggerProvider,
     protected config: ConfigOptions,
     protected bedrockRuntimeClient: BedrockRuntimeClient,
     protected s3Client: S3Client,
     protected sesClient: SESClient
-  ) {}
+  ) {
+    this.logger = loggerProvider.provide("ImageGeneratorService");
+  }
 
   /** Generate an image based on a prompt, save it to S3, and send image link. */
   public async generate(message: CreateImageMessage) {
     const { imageId, prompt, email } = message;
 
     const filePath = "/tmp/img/cf3dd937-d292-40aa-b782-1741dc9e8b11.png"; //await this.createImage(imageId, prompt);
-    //console.log("filePath", filePath);
 
     const s3Key = await this.uploadToS3(imageId, filePath);
 
@@ -53,18 +61,18 @@ export default class ImageGeneratorService {
         filePath,
         base64Data,
         { encoding: "base64" },
-        function (err: any) {
+        (err: any) => {
           if (err) {
-            console.error("Error writing file", err);
+            this.logger.error("Error writing file", err);
             throw new Error(err);
           } else {
-            console.log("File created");
+            this.logger.info("File created");
           }
         }
       );
       return filePath;
     } catch (error: any) {
-      console.error("Error parsing JSON:", error);
+      this.logger.error("Error parsing JSON:", error);
       throw new Error(error);
     }
   }

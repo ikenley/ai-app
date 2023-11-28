@@ -12,7 +12,8 @@
     "start": "nodemon",
     "test": "jest --detectOpenHandles",
     "test-coverage": "jest --coverage",
-    "test-invoke": "ts-node --transpile-only ./src/test-invoke.ts",
+    "test-api-lambda": "ts-node --transpile-only ./src/test-api-lambda.ts",
+    "test-job-runner": "ts-node --transpile-only ./src/test-job-runner.ts",
     "lint": "eslint src/ --ext .js,.jsx,.ts,.tsx",
     "clean": "rm -rf dist build",
     "ts-node": "ts-node"
