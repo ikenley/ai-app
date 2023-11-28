@@ -57,6 +57,6 @@ npm run start
 - Front-end
 
 ```
-aws sqs send-message --queue-url https://sqs.us-east-1.amazonaws.com/924586450630/ik-dev-ai-job-runner --message-body "Information about the largest city in Any Region."
+aws sqs send-message --queue-url https://sqs.us-east-1.amazonaws.com/924586450630/ik-dev-ai-job-runner --message-body '{"imageId":"13e4baff-29c5-446c-8e54-536c049f7bd7","prompt":"Man eating banana in the style of Monet","userId":"12a9e338-3d23-47eb-8804-78f7e723d81d","email":"ikenley6@gmail.com"}'
 
 ```

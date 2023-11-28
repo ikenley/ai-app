@@ -3,6 +3,7 @@ import winston from "winston";
 import { SQSEvent } from "aws-lambda";
 import LoggerProvider from "../../utils/LoggerProvider";
 import ImageGeneratorService from "./ImageGeneratorService";
+import CreateImageMessage from "./CreateImageMessage";
 
 /** Handler for job-runner lambda function.
  * Parses event and routes to relevent business layer.
@@ -20,5 +21,10 @@ export default class JobRunnerService {
 
   public async handleEvent(event: SQSEvent) {
     this.logger.info("handleEvent", event);
+
+    const message = JSON.parse(event.Records[0].body) as CreateImageMessage;
+    this.logger.info("message", message);
+
+    await this.imageGeneratorService.generate(message);
   }
 }

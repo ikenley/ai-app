@@ -1,4 +1,5 @@
-import { readFileSync, writeFile } from "fs";
+import { readFileSync } from "fs";
+import { writeFile } from "fs/promises";
 import * as path from "path";
 import {
   BedrockRuntimeClient,
@@ -47,6 +48,7 @@ export default class ImageGeneratorService {
       modelId: "stability.stable-diffusion-xl-v0",
     };
     const command = new InvokeModelCommand(input);
+    this.logger.info("createImage", { imageId, prompt });
     const response = await this.bedrockRuntimeClient.send(command);
 
     const blobAdapter = response.body;
@@ -57,19 +59,7 @@ export default class ImageGeneratorService {
       const parsedData = JSON.parse(jsonString);
       const base64Data = parsedData.artifacts[0].base64;
       const filePath = path.join("/tmp", "img", `${imageId}.png`);
-      await writeFile(
-        filePath,
-        base64Data,
-        { encoding: "base64" },
-        (err: any) => {
-          if (err) {
-            this.logger.error("Error writing file", err);
-            throw new Error(err);
-          } else {
-            this.logger.info("File created");
-          }
-        }
-      );
+      await writeFile(filePath, base64Data, { encoding: "base64" });
       return filePath;
     } catch (error: any) {
       this.logger.error("Error parsing JSON:", error);
