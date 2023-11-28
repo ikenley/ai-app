@@ -58,7 +58,7 @@ export default class ImageGeneratorService {
     try {
       const parsedData = JSON.parse(jsonString);
       const base64Data = parsedData.artifacts[0].base64;
-      const filePath = path.join("/tmp", "img", `${imageId}.png`);
+      const filePath = path.join("/tmp", `${imageId}.png`);
       await writeFile(filePath, base64Data, { encoding: "base64" });
       return filePath;
     } catch (error: any) {
