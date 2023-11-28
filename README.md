@@ -55,3 +55,8 @@ npm run start
 - lambda function + SQS queue
 - REST API publish to SQS
 - Front-end
+
+```
+aws sqs send-message --queue-url https://sqs.us-east-1.amazonaws.com/924586450630/ik-dev-ai-job-runner --message-body "Information about the largest city in Any Region."
+
+```
