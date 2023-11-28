@@ -52,7 +52,6 @@ npm run start
 
 ---
 
-- lambda entrypoint e.g. index + Dockerfile update
 - lambda function + SQS queue
 - REST API publish to SQS
 - Front-end
