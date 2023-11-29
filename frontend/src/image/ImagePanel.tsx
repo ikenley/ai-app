@@ -43,7 +43,7 @@ const styles = [
 const ImagePanel = () => {
   const { createImage } = useApiClient();
   const [prompt, setPrompt] = useState("");
-  const [style, setStyle] = useState(styles[7]);
+  const [style, setStyle] = useState(styles[10]);
 
   const handlePromptChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
