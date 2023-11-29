@@ -1,6 +1,9 @@
 import { useState, useMemo } from "react";
+import { NavLink as RouterLink } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import Link from "@mui/material/Link";
 import ListItemText from "@mui/material/ListItemText";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import MenuItem from "@mui/material/MenuItem";
@@ -34,9 +37,32 @@ const Navbar = () => {
   return (
     <AppBar position="static" color="default" className="nabar">
       <Toolbar sx={{ flexWrap: "wrap" }}>
-        <Typography variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
-          Pun Generator
+        <Typography
+          variant="h6"
+          color="inherit"
+          noWrap
+          sx={{ display: "flex" }}
+        >
+          GenerAItor
         </Typography>
+        <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+          <Link
+            className="navbar-link"
+            component={RouterLink}
+            to="/pun"
+            sx={{ ml: 3, my: 3, display: "block", textDecoration: "none" }}
+          >
+            Pun
+          </Link>
+          <Link
+            className="navbar-link"
+            component={RouterLink}
+            to="/image"
+            sx={{ ml: 2, my: 3, display: "block", textDecoration: "none" }}
+          >
+            Image
+          </Link>
+        </Box>
         {user === null ? (
           <Skeleton />
         ) : (

@@ -6,7 +6,6 @@ import React, {
   useEffect,
   useContext,
 } from "react";
-import axios from "axios";
 import { useApiClient } from "../hooks/ApiClientContext";
 import useInterval from "../hooks/useInterval";
 import User from "./User";
