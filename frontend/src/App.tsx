@@ -16,35 +16,32 @@ import ImagePage from "./image/ImagePage";
 
 const queryClient = new QueryClient();
 
-const router = createBrowserRouter(
-  [
-    {
-      path: "/image",
-      element: (
-        <PrivateRoute>
-          <ImagePage />
-        </PrivateRoute>
-      ),
-    },
-    {
-      path: "/pun",
-      element: (
-        <PrivateRoute>
-          <MainPage />
-        </PrivateRoute>
-      ),
-    },
-    {
-      path: "/",
-      element: (
-        <PrivateRoute>
-          <MainPage />
-        </PrivateRoute>
-      ),
-    },
-  ],
-  { basename: config.homepage }
-);
+const router = createBrowserRouter([
+  {
+    path: "/ai/image",
+    element: (
+      <PrivateRoute>
+        <ImagePage />
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: "/ai/pun",
+    element: (
+      <PrivateRoute>
+        <MainPage />
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: "/",
+    element: (
+      <PrivateRoute>
+        <MainPage />
+      </PrivateRoute>
+    ),
+  },
+]);
 
 const App = () => {
   // Log API info

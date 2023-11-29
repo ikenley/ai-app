@@ -49,7 +49,7 @@ const Navbar = () => {
           <Link
             className="navbar-link"
             component={RouterLink}
-            to="/pun"
+            to="/ai/pun"
             sx={{ ml: 3, my: 3, display: "block", textDecoration: "none" }}
           >
             Pun
@@ -57,7 +57,7 @@ const Navbar = () => {
           <Link
             className="navbar-link"
             component={RouterLink}
-            to="/image"
+            to="/ai/image"
             sx={{ ml: 2, my: 3, display: "block", textDecoration: "none" }}
           >
             Image
