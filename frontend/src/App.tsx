@@ -34,6 +34,14 @@ const router = createBrowserRouter([
     ),
   },
   {
+    path: "/ai",
+    element: (
+      <PrivateRoute>
+        <MainPage />
+      </PrivateRoute>
+    ),
+  },
+  {
     path: "/",
     element: (
       <PrivateRoute>

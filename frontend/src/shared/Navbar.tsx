@@ -41,16 +41,21 @@ const Navbar = () => {
           variant="h6"
           color="inherit"
           noWrap
-          sx={{ display: "flex" }}
+          sx={{ display: { xs: "none", md: "flex" } }}
         >
           GenerAItor
         </Typography>
-        <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+        <Box sx={{ flexGrow: 1, display: { xs: "flex" } }}>
           <Link
             className="navbar-link"
             component={RouterLink}
             to="/ai/pun"
-            sx={{ ml: 3, my: 3, display: "block", textDecoration: "none" }}
+            sx={{
+              ml: { xs: 0, md: 3 },
+              my: 3,
+              display: "block",
+              textDecoration: "none",
+            }}
           >
             Pun
           </Link>
