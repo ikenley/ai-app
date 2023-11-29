@@ -103,7 +103,7 @@ export default class ImageGeneratorService {
             Data: `Your AI-generated image is ready.
             Prompt: "${prompt}"
             Result https://${this.config.imageS3BucketName}/${s3Key}
-            To create more images, visit https://ai.ikenley.com/image`,
+            To create more images, visit https://ai.ikenley.com/ai/image`,
             Charset: "UTF-8",
           },
           Html: {
@@ -111,7 +111,7 @@ export default class ImageGeneratorService {
             <p>Prompt: "${prompt}"</p>
             <p>Result: <br />
             <img src="https://${this.config.imageS3BucketName}/${s3Key}" /></p>
-            <p>To create more images, visit <a href="https://ai.ikenley.com/image">ai.ikenley.com/image</a></p>`,
+            <p>To create more images, visit <a href="https://ai.ikenley.com/ai/image">ai.ikenley.com/image</a></p>`,
             Charset: "UTF-8",
           },
         },
