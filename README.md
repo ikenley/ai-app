@@ -55,6 +55,6 @@ npm run start
 - ai.image table
 
 ```
-aws sqs send-message --queue-url https://sqs.us-east-1.amazonaws.com/924586450630/ik-dev-ai-job-runner --message-body '{"imageId":"ed0f0da5-876f-4356-9bf1-083c4001276f","prompt":"A fancy cocktail in the style of an 8-bit video game","userId":"12a9e338-3d23-47eb-8804-78f7e723d81d","email":"ikenley6@gmail.com"}'
+aws sqs send-message --queue-url https://sqs.us-east-1.amazonaws.com/924586450630/ik-dev-ai-job-runner --message-body '{"imageId":"ed0f0da5-876f-4356-9bf1-083c4001276f","prompt":"A fancy cocktail in the style of art deco","userId":"12a9e338-3d23-47eb-8804-78f7e723d81d","email":"ikenley6@gmail.com"}'
 
 ```
