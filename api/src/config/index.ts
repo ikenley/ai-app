@@ -10,6 +10,7 @@ export type AppEnv = "local" | "test" | "dev" | "staging" | "prod";
 export class ConfigOptions {
   api: { prefix: string };
   app: { env: AppEnv; name: string; version: string };
+  authorizedEmails: string[];
   aws: {
     region: string;
   };
@@ -40,6 +41,9 @@ export class ConfigOptions {
  *    give bootstrap services time to inject env vars)
  */
 export const getConfigOptions = () => {
+  const authorizedEmailsJson = process.env.AUTHORIZED_EMAILS || "[]";
+  const authorizedEmails = JSON.parse(authorizedEmailsJson) as string[];
+
   const config: ConfigOptions = {
     api: { prefix: "/ai/api" },
     app: {
@@ -47,6 +51,7 @@ export const getConfigOptions = () => {
       name: process.env.APP_NAME || "ai-api",
       version: process.env.APP_VERSION!,
     },
+    authorizedEmails: authorizedEmails,
     aws: {
       region: process.env.AWS_REGION!,
     },
