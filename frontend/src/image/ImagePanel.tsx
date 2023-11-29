@@ -12,6 +12,7 @@ import { useApiClient } from "../hooks/ApiClientContext";
 
 const styles = [
   "8-bit video game",
+  "American Realism",
   "Art Deco",
   "Art Nouveau",
   "Baroque",
