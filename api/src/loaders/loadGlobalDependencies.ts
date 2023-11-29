@@ -3,6 +3,7 @@ import { NIL } from "uuid";
 import OpenAI from "openai";
 import LoggerInstance from "./logger";
 import CognitoExpress from "cognito-express";
+import { SQSClient } from "@aws-sdk/client-sqs";
 import { ConfigOptions, getConfigOptions } from "../config";
 import { LoggerToken } from "./logger";
 import { CognitoExpressToken } from "../types";
@@ -26,6 +27,9 @@ export default () => {
       tokenExpiration: 3600000,
     });
     container.register(CognitoExpressToken, { useValue: cognitoExpress });
+
+    const sqsClient = new SQSClient() as any;
+    container.register(SQSClient, { useValue: sqsClient });
 
     const openai = new OpenAI(); // uses OPENAI_API_KEY env var
     container.register(OpenAI, { useValue: openai });

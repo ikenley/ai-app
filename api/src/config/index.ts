@@ -21,6 +21,7 @@ export class ConfigOptions {
   };
   fromEmailAddress: string;
   imageS3BucketName: string;
+  jobQueueUrl: string;
   // db: {
   //   host: string;
   //   port: number;
@@ -56,6 +57,7 @@ export const getConfigOptions = () => {
       userPoolClientSecret: process.env.COGNITO_USER_POOL_CLIENT_SECRET!,
     },
     fromEmailAddress: process.env.FROM_EMAIL_ADDRESS!,
+    jobQueueUrl: process.env.JOB_QUEUE_URL!,
     // db: {
     //   host: process.env.DB_HOST!,
     //   port: parseInt(process.env.DB_PORT!),

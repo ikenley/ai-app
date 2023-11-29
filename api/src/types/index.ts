@@ -7,3 +7,7 @@ export type CreatePunResponse = {
 };
 
 export const CognitoExpressToken = "CognitoExpress";
+
+export type RequestImageParams = {
+  prompt: string;
+};
