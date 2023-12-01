@@ -12,6 +12,7 @@ import winston from "winston";
 import LoggerProvider from "../../utils/LoggerProvider";
 import { ConfigOptions } from "../../config";
 import CreateImageMessage from "./CreateImageMessage";
+import ImageMetadataService from "./ImageMetadataService";
 
 @injectable()
 export default class ImageGeneratorService {
@@ -22,7 +23,8 @@ export default class ImageGeneratorService {
     protected config: ConfigOptions,
     protected bedrockRuntimeClient: BedrockRuntimeClient,
     protected s3Client: S3Client,
-    protected sesClient: SESClient
+    protected sesClient: SESClient,
+    protected imageMetadataService: ImageMetadataService
   ) {
     this.logger = loggerProvider.provide("ImageGeneratorService");
   }
@@ -36,6 +38,8 @@ export default class ImageGeneratorService {
     const s3Key = await this.uploadToS3(imageId, filePath);
 
     await this.sendEmail(email, s3Key, prompt);
+
+    await this.imageMetadataService.markCompleted(imageId);
   }
 
   /** Generate an image based on a prompt */

@@ -4,7 +4,7 @@ import { handler } from "./index-job-runner";
 const sqsRecord: any = {
   messageId: "f7262c2a-08b4-47c6-b540-e072bdc25e53",
   receiptHandle: "",
-  body: `{"imageId":"34a373b1-a48b-4dc9-a6d6-47a819d4fdb2","prompt":"A man teaching grade school math, in the style of a New Deal poster","userId":"12a9e338-3d23-47eb-8804-78f7e723d81d","email":"ikenley6@gmail.com"}`,
+  body: `{"imageId":"3179eb1e-8441-499d-96a5-4ac5d5983132","prompt":"A man teaching grade school math, in the style of a New Deal poster","userId":"12a9e338-3d23-47eb-8804-78f7e723d81d","email":"ikenley6@gmail.com"}`,
   attributes: {},
   messageAttributes: undefined,
   md5OfBody: "",

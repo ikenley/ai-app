@@ -3,6 +3,7 @@ import { NIL } from "uuid";
 import OpenAI from "openai";
 import LoggerInstance from "./logger";
 import CognitoExpress from "cognito-express";
+import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { SQSClient } from "@aws-sdk/client-sqs";
 import { ConfigOptions, getConfigOptions } from "../config";
 import { LoggerToken } from "./logger";
@@ -27,6 +28,9 @@ export default () => {
       tokenExpiration: 3600000,
     });
     container.register(CognitoExpressToken, { useValue: cognitoExpress });
+
+    const dynamoDBClient = new DynamoDBClient() as any;
+    container.register(DynamoDBClient, { useValue: dynamoDBClient });
 
     const sqsClient = new SQSClient() as any;
     container.register(SQSClient, { useValue: sqsClient });
