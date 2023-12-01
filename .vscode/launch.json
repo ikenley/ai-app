@@ -19,14 +19,28 @@
             }
         },
         {
-            "name": "test-invoke",
+            "name": "test-api-lambda",
             "type": "node",
             "request": "launch",
             "outputCapture": "std",
             "cwd": "${workspaceRoot}/api",
             "runtimeExecutable": "npm",
             "runtimeArgs": [
-                "run-script", "test-invoke"
+                "run-script", "test-api-lambda"
+            ],
+            "env": {
+                "NODE_ENV": "development"
+            }
+        },
+        {
+            "name": "test-job-runner",
+            "type": "node",
+            "request": "launch",
+            "outputCapture": "std",
+            "cwd": "${workspaceRoot}/api",
+            "runtimeExecutable": "npm",
+            "runtimeArgs": [
+                "run-script", "test-job-runner"
             ],
             "env": {
                 "NODE_ENV": "development"

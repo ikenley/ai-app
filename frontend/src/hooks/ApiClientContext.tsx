@@ -2,7 +2,11 @@ import React, { createContext, useContext, useMemo } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import config from "../config";
-import { CreatePunParams, CreatePunResponse } from "../types";
+import {
+  CreatePunParams,
+  CreatePunResponse,
+  RequestImageParams,
+} from "../types";
 import redirectToLogin from "../auth/redirectToLogin";
 
 /** A context which provides an implementation for all REST API calls.
@@ -32,6 +36,7 @@ _axios.interceptors.response.use(
 export type ApiClientType = {
   refreshAuthToken: () => Promise<string | null>;
   createPun: (params: CreatePunParams) => Promise<CreatePunResponse>;
+  createImage: (params: RequestImageParams) => Promise<any>;
 };
 
 const defaultApiClient: ApiClientType = {
@@ -64,6 +69,11 @@ const defaultApiClient: ApiClientType = {
   createPun: async (params: CreatePunParams) => {
     const response = await _axios.post(`${config.apiPrefix}/ai/pun`, params);
     return response.data as CreatePunResponse;
+  },
+
+  createImage: async (params: RequestImageParams) => {
+    const response = await _axios.post(`${config.apiPrefix}/image`, params);
+    return response.data;
   },
 };
 

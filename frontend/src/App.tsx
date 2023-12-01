@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import axios from "axios";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
@@ -11,8 +12,44 @@ import theme from "./theme";
 import config from "./config";
 import PrivateRoute from "./auth/PrivateRoute";
 import MainPage from "./main/MainPage";
+import ImagePage from "./image/ImagePage";
 
 const queryClient = new QueryClient();
+
+const router = createBrowserRouter([
+  {
+    path: "/ai/image",
+    element: (
+      <PrivateRoute>
+        <ImagePage />
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: "/ai/pun",
+    element: (
+      <PrivateRoute>
+        <MainPage />
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: "/ai",
+    element: (
+      <PrivateRoute>
+        <MainPage />
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: "/",
+    element: (
+      <PrivateRoute>
+        <MainPage />
+      </PrivateRoute>
+    ),
+  },
+]);
 
 const App = () => {
   // Log API info
@@ -33,9 +70,7 @@ const App = () => {
           <ApiClientContextProvider>
             <AuthContextProvider>
               <CssBaseline />
-              <PrivateRoute>
-                <MainPage />
-              </PrivateRoute>
+              <RouterProvider router={router} />
               <ToastContainer />
             </AuthContextProvider>
           </ApiClientContextProvider>

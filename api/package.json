@@ -7,11 +7,13 @@
     "build": "tsc -p tsconfig.json",
     "cli": "ts-node src/cli.ts",
     "dev": "tsc --project tsconfig.json --watch & NODE_ENV=development nodemon dist",
+    "run-job-runner": "ts-node --transpile-only ./src/index-job-runner.ts",
     "prestart": "npm run build",
     "start": "nodemon",
     "test": "jest --detectOpenHandles",
     "test-coverage": "jest --coverage",
-    "test-invoke": "ts-node --transpile-only ./src/test-invoke.ts",
+    "test-api-lambda": "ts-node --transpile-only ./src/test-api-lambda.ts",
+    "test-job-runner": "ts-node --transpile-only ./src/test-job-runner.ts",
     "lint": "eslint src/ --ext .js,.jsx,.ts,.tsx",
     "clean": "rm -rf dist build",
     "ts-node": "ts-node"
@@ -23,7 +25,13 @@
     "url": "https://github.com/ikenley/ai-app"
   },
   "dependencies": {
+    "@aws-sdk/client-bedrock-runtime": "^3.458.0",
+    "@aws-sdk/client-dynamodb": "^3.462.0",
+    "@aws-sdk/client-s3": "^3.458.0",
+    "@aws-sdk/client-ses": "^3.460.0",
+    "@aws-sdk/client-sqs": "^3.461.0",
     "@aws-sdk/client-ssm": "^3.441.0",
+    "@aws-sdk/lib-storage": "^3.458.0",
     "@vendia/serverless-express": "^4.10.1",
     "cognito-express": "^3.0.3",
     "cors": "^2.8.5",

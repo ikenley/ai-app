@@ -10,6 +10,7 @@ export type AppEnv = "local" | "test" | "dev" | "staging" | "prod";
 export class ConfigOptions {
   api: { prefix: string };
   app: { env: AppEnv; name: string; version: string };
+  authorizedEmails: string[];
   aws: {
     region: string;
   };
@@ -19,6 +20,10 @@ export class ConfigOptions {
     userPoolClientId: string;
     userPoolClientSecret: string;
   };
+  fromEmailAddress: string;
+  imageMetadataTableName: string;
+  imageS3BucketName: string;
+  jobQueueUrl: string;
   // db: {
   //   host: string;
   //   port: number;
@@ -37,6 +42,9 @@ export class ConfigOptions {
  *    give bootstrap services time to inject env vars)
  */
 export const getConfigOptions = () => {
+  const authorizedEmailsJson = process.env.AUTHORIZED_EMAILS || "[]";
+  const authorizedEmails = JSON.parse(authorizedEmailsJson) as string[];
+
   const config: ConfigOptions = {
     api: { prefix: "/ai/api" },
     app: {
@@ -44,6 +52,7 @@ export const getConfigOptions = () => {
       name: process.env.APP_NAME || "ai-api",
       version: process.env.APP_VERSION!,
     },
+    authorizedEmails: authorizedEmails,
     aws: {
       region: process.env.AWS_REGION!,
     },
@@ -53,6 +62,9 @@ export const getConfigOptions = () => {
       userPoolClientId: process.env.COGNITO_USER_POOL_CLIENT_ID!,
       userPoolClientSecret: process.env.COGNITO_USER_POOL_CLIENT_SECRET!,
     },
+    fromEmailAddress: process.env.FROM_EMAIL_ADDRESS!,
+    imageMetadataTableName: process.env.IMAGE_METADATA_TABLE_NAME!,
+    jobQueueUrl: process.env.JOB_QUEUE_URL!,
     // db: {
     //   host: process.env.DB_HOST!,
     //   port: parseInt(process.env.DB_PORT!),
@@ -64,6 +76,7 @@ export const getConfigOptions = () => {
     logs: { level: process.env.LOGS__LEVEL || "http" },
     nodeEnv: process.env.NODE_ENV!,
     port: parseInt(process.env.PORT || "8086", 10),
+    imageS3BucketName: process.env.IMAGE_S3_BUCKET_NAME!,
   };
 
   return config;

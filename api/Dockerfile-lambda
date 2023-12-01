@@ -26,4 +26,4 @@ COPY --from=builder /usr/app/dist ./dist
 
 ARG APP_VERSION
 ENV APP_VERSION=$APP_VERSION
-CMD ["dist/index-lambda.handler"]
+CMD ["dist/index-api-lambda.handler"]
