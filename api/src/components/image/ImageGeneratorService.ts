@@ -49,7 +49,7 @@ export default class ImageGeneratorService {
       body: `{"text_prompts":[{"text":"${prompt}"}],"cfg_scale":10,"seed":0,"steps":50}`,
       contentType: "application/json",
       accept: "*/*",
-      modelId: "stability.stable-diffusion-xl-v0",
+      modelId: "stability.stable-diffusion-xl-v1",
     };
     const command = new InvokeModelCommand(input);
     this.logger.info("createImage", { imageId, prompt });
