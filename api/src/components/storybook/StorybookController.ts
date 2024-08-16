@@ -17,7 +17,7 @@ export default class StorybookController {
   ) {}
 
   public registerRoutes(app: Router) {
-    app.use("/image", route);
+    app.use("/storybook", route);
 
     route.use(this.authenticationMiddlewareProvider.provide());
     route.use(this.authorizationMiddleware.isAuthorized);
