@@ -6,6 +6,7 @@ import {
   CreatePunParams,
   CreatePunResponse,
   RequestImageParams,
+  CreateStoryParams,
 } from "../types";
 import redirectToLogin from "../auth/redirectToLogin";
 
@@ -37,6 +38,7 @@ export type ApiClientType = {
   refreshAuthToken: () => Promise<string | null>;
   createPun: (params: CreatePunParams) => Promise<CreatePunResponse>;
   createImage: (params: RequestImageParams) => Promise<any>;
+  createStory: (params: CreateStoryParams) => Promise<any>;
 };
 
 const defaultApiClient: ApiClientType = {
@@ -73,6 +75,11 @@ const defaultApiClient: ApiClientType = {
 
   createImage: async (params: RequestImageParams) => {
     const response = await _axios.post(`${config.apiPrefix}/image`, params);
+    return response.data;
+  },
+
+  createStory: async (params: CreateStoryParams) => {
+    const response = await _axios.post(`${config.apiPrefix}/storybook`, params);
     return response.data;
   },
 };

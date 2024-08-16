@@ -35,6 +35,7 @@ export class ConfigOptions {
   logs: { level: string };
   nodeEnv: string;
   port: number;
+  stateFunctionArn: string;
 }
 
 /** Get ConfigOptions from env vars.
@@ -77,6 +78,7 @@ export const getConfigOptions = () => {
     nodeEnv: process.env.NODE_ENV!,
     port: parseInt(process.env.PORT || "8086", 10),
     imageS3BucketName: process.env.IMAGE_S3_BUCKET_NAME!,
+    stateFunctionArn: process.env.STATE_FUNCTION_ARN!,
   };
 
   return config;
