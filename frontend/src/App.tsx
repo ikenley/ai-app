@@ -13,6 +13,7 @@ import config from "./config";
 import PrivateRoute from "./auth/PrivateRoute";
 import MainPage from "./main/MainPage";
 import ImagePage from "./image/ImagePage";
+import StorybookPage from "./storybook/StorybookPage";
 
 const queryClient = new QueryClient();
 
@@ -30,6 +31,14 @@ const router = createBrowserRouter([
     element: (
       <PrivateRoute>
         <MainPage />
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: "/ai/storybook",
+    element: (
+      <PrivateRoute>
+        <StorybookPage />
       </PrivateRoute>
     ),
   },
