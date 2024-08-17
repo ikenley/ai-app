@@ -15,6 +15,10 @@ export class ConfigOptions {
     region: string;
   };
   baseDomain: string | null;
+  bedrockAgent: {
+    agentId: string;
+    agentAliasId: string;
+  };
   cognito: {
     userPoolId: string;
     userPoolClientId: string;
@@ -58,6 +62,10 @@ export const getConfigOptions = () => {
       region: process.env.AWS_REGION!,
     },
     baseDomain: process.env.BASE_DOMAIN || null,
+    bedrockAgent: {
+      agentId: process.env.BEDROCK_AGENT_ID!,
+      agentAliasId: process.env.BEDROCK_AGENT_ALIAS_ID!,
+    },
     cognito: {
       userPoolId: process.env.COGNITO_USER_POOL_ID!,
       userPoolClientId: process.env.COGNITO_USER_POOL_CLIENT_ID!,

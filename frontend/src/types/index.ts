@@ -16,3 +16,13 @@ export type CreateStoryParams = {
   title: string;
   description: string;
 };
+
+export type SendChatParams = {
+  sessionId: string;
+  prompt: string;
+};
+
+export type SendChatResponse = {
+  sessionId: string;
+  agentReply: string;
+};
