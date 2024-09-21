@@ -45,7 +45,7 @@ const ChatPanel = () => {
         className="chat-panel-paper-outer"
         elevation={2}
         sx={{
-          height: "80vh",
+          height: "calc(100vh - 250px)",
           maxHeight: "700px",
           display: "flex",
           alignItems: "center",
