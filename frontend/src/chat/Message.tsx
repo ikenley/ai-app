@@ -1,6 +1,7 @@
 import { Avatar, Box } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { deepOrange } from "@mui/material/colors";
+import SmartToyIcon from "@mui/icons-material/SmartToy";
 
 // Thanks to: https://codesandbox.io/p/sandbox/material-ui-chat-drh4l
 
@@ -30,7 +31,6 @@ type Props = {
 export const MessageLeft = (props: Props) => {
   const theme = useTheme();
   const message = props.message ? props.message : "no message";
-  const photoURL = props.photoURL ? props.photoURL : "dummy.js";
   const displayName = props.displayName ? props.displayName : "名無しさん";
 
   return (
@@ -42,13 +42,14 @@ export const MessageLeft = (props: Props) => {
       <Avatar
         alt={displayName}
         sx={{
-          color: theme.palette.getContrastText(deepOrange[500]),
-          backgroundColor: deepOrange[500],
+          color: "#fff",
+          backgroundColor: theme.palette.primary.main,
           width: theme.spacing(4),
           height: theme.spacing(4),
         }}
-        src={photoURL}
-      ></Avatar>
+      >
+        <SmartToyIcon />
+      </Avatar>
       <Box>
         <Box
           sx={{
