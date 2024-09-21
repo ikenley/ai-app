@@ -68,25 +68,21 @@ const ChatPanel = () => {
         >
           <MessageLeft
             message="あめんぼあかいなあいうえお"
-            photoURL="https://lh3.googleusercontent.com/a-/AOh14Gi4vkKYlfrbJ0QLJTg_DLjcYyyK7fYoWRpz2r4s=s96-c"
             displayName=""
             avatarDisp={true}
           />
           <MessageLeft
             message="xxxxxhttps://yahoo.co.jp xxxxxxxxxあめんぼあかいなあいうえおあいうえおかきくけこさぼあかいなあいうえおあいうえおかきくけこさぼあかいなあいうえおあいうえおかきくけこさいすせそ"
-            photoURL=""
             displayName="テスト"
             avatarDisp={false}
           />
           <MessageRight
             message="messageRあめんぼあかいなあいうえおあめんぼあかいなあいうえおあめんぼあかいなあいうえお"
-            photoURL="https://lh3.googleusercontent.com/a-/AOh14Gi4vkKYlfrbJ0QLJTg_DLjcYyyK7fYoWRpz2r4s=s96-c"
             displayName="まさりぶ"
             avatarDisp={true}
           />
           <MessageRight
             message="messageRあめんぼあかいなあいうえおあめんぼあかいなあいうえお"
-            photoURL="https://lh3.googleusercontent.com/a-/AOh14Gi4vkKYlfrbJ0QLJTg_DLjcYyyK7fYoWRpz2r4s=s96-c"
             displayName="まさりぶ"
             avatarDisp={false}
           />

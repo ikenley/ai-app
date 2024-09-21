@@ -1,33 +1,16 @@
 import { Avatar, Box } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import { deepOrange } from "@mui/material/colors";
 import SmartToyIcon from "@mui/icons-material/SmartToy";
+//import MemoryIcon from "@mui/icons-material/Memory";
 
 // Thanks to: https://codesandbox.io/p/sandbox/material-ui-chat-drh4l
 
-// TODO convert to standard sx
-// const useStyles: any = makeStyles((theme: Theme) =>
-//   createStyles({
-
-//     orange: ,
-//     // avatarNothing: {
-//     //   color: "transparent",
-//     //   backgroundColor: "transparent",
-//     //   width: theme.spacing(4),
-//     //   height: theme.spacing(4),
-//     // },
-//     displayName: ,
-//   })
-// );
-
 type Props = {
   message?: string;
-  photoURL?: string;
   displayName?: string;
   avatarDisp: boolean;
 };
 
-//avatarが左にあるメッセージ（他人）
 export const MessageLeft = (props: Props) => {
   const theme = useTheme();
   const message = props.message ? props.message : "no message";
@@ -44,8 +27,6 @@ export const MessageLeft = (props: Props) => {
         sx={{
           color: "#fff",
           backgroundColor: theme.palette.primary.main,
-          width: theme.spacing(4),
-          height: theme.spacing(4),
         }}
       >
         <SmartToyIcon />
