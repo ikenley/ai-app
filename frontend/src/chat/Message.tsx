@@ -2,11 +2,12 @@ import { Avatar, Box } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import SmartToyIcon from "@mui/icons-material/SmartToy";
 import { MessageType } from "../types/frontEndTypes";
+import React from "react";
 
 // Thanks to: https://codesandbox.io/p/sandbox/material-ui-chat-drh4l
 
 type Props = {
-  message: string;
+  message: React.ReactNode;
   messageType: MessageType;
 };
 
@@ -44,7 +45,7 @@ export const Message = ({ message, messageType }: Props) => {
           borderRadius: "10px",
           marginRight: isSent ? "0px" : undefined,
           backgroundColor: isSent ? "#f8e896" : "#A8DDFD",
-          width: "60%",
+          width: "75%",
         }}
       >
         <Box>

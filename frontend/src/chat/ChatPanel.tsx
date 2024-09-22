@@ -68,7 +68,27 @@ const ChatPanel = () => {
           }}
         >
           <Message
-            message="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lobortis vulputate urna, in mollis sem efficitur sit amet. "
+            message={
+              <div>
+                Welcome to an AI Chat agent demo! This "chat agent" combines
+                three capabilities:{" "}
+                <ol>
+                  <li>
+                    A private copy of a foundational generative AI model
+                    (Anthropic Claude Sonnet 3.5)
+                  </li>
+                  <li>
+                    Enriched with a "Knowledge Base" of proprietary internal
+                    data (Retrieval Augmented Generation)
+                  </li>
+                  <li>
+                    Extended with "Action Groups" that allow the AI agent to
+                    perform internal API calls. For example, try asking it to
+                    send you an email summary of your conversation.
+                  </li>
+                </ol>
+              </div>
+            }
             messageType={MessageType.Received}
           />
           <Message
