@@ -3,9 +3,10 @@ import Box from "@mui/material/Box";
 import { useMutation } from "react-query";
 import { toast } from "react-toastify";
 import { useApiClient } from "../hooks/ApiClientContext";
-import { MessageLeft, MessageRight } from "./Message";
+import Message from "./Message";
 import { Paper } from "@mui/material";
 import ChatTextInput from "./ChatTextInput";
+import { MessageType } from "../types/frontEndTypes";
 
 // container: {
 //   width: "100vw",
@@ -66,25 +67,21 @@ const ChatPanel = () => {
             flex: 1,
           }}
         >
-          <MessageLeft
-            message="あめんぼあかいなあいうえお"
-            displayName=""
-            avatarDisp={true}
+          <Message
+            message="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lobortis vulputate urna, in mollis sem efficitur sit amet. "
+            messageType={MessageType.Received}
           />
-          <MessageLeft
-            message="xxxxxhttps://yahoo.co.jp xxxxxxxxxあめんぼあかいなあいうえおあいうえおかきくけこさぼあかいなあいうえおあいうえおかきくけこさぼあかいなあいうえおあいうえおかきくけこさいすせそ"
-            displayName="テスト"
-            avatarDisp={false}
+          <Message
+            message="Morbi nec convallis eros. Aenean volutpat imperdiet diam, at ultricies nibh efficitur at. "
+            messageType={MessageType.Received}
           />
-          <MessageRight
-            message="messageRあめんぼあかいなあいうえおあめんぼあかいなあいうえおあめんぼあかいなあいうえお"
-            displayName="まさりぶ"
-            avatarDisp={true}
+          <Message
+            message="Nullam maximus tempus mi tristique dictum. Etiam ac urna vitae odio iaculis tristique. Vivamus sed augue eu justo aliquet pulvinar. Ut sagittis, mi quis tempor fringilla, tellus eros viverra elit, auctor elementum erat dolor ut dui."
+            messageType={MessageType.Sent}
           />
-          <MessageRight
-            message="messageRあめんぼあかいなあいうえおあめんぼあかいなあいうえお"
-            displayName="まさりぶ"
-            avatarDisp={false}
+          <Message
+            message="Nullam tempor volutpat tellus quis laoreet. Suspendisse ut erat magna."
+            messageType={MessageType.Sent}
           />
         </Paper>
         <ChatTextInput />

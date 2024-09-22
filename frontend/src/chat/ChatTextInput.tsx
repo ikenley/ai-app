@@ -13,10 +13,8 @@ export const ChatTextInput = () => {
         }}
       >
         <TextField
-          id="standard-text"
-          label="メッセージを入力"
+          id="chat-text-input-text-field"
           sx={{ flex: 1, borderRadius: 0 }}
-          //margin="normal"
         />
         <Button variant="contained" color="primary" sx={{ borderRadius: 0 }}>
           <SendIcon />

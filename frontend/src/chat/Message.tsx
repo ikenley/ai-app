@@ -1,137 +1,58 @@
 import { Avatar, Box } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import SmartToyIcon from "@mui/icons-material/SmartToy";
-//import MemoryIcon from "@mui/icons-material/Memory";
+import { MessageType } from "../types/frontEndTypes";
 
 // Thanks to: https://codesandbox.io/p/sandbox/material-ui-chat-drh4l
 
 type Props = {
-  message?: string;
-  displayName?: string;
-  avatarDisp: boolean;
+  message: string;
+  messageType: MessageType;
 };
 
-export const MessageLeft = (props: Props) => {
+export const Message = ({ message, messageType }: Props) => {
   const theme = useTheme();
-  const message = props.message ? props.message : "no message";
-  const displayName = props.displayName ? props.displayName : "名無しさん";
+  const isSent = messageType === MessageType.Sent;
 
   return (
     <Box
+      className="message"
       sx={{
         display: "flex",
+        justifyContent: isSent ? "flex-end" : undefined,
       }}
     >
-      <Avatar
-        alt={displayName}
-        sx={{
-          color: "#fff",
-          backgroundColor: theme.palette.primary.main,
-        }}
-      >
-        <SmartToyIcon />
-      </Avatar>
-      <Box>
-        <Box
+      {!isSent && (
+        <Avatar
           sx={{
-            marginLeft: "20px",
+            color: "#fff",
+            backgroundColor: theme.palette.primary.main,
           }}
         >
-          {displayName}
-        </Box>
-        <Box
-          sx={{
-            position: "relative",
-            marginLeft: "20px",
-            marginBottom: "10px",
-            padding: "10px",
-            backgroundColor: "#A8DDFD",
-            //height: "50px",
-            textAlign: "left",
-            font: "400 .9em 'Open Sans', sans-serif",
-            border: "1px solid #97C6E3",
-            borderRadius: "10px",
-            "&:after": {
-              content: "''",
-              position: "absolute",
-              width: "0",
-              height: "0",
-              borderTop: "15px solid #A8DDFD",
-              borderLeft: "15px solid transparent",
-              borderRight: "15px solid transparent",
-              top: "0",
-              left: "-15px",
-            },
-            "&:before": {
-              content: "''",
-              position: "absolute",
-              width: "0",
-              height: "0",
-              borderTop: "17px solid #97C6E3",
-              borderLeft: "16px solid transparent",
-              borderRight: "16px solid transparent",
-              top: "-1px",
-              left: "-17px",
-            },
-          }}
-        >
-          <Box>
-            <Box sx={{ p: 0, m: 0 }}>{message}</Box>
-          </Box>
-        </Box>
-      </Box>
-    </Box>
-  );
-};
-
-export const MessageRight = (props: Props) => {
-  const message = props.message ? props.message : "no message";
-  return (
-    <Box
-      sx={{
-        display: "flex",
-        justifyContent: "flex-end",
-      }}
-    >
+          <SmartToyIcon />
+        </Avatar>
+      )}
       <Box
         sx={{
           position: "relative",
-          marginRight: "20px",
+          marginLeft: isSent ? undefined : "10px",
           marginBottom: "10px",
           padding: "10px",
-          backgroundColor: "#f8e896",
-          width: "60%",
-          //height: "50px",
           textAlign: "left",
           font: "400 .9em 'Open Sans', sans-serif",
-          border: "1px solid #dfd087",
+          border: "1px solid #97C6E3",
           borderRadius: "10px",
-          "&:after": {
-            content: "''",
-            position: "absolute",
-            width: "0",
-            height: "0",
-            borderTop: "15px solid #f8e896",
-            borderLeft: "15px solid transparent",
-            borderRight: "15px solid transparent",
-            top: "0",
-            right: "-15px",
-          },
-          "&:before": {
-            content: "''",
-            position: "absolute",
-            width: "0",
-            height: "0",
-            borderTop: "17px solid #dfd087",
-            borderLeft: "16px solid transparent",
-            borderRight: "16px solid transparent",
-            top: "-1px",
-            right: "-17px",
-          },
+          marginRight: isSent ? "0px" : undefined,
+          backgroundColor: isSent ? "#f8e896" : "#A8DDFD",
+          width: "60%",
         }}
       >
-        <Box sx={{ p: 0, m: 0 }}>{message}</Box>
+        <Box>
+          <Box sx={{ p: 0, m: 0 }}>{message}</Box>
+        </Box>
       </Box>
     </Box>
   );
 };
+
+export default Message;
