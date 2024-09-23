@@ -30,21 +30,6 @@ const initialMessages: Message[] = [
     ),
     messageType: MessageType.Received,
   },
-  {
-    id: "1",
-    messageType: MessageType.Received,
-    text: "Morbi nec convallis eros. Aenean volutpat imperdiet diam, at ultricies nibh efficitur at.",
-  },
-  {
-    id: "2",
-    messageType: MessageType.Sent,
-    text: "Nullam maximus tempus mi tristique dictum. Etiam ac urna vitae odio iaculis tristique. Vivamus sed augue eu justo aliquet pulvinar. Ut sagittis, mi quis tempor fringilla, tellus eros viverra elit, auctor elementum erat dolor ut dui.",
-  },
-  {
-    id: "3",
-    messageType: MessageType.Sent,
-    text: "Nullam tempor volutpat tellus quis laoreet. Suspendisse ut erat magna.",
-  },
 ];
 
 const ChatPanel = () => {
@@ -113,7 +98,7 @@ const ChatPanel = () => {
             m: 0,
             px: 2,
             py: 1,
-            overflowY: "scroll",
+            overflowY: "auto",
             height: "calc( 100% - 80px )",
             borderRadius: 0,
             flex: 1,

@@ -52,7 +52,7 @@ export const MessagePanel = ({ message, messageType, isLoading }: Props) => {
         }}
       >
         <Box>
-          <Box sx={{ p: 0, m: 0 }}>{message}</Box>
+          <Box sx={{ p: 0, m: 0, whiteSpace: "pre-wrap" }}>{message}</Box>
         </Box>
       </Box>
     </Box>

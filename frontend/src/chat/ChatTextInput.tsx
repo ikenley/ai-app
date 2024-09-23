@@ -1,4 +1,4 @@
-import { FormEvent, useCallback, useRef } from "react";
+import { FormEvent, useCallback, useEffect, useRef } from "react";
 import { Box, Button, TextField } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 
@@ -8,8 +8,13 @@ type Props = {
 
 export const ChatTextInput = ({ handleSubmit }: Props) => {
   const promptRef = useRef<HTMLInputElement>();
-  // TODO clear prompt on submit
-  // https://reacttraining.com/blog/react-and-form-data
+
+  useEffect(() => {
+    const promptInput = promptRef.current;
+    if (promptInput) {
+      promptInput.focus();
+    }
+  }, []);
 
   const onSubmit = useCallback(
     (e: FormEvent<HTMLFormElement>) => {
