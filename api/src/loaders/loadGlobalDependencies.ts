@@ -5,6 +5,7 @@ import LoggerInstance from "./logger";
 import CognitoExpress from "cognito-express";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { SQSClient } from "@aws-sdk/client-sqs";
+import { BedrockAgentRuntimeClient } from "@aws-sdk/client-bedrock-agent-runtime";
 import { ConfigOptions, getConfigOptions } from "../config";
 import { LoggerToken } from "./logger";
 import { CognitoExpressToken } from "../types";
@@ -28,6 +29,11 @@ export default () => {
       tokenExpiration: 3600000,
     });
     container.register(CognitoExpressToken, { useValue: cognitoExpress });
+
+    const bedrockAgentClient = new BedrockAgentRuntimeClient() as any;
+    container.register(BedrockAgentRuntimeClient, {
+      useValue: bedrockAgentClient,
+    });
 
     const dynamoDBClient = new DynamoDBClient() as any;
     container.register(DynamoDBClient, { useValue: dynamoDBClient });

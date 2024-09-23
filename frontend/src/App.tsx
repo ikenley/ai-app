@@ -12,12 +12,21 @@ import theme from "./theme";
 import config from "./config";
 import PrivateRoute from "./auth/PrivateRoute";
 import MainPage from "./main/MainPage";
+import ChatPage from "./chat/ChatPage";
 import ImagePage from "./image/ImagePage";
 import StorybookPage from "./storybook/StorybookPage";
 
 const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
+  {
+    path: "/ai/chat",
+    element: (
+      <PrivateRoute>
+        <ChatPage />
+      </PrivateRoute>
+    ),
+  },
   {
     path: "/ai/image",
     element: (

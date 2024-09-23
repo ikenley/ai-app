@@ -7,6 +7,8 @@ import {
   CreatePunResponse,
   RequestImageParams,
   CreateStoryParams,
+  SendChatParams,
+  SendChatResponse,
 } from "../types";
 import redirectToLogin from "../auth/redirectToLogin";
 
@@ -39,6 +41,7 @@ export type ApiClientType = {
   createPun: (params: CreatePunParams) => Promise<CreatePunResponse>;
   createImage: (params: RequestImageParams) => Promise<any>;
   createStory: (params: CreateStoryParams) => Promise<any>;
+  sendChatPrompt: (params: SendChatParams) => Promise<SendChatResponse>;
 };
 
 const defaultApiClient: ApiClientType = {
@@ -80,6 +83,11 @@ const defaultApiClient: ApiClientType = {
 
   createStory: async (params: CreateStoryParams) => {
     const response = await _axios.post(`${config.apiPrefix}/storybook`, params);
+    return response.data;
+  },
+
+  sendChatPrompt: async (params: SendChatParams) => {
+    const response = await _axios.post(`${config.apiPrefix}/chat`, params);
     return response.data;
   },
 };

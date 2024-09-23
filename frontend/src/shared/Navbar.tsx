@@ -75,6 +75,14 @@ const Navbar = () => {
           >
             Storybook
           </Link>
+          <Link
+            className="navbar-link"
+            component={RouterLink}
+            to="/ai/chat"
+            sx={{ ml: 2, my: 3, display: "block", textDecoration: "none" }}
+          >
+            Chat
+          </Link>
         </Box>
         {user === null ? (
           <Skeleton />
