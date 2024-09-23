@@ -1,4 +1,4 @@
-import { Avatar, Box } from "@mui/material";
+import { Avatar, Box, CircularProgress } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import SmartToyIcon from "@mui/icons-material/SmartToy";
 import { MessageType } from "../types/frontEndTypes";
@@ -9,9 +9,10 @@ import React from "react";
 type Props = {
   message: React.ReactNode;
   messageType: MessageType;
+  isLoading?: boolean;
 };
 
-export const MessagePanel = ({ message, messageType }: Props) => {
+export const MessagePanel = ({ message, messageType, isLoading }: Props) => {
   const theme = useTheme();
   const isSent = messageType === MessageType.Sent;
 
@@ -23,7 +24,9 @@ export const MessagePanel = ({ message, messageType }: Props) => {
         justifyContent: isSent ? "flex-end" : undefined,
       }}
     >
-      {!isSent && (
+      {isSent ? null : isLoading ? (
+        <CircularProgress size="35px" />
+      ) : (
         <Avatar
           sx={{
             color: "#fff",
