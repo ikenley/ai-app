@@ -3,23 +3,58 @@ import Box from "@mui/material/Box";
 import { useMutation } from "react-query";
 import { toast } from "react-toastify";
 import { useApiClient } from "../hooks/ApiClientContext";
-import Message from "./Message";
+import MessagePanel from "./MessagePanel";
 import { Paper } from "@mui/material";
 import ChatTextInput from "./ChatTextInput";
-import { MessageType } from "../types/frontEndTypes";
+import { Message, MessageType } from "../types/frontEndTypes";
 
-// container: {
-//   width: "100vw",
-//   height: "100vh",
-//   display: "flex",
-//   alignItems: "center",
-//   justifyContent: "center",
-// },
+const initialMessages: Message[] = [
+  {
+    id: "0",
+    text: (
+      <div>
+        Welcome to an AI Chat agent demo! This "chat agent" combines three
+        capabilities:{" "}
+        <ol>
+          <li>
+            A private copy of a foundational generative AI model (Anthropic
+            Claude Sonnet 3.5)
+          </li>
+          <li>
+            Enriched with a "Knowledge Base" of proprietary internal data
+            (Retrieval Augmented Generation)
+          </li>
+          <li>
+            Extended with "Action Groups" that allow the AI agent to perform
+            internal API calls. For example, try asking it to send you an email
+            summary of your conversation.
+          </li>
+        </ol>
+      </div>
+    ),
+    messageType: MessageType.Received,
+  },
+  {
+    id: "1",
+    messageType: MessageType.Received,
+    text: "Morbi nec convallis eros. Aenean volutpat imperdiet diam, at ultricies nibh efficitur at.",
+  },
+  {
+    id: "2",
+    messageType: MessageType.Sent,
+    text: "Nullam maximus tempus mi tristique dictum. Etiam ac urna vitae odio iaculis tristique. Vivamus sed augue eu justo aliquet pulvinar. Ut sagittis, mi quis tempor fringilla, tellus eros viverra elit, auctor elementum erat dolor ut dui.",
+  },
+  {
+    id: "3",
+    messageType: MessageType.Sent,
+    text: "Nullam tempor volutpat tellus quis laoreet. Suspendisse ut erat magna.",
+  },
+];
 
 const ChatPanel = () => {
   const { createStory } = useApiClient();
   const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
+  const [messages, setMessages] = useState<Message[]>(initialMessages);
 
   // TODO ajax call
 
@@ -36,9 +71,9 @@ const ChatPanel = () => {
   );
 
   const handleSubmit = useCallback(() => {
-    handleCreateStory({ title, description });
+    // handleCreateStory({ title });
     toast.success("Storybook requested! You should receive an email soon.");
-  }, [handleCreateStory, title, description]);
+  }, [handleCreateStory, title]);
 
   return (
     <Box className="chat-panel">
@@ -67,42 +102,13 @@ const ChatPanel = () => {
             flex: 1,
           }}
         >
-          <Message
-            message={
-              <div>
-                Welcome to an AI Chat agent demo! This "chat agent" combines
-                three capabilities:{" "}
-                <ol>
-                  <li>
-                    A private copy of a foundational generative AI model
-                    (Anthropic Claude Sonnet 3.5)
-                  </li>
-                  <li>
-                    Enriched with a "Knowledge Base" of proprietary internal
-                    data (Retrieval Augmented Generation)
-                  </li>
-                  <li>
-                    Extended with "Action Groups" that allow the AI agent to
-                    perform internal API calls. For example, try asking it to
-                    send you an email summary of your conversation.
-                  </li>
-                </ol>
-              </div>
-            }
-            messageType={MessageType.Received}
-          />
-          <Message
-            message="Morbi nec convallis eros. Aenean volutpat imperdiet diam, at ultricies nibh efficitur at. "
-            messageType={MessageType.Received}
-          />
-          <Message
-            message="Nullam maximus tempus mi tristique dictum. Etiam ac urna vitae odio iaculis tristique. Vivamus sed augue eu justo aliquet pulvinar. Ut sagittis, mi quis tempor fringilla, tellus eros viverra elit, auctor elementum erat dolor ut dui."
-            messageType={MessageType.Sent}
-          />
-          <Message
-            message="Nullam tempor volutpat tellus quis laoreet. Suspendisse ut erat magna."
-            messageType={MessageType.Sent}
-          />
+          {messages.map((m) => (
+            <MessagePanel
+              key={m.id}
+              messageType={m.messageType}
+              message={m.text}
+            />
+          ))}
         </Paper>
         <ChatTextInput />
       </Paper>

@@ -11,7 +11,7 @@ type Props = {
   messageType: MessageType;
 };
 
-export const Message = ({ message, messageType }: Props) => {
+export const MessagePanel = ({ message, messageType }: Props) => {
   const theme = useTheme();
   const isSent = messageType === MessageType.Sent;
 
@@ -56,4 +56,4 @@ export const Message = ({ message, messageType }: Props) => {
   );
 };
 
-export default Message;
+export default MessagePanel;
