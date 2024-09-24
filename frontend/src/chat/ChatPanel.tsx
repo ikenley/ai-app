@@ -1,8 +1,7 @@
-import React, { useCallback, useState, useMemo, useEffect } from "react";
+import { useCallback, useState, useMemo, useEffect } from "react";
 import Box from "@mui/material/Box";
 import { v4 as uuidv4 } from "uuid";
 import { useMutation } from "react-query";
-import { toast } from "react-toastify";
 import { useApiClient } from "../hooks/ApiClientContext";
 import MessagePanel from "./MessagePanel";
 import { Paper } from "@mui/material";
@@ -72,7 +71,6 @@ const ChatPanel = () => {
 
       // Get response
       handleSendPrompt({ sessionId, prompt });
-      toast.success("Storybook requested! You should receive an email soon.");
     },
     [handleSendPrompt, messages, setMessages]
   );
