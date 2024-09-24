@@ -56,14 +56,9 @@ export default class ChatService {
       inputText: prompt,
     });
 
-    try {
-      const response = await this.bedrockAgentClient.send(command);
+    const response = await this.bedrockAgentClient.send(command);
 
-      return await this.handleAgentResponse(sessionId, response);
-    } catch (err) {
-      this.logger.error(err);
-      throw new Error("An error occurred");
-    }
+    return await this.handleAgentResponse(sessionId, response);
   }
 
   /** Process the BedrockAgent response */
