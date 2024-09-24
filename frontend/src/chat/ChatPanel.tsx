@@ -72,7 +72,7 @@ const ChatPanel = () => {
       // Get response
       handleSendPrompt({ sessionId, prompt });
     },
-    [handleSendPrompt, messages, setMessages]
+    [handleSendPrompt, messages, setMessages, sessionId]
   );
 
   return (
@@ -81,7 +81,7 @@ const ChatPanel = () => {
         className="chat-panel-paper-outer"
         elevation={2}
         sx={{
-          height: "calc(100vh - 250px)",
+          height: "calc(100vh - 160px)",
           maxHeight: "700px",
           display: "flex",
           alignItems: "center",
@@ -94,7 +94,7 @@ const ChatPanel = () => {
           className="chat-panel-paper-inner"
           sx={{
             m: 0,
-            px: 2,
+            px: 1,
             py: 1,
             overflowY: "auto",
             height: "calc( 100% - 80px )",

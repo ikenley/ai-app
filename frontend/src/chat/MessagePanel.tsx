@@ -2,7 +2,7 @@ import { Avatar, Box, CircularProgress } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import SmartToyIcon from "@mui/icons-material/SmartToy";
 import { MessageType } from "../types/frontEndTypes";
-import React from "react";
+import "./MessagePanel.css";
 
 // Thanks to: https://codesandbox.io/p/sandbox/material-ui-chat-drh4l
 
@@ -37,23 +37,22 @@ export const MessagePanel = ({ message, messageType, isLoading }: Props) => {
         </Avatar>
       )}
       <Box
+        className="message-panel-message"
         sx={{
           position: "relative",
           marginLeft: isSent ? undefined : "10px",
+          //marginRight: isSent ? "0px" : undefined,
           marginBottom: "10px",
           padding: "10px",
           textAlign: "left",
           font: "400 .9em 'Open Sans', sans-serif",
           border: "1px solid #97C6E3",
           borderRadius: "10px",
-          marginRight: isSent ? "0px" : undefined,
           backgroundColor: isSent ? "#f8e896" : "#A8DDFD",
           width: "75%",
         }}
       >
-        <Box>
-          <Box sx={{ p: 0, m: 0, whiteSpace: "pre-wrap" }}>{message}</Box>
-        </Box>
+        <Box sx={{ p: 0, m: 0, whiteSpace: "pre-wrap" }}>{message}</Box>
       </Box>
     </Box>
   );

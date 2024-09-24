@@ -7,16 +7,7 @@ const ChatPage = () => {
   return (
     <div className="chat-page">
       <Navbar />
-      <Container maxWidth="sm" component="main" sx={{ mt: 3 }}>
-        <Typography
-          component="h1"
-          variant="h2"
-          align="center"
-          color="text.primary"
-          sx={{ mb: 0 }}
-        >
-          Chat
-        </Typography>
+      <Container maxWidth="sm" component="main" sx={{ mt: 2 }}>
         <Typography
           variant="h5"
           align="center"
