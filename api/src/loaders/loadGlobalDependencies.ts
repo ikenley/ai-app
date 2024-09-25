@@ -1,13 +1,13 @@
 import { container } from "tsyringe";
 import { NIL } from "uuid";
 import OpenAI from "openai";
-import LoggerInstance from "./logger";
+import { SESClient } from "@aws-sdk/client-ses";
 import CognitoExpress from "cognito-express";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { SQSClient } from "@aws-sdk/client-sqs";
 import { BedrockAgentRuntimeClient } from "@aws-sdk/client-bedrock-agent-runtime";
 import { ConfigOptions, getConfigOptions } from "../config";
-import { LoggerToken } from "./logger";
+import LoggerInstance, { LoggerToken } from "./logger";
 import { CognitoExpressToken } from "../types";
 import { RequestIdToken } from "../middleware/dependencyInjectionMiddleware";
 
@@ -37,6 +37,9 @@ export default () => {
 
     const dynamoDBClient = new DynamoDBClient() as any;
     container.register(DynamoDBClient, { useValue: dynamoDBClient });
+
+    const sesClient = new SESClient() as any;
+    container.register(SESClient, { useValue: sesClient });
 
     const sqsClient = new SQSClient() as any;
     container.register(SQSClient, { useValue: sqsClient });

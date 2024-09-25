@@ -6,11 +6,11 @@ import {
   InvokeModelCommand,
 } from "@aws-sdk/client-bedrock-runtime";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
-import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses";
 import { injectable } from "tsyringe";
 import winston from "winston";
 import LoggerProvider from "../../utils/LoggerProvider";
 import { ConfigOptions } from "../../config";
+import EmailService from "../../services/EmailService";
 import CreateImageMessage from "./CreateImageMessage";
 import ImageMetadataService from "./ImageMetadataService";
 
@@ -23,7 +23,7 @@ export default class ImageGeneratorService {
     protected config: ConfigOptions,
     protected bedrockRuntimeClient: BedrockRuntimeClient,
     protected s3Client: S3Client,
-    protected sesClient: SESClient,
+    protected emailService: EmailService,
     protected imageMetadataService: ImageMetadataService
   ) {
     this.logger = loggerProvider.provide("ImageGeneratorService");
@@ -92,36 +92,23 @@ export default class ImageGeneratorService {
     prompt: string
   ) {
     this.logger.info("sendEmail", { destinationEmail });
-    const input = {
-      Source: this.config.fromEmailAddress,
-      Destination: {
-        ToAddresses: [destinationEmail],
-      },
-      Message: {
-        Subject: {
-          Data: "Your AI-generated image is ready",
-          Charset: "UTF-8",
-        },
-        Body: {
-          Text: {
-            Data: `Your AI-generated image is ready.
+
+    const subject = "Your AI-generated image is ready";
+    const textMessage = `Your AI-generated image is ready.
             Prompt: "${prompt}"
             Result https://${this.config.imageS3BucketName}/${s3Key}
-            To create more images, visit https://ai.ikenley.com/ai/image`,
-            Charset: "UTF-8",
-          },
-          Html: {
-            Data: `<p>Your AI-generated image is ready.</p>
+            To create more images, visit https://ai.ikenley.com/ai/image`;
+    const htmlMessage = `<p>Your AI-generated image is ready.</p>
             <p>Prompt: "${prompt}"</p>
             <p>Result: <br />
             <img src="https://${this.config.imageS3BucketName}/${s3Key}" /></p>
-            <p>To create more images, visit <a href="https://ai.ikenley.com/ai/image">ai.ikenley.com/image</a></p>`,
-            Charset: "UTF-8",
-          },
-        },
-      },
-    };
-    const command = new SendEmailCommand(input);
-    await this.sesClient.send(command);
+            <p>To create more images, visit <a href="https://ai.ikenley.com/ai/image">ai.ikenley.com/image</a></p>`;
+
+    await this.emailService.sendEmail(
+      destinationEmail,
+      subject,
+      textMessage,
+      htmlMessage
+    );
   }
 }
