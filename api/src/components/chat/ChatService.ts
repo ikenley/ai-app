@@ -77,9 +77,6 @@ export default class ChatService {
     for await (let chunkEvent of response.completion) {
       //If response is of type "return control" handle ActionGroup on behalf of Agent
       if (chunkEvent.returnControl !== undefined) {
-        // TODO remove
-        console.log("chunkEvent", JSON.stringify(chunkEvent));
-
         return await this.handlReturnControl(
           sessionId,
           chunkEvent.returnControl
