@@ -14,15 +14,15 @@ const initialMessages: Message[] = [
     id: "0",
     text: (
       <div>
-        Welcome to an AI Chat agent demo! This "chat agent" combines three
+        Welcome to an AI chat demo! This "chat agent" combines three
         capabilities:{" "}
         <ol>
           <li>A private copy of a foundational AI model</li>
-          <li>A "Knowledge Base" of proprietary internal data</li>
+          <li>A "Knowledge Base" of internal data</li>
           <li>
-            "Action Groups" that allow the AI agent to perform internal API
-            calls. For example, try asking it to send you an email summary of
-            your conversation.
+            "Action Groups" that allow the agent to make internal API calls. For
+            example, try asking it to send you an email summary of your
+            conversation.
           </li>
         </ol>
       </div>

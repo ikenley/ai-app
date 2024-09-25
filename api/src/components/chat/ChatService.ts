@@ -4,12 +4,14 @@ import {
   BedrockAgentRuntimeClient,
   InvokeAgentCommand,
   InvokeAgentCommandOutput,
+  ReturnControlPayload,
 } from "@aws-sdk/client-bedrock-agent-runtime";
 import LoggerProvider from "../../utils/LoggerProvider";
 import { ConfigOptions } from "../../config";
 import User from "../../auth/User";
 import { RequestIdToken } from "../../middleware/dependencyInjectionMiddleware";
 import { SendChatParams, SendChatResponse } from "../../types";
+import EmailService from "../../services/EmailService";
 
 /** Service for managing interactions with AI chat agent. */
 @injectable()
@@ -21,7 +23,8 @@ export default class ChatService {
     protected config: ConfigOptions,
     protected user: User,
     @inject(RequestIdToken) protected requestId: string,
-    protected bedrockAgentClient: BedrockAgentRuntimeClient
+    protected bedrockAgentClient: BedrockAgentRuntimeClient,
+    protected emailService: EmailService
   ) {
     this.logger = loggerProvider.provide("ChatService");
   }
@@ -74,13 +77,13 @@ export default class ChatService {
     for await (let chunkEvent of response.completion) {
       //If response is of type "return control" handle ActionGroup on behalf of Agent
       if (chunkEvent.returnControl !== undefined) {
+        // TODO remove
         console.log("chunkEvent", JSON.stringify(chunkEvent));
-        throw new Error("MethodNotImplemented");
-        // return await returnControlBedrockAgent(
-        //   client,
-        //   sessionId,
-        //   chunkEvent.returnControl
-        // );
+
+        return await this.handlReturnControl(
+          sessionId,
+          chunkEvent.returnControl
+        );
       }
 
       // Else collect message chunks
@@ -95,42 +98,104 @@ export default class ChatService {
     return chatResponse;
   }
 
-  // TODO handle "RETURN_CONTROL" ActionGroups
-  // returnControlBedrockAgent = async (client, sessionId, returnControl) => {
-  //   console.log(
-  //     "returnControlBedrockAgent:begin",
-  //     JSON.stringify(returnControl)
-  //   );
-  //   const agentId = process.env.AGENT_ID;
-  //   const agentAliasId = process.env.AGENT_ALIAS_ID;
+  /** Handle "return control" requests from Bedrock Agent.
+   * These mean that the agent wants to invoke an "Action Group" (an internal API call).
+   * Route to the correct function and return a response to the agent.
+   */
+  private async handlReturnControl(
+    sessionId: string,
+    returnControl: ReturnControlPayload
+  ): Promise<SendChatResponse> {
+    const { invocationId, invocationInputs } = returnControl;
+    this.logger.info("handlReturnControl:inputs", {
+      invocationId,
+      invocationInputs,
+    });
 
-  //   const { invocationId, invocationInputs } = returnControl;
-  //   const invocationInput = invocationInputs[0].functionInvocationInput;
+    if (
+      !invocationId ||
+      !invocationInputs ||
+      invocationInputs.length === 0 ||
+      !invocationInputs[0].functionInvocationInput
+    ) {
+      this.logger.error("Invalid invocationInputs");
+      throw new Error("Invalid invocationInputs");
+    }
 
-  //   const command = new InvokeAgentCommand({
-  //     agentId,
-  //     agentAliasId,
-  //     sessionId,
-  //     sessionState: {
-  //       invocationId,
-  //       returnControlInvocationResults: [
-  //         {
-  //           functionResult: {
-  //             actionGroup: invocationInput.actionGroup,
-  //             function: invocationInput.function,
-  //             confirmationState: "CONFIRM",
-  //           },
-  //         },
-  //       ],
-  //     },
-  //   });
+    const invocationInput = invocationInputs[0].functionInvocationInput;
+    const actionGroup = invocationInput.actionGroup ?? "";
+    const functionName = invocationInput.function;
 
-  //   try {
-  //     const response = await client.send(command);
+    // Route based on the functionName
+    if (functionName === "SendSumaryEmail") {
+      const summaryParam = invocationInput.parameters?.find(
+        (p) => p.name === "summary"
+      );
+      if (!summaryParam) {
+        this.logger.error("summaryParam not found");
+        throw new Error("summaryParam not found");
+      }
 
-  //     return await handleAgentResponse(client, sessionId, response);
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // };
+      const summary = summaryParam.value ?? "";
+      return this.sendSummaryEmail(
+        sessionId,
+        invocationId,
+        actionGroup,
+        summary
+      );
+    }
+
+    // If no matching functionName, throw error
+    this.logger.error("Invalid functionName", { functionName });
+    throw new Error("Invalid functionName");
+  }
+
+  /** Send summary email and return response to Bedrock Agent. */
+  private async sendSummaryEmail(
+    sessionId: string,
+    invocationId: string,
+    actionGroup: string,
+    summary: string
+  ): Promise<SendChatResponse> {
+    this.logger.info("sendSummaryEmail", { sessionId, invocationId });
+
+    // Send email
+    const subject = "Summary of AI chat";
+    const textMessage = summary;
+    const htmlMessage = `<div style="{white-space: pre-wrap;">${summary}</div>`;
+    await this.emailService.sendEmail(
+      this.user.email,
+      subject,
+      textMessage,
+      htmlMessage
+    );
+
+    // Return response to agent
+    const { agentId, agentAliasId } = this.config.bedrockAgent;
+    const command = new InvokeAgentCommand({
+      agentId,
+      agentAliasId,
+      sessionId,
+      sessionState: {
+        invocationId,
+        returnControlInvocationResults: [
+          {
+            functionResult: {
+              actionGroup: actionGroup,
+              function: "SendSumaryEmail",
+              responseBody: {
+                TEXT: {
+                  body: "Your email has been sent",
+                },
+              },
+            },
+          },
+        ],
+      },
+    });
+
+    const response = await this.bedrockAgentClient.send(command);
+
+    return await this.handleAgentResponse(sessionId, response);
+  }
 }
