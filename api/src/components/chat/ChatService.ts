@@ -156,10 +156,12 @@ export default class ChatService {
   ): Promise<SendChatResponse> {
     this.logger.info("sendSummaryEmail", { sessionId, invocationId });
 
+    const htmlSummary = summary.replace(/(?:\r\n|\r|\n)/g, "<br />");
+
     // Send email
     const subject = "Summary of AI chat";
     const textMessage = summary;
-    const htmlMessage = `<div style="{white-space: pre-wrap;">${summary}</div>`;
+    const htmlMessage = `<div style="{white-space: pre-wrap;">${htmlSummary}</div>`;
     await this.emailService.sendEmail(
       this.user.email,
       subject,
