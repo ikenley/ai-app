@@ -1,41 +1,43 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { useMemo, type ReactNode } from "react";
 import {
   AssistantRuntimeProvider,
   useLocalRuntime,
   type ChatModelAdapter,
 } from "@assistant-ui/react";
+import { v4 as uuidv4 } from "uuid";
+import { useApiClient } from "../hooks/ApiClientContext";
+import { SendChatParams, SendChatResponse } from "../types";
 
 /** Integrate custom REST API with assistant-ui data workflow.
  * See https://www.assistant-ui.com/docs/runtimes/custom-rest
  */
-const MyModelAdapter: ChatModelAdapter = {
-  async run({ messages, abortSignal }) {
-    // TODO replace with your own API
-    const result = await fetch("<YOUR_API_ENDPOINT>", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      // forward the messages in the chat to the API
-      body: JSON.stringify({
-        messages,
-      }),
-      // if the user hits the "cancel" button or escape keyboard key, cancel the request
-      signal: abortSignal,
-    });
+const getModelAdapter = (
+  sendChatPrompt: (params: SendChatParams) => Promise<SendChatResponse>,
+  sessionId: string
+): ChatModelAdapter => {
+  return {
+    async run({ messages, abortSignal }) {
+      const lastMessage = messages[messages.length - 1];
+      const content = lastMessage.content[0];
+      if (content.type !== "text") {
+        throw new Error("Content type must be text");
+      }
 
-    const data = await result.json();
-    return {
-      content: [
-        {
-          type: "text",
-          text: data.text,
-        },
-      ],
-    };
-  },
+      const prompt = content.text;
+      const response = await sendChatPrompt({ sessionId, prompt });
+
+      return {
+        content: [
+          {
+            type: "text",
+            text: response.agentReply,
+          },
+        ],
+      };
+    },
+  };
 };
 
 export function MyRuntimeProvider({
@@ -43,7 +45,11 @@ export function MyRuntimeProvider({
 }: Readonly<{
   children: ReactNode;
 }>) {
-  const runtime = useLocalRuntime(MyModelAdapter);
+  const { sendChatPrompt } = useApiClient();
+  const sessionId = useMemo(() => uuidv4(), []);
+
+  const myModelAdapter = getModelAdapter(sendChatPrompt, sessionId);
+  const runtime = useLocalRuntime(myModelAdapter);
 
   return (
     <AssistantRuntimeProvider runtime={runtime}>
