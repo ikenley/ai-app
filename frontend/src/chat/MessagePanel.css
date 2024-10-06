@@ -1,9 +1,0 @@
-.message-panel-message {
-    width: 100%;
-}
-
-@media (min-width: 1024px) {
-    .message-panel-message {
-        width: 75%;
-    }
-}

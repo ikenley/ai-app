@@ -1,0 +1,13 @@
+/* Override default assistant-ui css */
+
+.aui-assistant-message-content {
+    overflow-wrap: break-word;
+    border-radius: 1.5rem;
+    background-color: rgb(168, 221, 253);
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+    padding-top: 0.625rem;
+    padding-bottom: 0.625rem;
+    color: hsl(var(--aui-foreground));
+    line-height: 24px;
+}

@@ -2,7 +2,6 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import "@assistant-ui/react/styles/index.css";
 import Navbar from "../shared/Navbar";
-import ChatPanel from "./ChatPanel";
 import { MyRuntimeProvider } from "./MyRuntimeProvider";
 import AiChatPanel from "./AiChatPanel";
 

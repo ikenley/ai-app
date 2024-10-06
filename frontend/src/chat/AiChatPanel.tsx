@@ -1,5 +1,5 @@
-import { Thread } from "@assistant-ui/react";
 import { Paper } from "@mui/material";
+import AiThread from "./AiThread";
 
 /** Open source chat UI.
  * Extends https://www.assistant-ui.com/docs/ui/styled/Thread */
@@ -18,7 +18,7 @@ const AiChatPanel = () => {
         mb: 3,
       }}
     >
-      <Thread />
+      <AiThread />
     </Paper>
   );
 };
