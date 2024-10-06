@@ -9,5 +9,9 @@
     padding-top: 0.625rem;
     padding-bottom: 0.625rem;
     color: hsl(var(--aui-foreground));
-    line-height: 24px;
+    line-height: 20px;
+}
+
+.chat-page .aui-assistant-message-content {
+    margin-top: 0;
 }

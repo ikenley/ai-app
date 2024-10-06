@@ -2,15 +2,15 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import "@assistant-ui/react/styles/index.css";
 import Navbar from "../shared/Navbar";
-import { MyRuntimeProvider } from "./MyRuntimeProvider";
+import { ApiRuntimeProvider } from "./ApiRuntimeProvider";
 import AiChatPanel from "./AiChatPanel";
 
 const ChatPage = () => {
   return (
     <div className="chat-page">
-      <MyRuntimeProvider>
+      <ApiRuntimeProvider>
         <Navbar />
-        <Container maxWidth="sm" component="main" sx={{ mt: 2 }}>
+        <Container maxWidth="md" component="main" sx={{ mt: 2 }}>
           <Typography
             variant="h5"
             align="center"
@@ -23,7 +23,7 @@ const ChatPage = () => {
           {/* <ChatPanel /> */}
           <AiChatPanel />
         </Container>
-      </MyRuntimeProvider>
+      </ApiRuntimeProvider>
     </div>
   );
 };

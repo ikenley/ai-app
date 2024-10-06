@@ -40,7 +40,7 @@ const getModelAdapter = (
   };
 };
 
-export function MyRuntimeProvider({
+export function ApiRuntimeProvider({
   children,
 }: Readonly<{
   children: ReactNode;
