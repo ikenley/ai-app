@@ -11,7 +11,7 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
-    "@assistant-ui/react": "^0.5.72",
+    "@assistant-ui/react": "^0.7.12",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.14.16",
