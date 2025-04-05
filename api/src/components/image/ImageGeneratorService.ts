@@ -59,7 +59,7 @@ export default class ImageGeneratorService {
       }),
       contentType: "application/json",
       accept: "*/*",
-      modelId: "amazon.titan-image-generator-v2:0",
+      modelId: "amazon.nova-canvas-v1:0",
     };
     const command = new InvokeModelCommand(input);
     this.logger.info("createImage", { imageId, prompt });
