@@ -1,4 +1,5 @@
 import { SQSEvent, Context } from "aws-lambda";
+import dotenv from "dotenv";
 import { handler } from "./index-job-runner";
 
 const sqsRecord: any = {
@@ -34,6 +35,7 @@ const context: Context = {
 };
 
 const invoke = async () => {
+  dotenv.config({ path: "../.env" });
   const res = await handler(event, context);
   console.log("res", res);
 };
