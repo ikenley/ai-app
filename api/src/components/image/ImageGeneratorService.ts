@@ -46,10 +46,20 @@ export default class ImageGeneratorService {
   private async createImage(imageId: string, prompt: string) {
     const input = {
       // InvokeModelRequest
-      body: `{"text_prompts":[{"text":"${prompt}"}],"cfg_scale":10,"seed":0,"steps":50}`,
+      body: JSON.stringify({
+        taskType: "TEXT_IMAGE",
+        textToImageParams: { text: prompt },
+        imageGenerationConfig: {
+          numberOfImages: 1,
+          quality: "premium",
+          cfgScale: 8.0,
+          height: 1024,
+          width: 1024,
+        },
+      }),
       contentType: "application/json",
       accept: "*/*",
-      modelId: "stability.stable-diffusion-xl-v1",
+      modelId: "amazon.titan-image-generator-v2:0",
     };
     const command = new InvokeModelCommand(input);
     this.logger.info("createImage", { imageId, prompt });
@@ -61,7 +71,7 @@ export default class ImageGeneratorService {
 
     try {
       const parsedData = JSON.parse(jsonString);
-      const base64Data = parsedData.artifacts[0].base64;
+      const base64Data = parsedData.images[0];
       const filePath = path.join("/tmp", `${imageId}.png`);
       await writeFile(filePath, base64Data, { encoding: "base64" });
       return filePath;
