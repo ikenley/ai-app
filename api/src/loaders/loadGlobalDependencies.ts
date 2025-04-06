@@ -2,13 +2,13 @@ import { container } from "tsyringe";
 import { NIL } from "uuid";
 import OpenAI from "openai";
 import { SESClient } from "@aws-sdk/client-ses";
-import CognitoExpress from "cognito-express";
+import { CognitoJwtVerifier } from "aws-jwt-verify";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { SQSClient } from "@aws-sdk/client-sqs";
 import { BedrockAgentRuntimeClient } from "@aws-sdk/client-bedrock-agent-runtime";
 import { ConfigOptions, getConfigOptions } from "../config";
 import LoggerInstance, { LoggerToken } from "./logger";
-import { CognitoExpressToken } from "../types";
+import { CognitoJwtVerifierToken } from "../types";
 import { RequestIdToken } from "../middleware/dependencyInjectionMiddleware";
 
 export default () => {
@@ -22,13 +22,12 @@ export default () => {
     // This will be replaced by request-level dependency container in most cases
     container.register(RequestIdToken, { useValue: NIL });
 
-    const cognitoExpress = new CognitoExpress({
-      region: config.aws.region,
-      cognitoUserPoolId: config.cognito.userPoolId,
+    const jwtVerifier = CognitoJwtVerifier.create({
+      userPoolId: config.cognito.userPoolId,
       tokenUse: "id",
-      tokenExpiration: 3600000,
+      clientId: config.cognito.userPoolClientId,
     });
-    container.register(CognitoExpressToken, { useValue: cognitoExpress });
+    container.register(CognitoJwtVerifierToken, { useValue: jwtVerifier });
 
     const bedrockAgentClient = new BedrockAgentRuntimeClient() as any;
     container.register(BedrockAgentRuntimeClient, {
