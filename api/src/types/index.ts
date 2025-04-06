@@ -6,7 +6,7 @@ export type CreatePunResponse = {
   content: string;
 };
 
-export const CognitoExpressToken = "CognitoExpress";
+export const CognitoJwtVerifierToken = "CognitoJwtVerifier";
 
 export type RequestImageParams = {
   prompt: string;

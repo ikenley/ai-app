@@ -1,6 +1,7 @@
 import winston from "winston";
 import { injectable, inject } from "tsyringe";
-import { CognitoExpressToken } from "../types";
+import { CognitoJwtVerifier } from "aws-jwt-verify";
+import { CognitoJwtVerifierToken } from "../types";
 import UnauthorizedException from "../middleware/UnauthorizedException";
 import LoggerProvider from "../utils/LoggerProvider";
 import User from "./User";
@@ -11,7 +12,8 @@ export default class JwtValidationService {
 
   constructor(
     protected loggerProvider: LoggerProvider,
-    @inject(CognitoExpressToken) protected cognitoExpress: any
+    @inject(CognitoJwtVerifierToken)
+    protected jwtVerifier: CognitoJwtVerifier<any, any, any>
   ) {
     this.logger = loggerProvider.provide("JwtValidationService");
   }
@@ -30,7 +32,7 @@ export default class JwtValidationService {
     const idToken = headerParts[1];
 
     try {
-      const decodedIdToken = await this.cognitoExpress.validate(idToken);
+      const decodedIdToken = await this.jwtVerifier.verify(idToken);
       const user = User.fromIdToken(decodedIdToken);
       return user;
     } catch (e: any) {
