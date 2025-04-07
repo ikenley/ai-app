@@ -14,7 +14,7 @@
     "@assistant-ui/react": "^0.5.100",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
-    "@mui/icons-material": "^5.17.1",
+    "@mui/icons-material": "^7.0.1",
     "@mui/material": "^5.17.1",
     "axios": "^1.8.4",
     "copy-to-clipboard": "^3.3.3",
