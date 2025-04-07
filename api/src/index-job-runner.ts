@@ -1,5 +1,4 @@
 import "reflect-metadata";
-import "express-async-errors";
 import { container } from "tsyringe";
 import { SQSEvent, Context } from "aws-lambda";
 import { SSMClient } from "@aws-sdk/client-ssm";
