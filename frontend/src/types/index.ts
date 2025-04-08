@@ -15,6 +15,7 @@ export type RequestImageParams = {
 export type CreateStoryParams = {
   title: string;
   description: string;
+  artNote: string;
 };
 
 export type SendChatParams = {

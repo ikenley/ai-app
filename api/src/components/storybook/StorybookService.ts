@@ -23,16 +23,17 @@ export default class StorybookService {
 
   /** Generate an image based on a prompt, save it to S3, and send image link. */
   public async create(params: CreateStoryParams): Promise<void> {
-    const { title, description } = params;
-    this.logger.info(`create`, { title, description });
+    const { title, description, artNote } = params;
+    this.logger.info(`create`, { title, description, artNote });
 
-    await this.startJobExecution(title, description);
+    await this.startJobExecution(title, description, artNote);
   }
 
   /** Trigger the AWS Step Function execution */
   private async startJobExecution(
     title: string,
-    description: string
+    description: string,
+    artNote: string
   ): Promise<void> {
     const input = {
       stateMachineArn: this.config.stateFunctionArn,
@@ -40,6 +41,7 @@ export default class StorybookService {
       input: JSON.stringify({
         Title: title,
         Description: description,
+        ArtNote: artNote,
         UserEmailAddress: this.user.email,
       }),
     };

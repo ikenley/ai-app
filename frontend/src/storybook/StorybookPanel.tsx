@@ -10,6 +10,7 @@ const ImagePanel = () => {
   const { createStory } = useApiClient();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [artNote, setArtNote] = useState("");
 
   const handleTitleChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,15 +26,22 @@ const ImagePanel = () => {
     [setDescription]
   );
 
+  const handleArtNoteChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setArtNote(event.target.value);
+    },
+    [setArtNote]
+  );
+
   const { mutate: handleCreateStory, isLoading: storyIsLoading } = useMutation(
     createStory,
     {}
   );
 
   const handleSubmit = useCallback(() => {
-    handleCreateStory({ title, description });
+    handleCreateStory({ title, description, artNote });
     toast.success("Storybook requested! You should receive an email soon.");
-  }, [handleCreateStory, title, description]);
+  }, [handleCreateStory, title, description, artNote]);
 
   return (
     <Box className="pun-panel" sx={{ mt: 5 }}>
@@ -46,7 +54,6 @@ const ImagePanel = () => {
           fullWidth
           value={title}
           onChange={handleTitleChange}
-          sx={{ mb: 2 }}
         />
         <TextField
           id="outlined-basic"
@@ -56,6 +63,16 @@ const ImagePanel = () => {
           fullWidth
           value={description}
           onChange={handleDescriptionChange}
+          sx={{ my: 2 }}
+        />
+        <TextField
+          id="outlined-basic"
+          name="artNote"
+          label="Art note"
+          variant="outlined"
+          fullWidth
+          value={artNote}
+          onChange={handleArtNoteChange}
         />
         <Button
           variant="contained"
