@@ -5,10 +5,10 @@
   "homepage": "/ai",
   "scripts": {
     "prestart": "cp ../api/src/types/index.ts ./src/types/index.ts",
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "vite",
+    "build": "vite build",
+    "serve": "vite preview",
+    "test": "react-scripts test"
   },
   "dependencies": {
     "@assistant-ui/react": "^0.5.100",
@@ -37,9 +37,16 @@
     "@types/react": "^18.3.20",
     "@types/react-dom": "^18.3.6",
     "@types/uuid": "^10.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.29.1",
+    "@typescript-eslint/parser": "^8.29.1",
+    "@vitejs/plugin-react": "^4.3.4",
+    "eslint": "^9.24.0",
+    "eslint-plugin-react": "^7.37.5",
     "http-proxy-middleware": "^2.0.7",
-    "react-scripts": "5.0.1",
-    "typescript": "^4.9.5"
+    "typescript": "^4.9.5",
+    "vite": "^6.2.5",
+    "vite-plugin-eslint": "^1.8.1",
+    "vitest": "^3.1.1"
   },
   "eslintConfig": {
     "extends": [
