@@ -1,8 +1,8 @@
 export const config = {
-  apiPrefix: process.env.REACT_APP_API_URL_PREFIX,
-  authApiPrefix: process.env.REACT_APP_AUTH_API_URL_PREFIX,
-  homepage: process.env.REACT_APP_HOMEPAGE || "/ai",
-  version: process.env.REACT_APP_VERSION,
+  apiPrefix: import.meta.env.VITE_API_URL_PREFIX,
+  authApiPrefix: import.meta.env.VITE_AUTH_API_URL_PREFIX,
+  homepage: import.meta.env.VITE_HOMEPAGE || "/ai",
+  version: import.meta.env.VITE_VERSION,
 };
 
 export default config;
