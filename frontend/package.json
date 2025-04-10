@@ -8,7 +8,7 @@
     "start": "vite",
     "build": "vite build",
     "serve": "vite preview",
-    "test": "react-scripts test"
+    "test": "vitest"
   },
   "dependencies": {
     "@assistant-ui/react": "^0.5.100",
@@ -43,6 +43,7 @@
     "eslint": "^9.24.0",
     "eslint-plugin-react": "^7.37.5",
     "http-proxy-middleware": "^2.0.7",
+    "jsdom": "^26.0.0",
     "typescript": "^4.9.5",
     "vite": "^6.2.5",
     "vite-plugin-eslint": "^1.8.1",
