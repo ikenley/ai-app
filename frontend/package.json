@@ -3,6 +3,7 @@
   "version": "0.2.0",
   "private": true,
   "homepage": "/ai",
+  "type": "module",
   "scripts": {
     "prestart": "cp ../api/src/types/index.ts ./src/types/index.ts",
     "start": "vite",
