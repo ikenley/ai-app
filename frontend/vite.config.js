@@ -25,6 +25,7 @@ export default defineConfig(() => {
       outDir: "build",
     },
     plugins: [react(), eslint()],
+    base: "/ai",
     test: {
       globals: true,
       environment: "jsdom",
