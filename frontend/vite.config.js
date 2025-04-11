@@ -25,5 +25,12 @@ export default defineConfig(() => {
       outDir: "build",
     },
     plugins: [react(), eslint()],
+    base: "/ai",
+    test: {
+      globals: true,
+      environment: "jsdom",
+      parallel: true,
+      setupFiles: "./tests/setup.js",
+    },
   };
 });
