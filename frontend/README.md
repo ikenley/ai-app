@@ -7,7 +7,7 @@ Create-react-app static frontend. Can run in an S3 bucket behind a CDN or in a D
 ## Commands
 
 ```
-# deployment
+# deployment (manual)
 cd frontend
 npm ci
 npm run build
