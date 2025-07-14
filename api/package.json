@@ -37,7 +37,7 @@
     "@vendia/serverless-express": "^4.12.6",
     "aws-jwt-verify": "^5.0.0",
     "cors": "^2.8.5",
-    "dotenv": "^16.5.0",
+    "dotenv": "^17.2.0",
     "express": "^5.1.0",
     "helmet": "^8.1.0",
     "method-override": "^3.0.0",
