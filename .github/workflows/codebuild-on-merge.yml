@@ -21,11 +21,11 @@ jobs:
         with:
           aws-region: us-east-1
           role-to-assume: arn:aws:iam::924586450630:role/ik-dev-main-core-github
-          role-session-name: LambdaPythonTemplate
+          role-session-name: AiApp
 
       - name: Start CodeBuild Project
         run: |
           aws codebuild start-build \
-            --project-name ik-dev-lambda-demo-terraform \
+            --project-name ik-dev-ai-codebuild-main \
             --source-version ${{ github.sha }} \
             --environment-variables-override name=TERRAFORM_ACTION,value=apply,type=PLAINTEXT
