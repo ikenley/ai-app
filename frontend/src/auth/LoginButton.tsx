@@ -1,12 +1,8 @@
-import React, { useContext } from "react";
-import { AuthContext } from "../auth/AuthContext";
-
-const responseGoogle = (response: any) => {
-  //console.log(response);
-};
+// import React, { useContext } from "react";
+// import { AuthContext } from "../auth/AuthContext";
 
 const LoginButton = () => {
-  const authContext = useContext(AuthContext);
+  //const authContext = useContext(AuthContext);
 
   return (
     <div>TODO</div>
