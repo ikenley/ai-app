@@ -1,10 +1,10 @@
 import { DependencyContainer, injectable } from "tsyringe";
 import { Request, Response, Router } from "express";
-import { CreateStoryParams } from "../../types";
-import { ConfigOptions } from "../../config";
-import AuthenticationMiddlewareProvider from "../../auth/AuthenticationMiddlewareProvider";
-import AuthorizationMiddleware from "../../auth/AuthorizationMiddleware";
-import StorybookService from "./StorybookService";
+import { CreateStoryParams } from "../../types.js";
+import { ConfigOptions } from "../../config.js";
+import AuthenticationMiddlewareProvider from "../../auth/AuthenticationMiddlewareProvider.js";
+import AuthorizationMiddleware from "../../auth/AuthorizationMiddleware.js";
+import StorybookService from "./StorybookService.js";
 
 const route = Router();
 

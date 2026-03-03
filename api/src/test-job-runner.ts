@@ -1,6 +1,6 @@
 import { SQSEvent, Context } from "aws-lambda";
 import dotenv from "dotenv";
-import { handler } from "./index-job-runner";
+import { handler } from "./index-job-runner.js";
 
 const sqsRecord: any = {
   messageId: "f7262c2a-08b4-47c6-b540-e072bdc25e53",

@@ -1,4 +1,4 @@
-import ImageMetadataEntity from "./ImageMetadataEntity";
+import ImageMetadataEntity from "./ImageMetadataEntity.js";
 
 export default class CreateImageMessage {
   imageId: string;

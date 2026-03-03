@@ -2,9 +2,9 @@ import "reflect-metadata";
 import { container } from "tsyringe";
 import { SQSEvent, Context } from "aws-lambda";
 import { SSMClient } from "@aws-sdk/client-ssm";
-import registerJobRunnerDependencies from "./loaders/registerJobRunnerDependencies";
-import JobRunnerService from "./components/image/JobRunnerService";
-import SsmParamLoader from "./loaders/SsmParamLoader";
+import registerJobRunnerDependencies from "./loaders/registerJobRunnerDependencies.js";
+import JobRunnerService from "./components/image/JobRunnerService.js";
+import SsmParamLoader from "./loaders/SsmParamLoader.js";
 
 let jobRunnerService: JobRunnerService | null = null;
 

@@ -3,12 +3,12 @@ import { container } from "tsyringe";
 import serverlessExpress from "@vendia/serverless-express";
 import { ALBEvent, Context } from "aws-lambda";
 import { SSMClient } from "@aws-sdk/client-ssm";
-import { getConfigOptions } from "./config";
+import { getConfigOptions } from "./config.js";
 import express from "express";
-import Logger from "./loaders/logger";
-import loadGlobalDependencies from "./loaders/loadGlobalDependencies";
-import ExpressLoader from "./loaders/ExpressLoader";
-import SsmParamLoader from "./loaders/SsmParamLoader";
+import Logger from "./loaders/logger.js";
+import loadGlobalDependencies from "./loaders/loadGlobalDependencies.js";
+import ExpressLoader from "./loaders/ExpressLoader.js";
+import SsmParamLoader from "./loaders/SsmParamLoader.js";
 
 let serverlessExpressInstance: any = null;
 

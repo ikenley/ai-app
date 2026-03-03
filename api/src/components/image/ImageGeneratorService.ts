@@ -8,11 +8,11 @@ import {
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { injectable } from "tsyringe";
 import winston from "winston";
-import LoggerProvider from "../../utils/LoggerProvider";
-import { ConfigOptions } from "../../config";
-import EmailService from "../../services/EmailService";
-import CreateImageMessage from "./CreateImageMessage";
-import ImageMetadataService from "./ImageMetadataService";
+import LoggerProvider from "../../utils/LoggerProvider.js";
+import { ConfigOptions } from "../../config.js";
+import EmailService from "../../services/EmailService.js";
+import CreateImageMessage from "./CreateImageMessage.js";
+import ImageMetadataService from "./ImageMetadataService.js";
 
 @injectable()
 export default class ImageGeneratorService {

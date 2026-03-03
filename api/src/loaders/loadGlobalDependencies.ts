@@ -6,10 +6,10 @@ import { CognitoJwtVerifier } from "aws-jwt-verify";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { SQSClient } from "@aws-sdk/client-sqs";
 import { BedrockAgentRuntimeClient } from "@aws-sdk/client-bedrock-agent-runtime";
-import { ConfigOptions, getConfigOptions } from "../config";
-import LoggerInstance, { LoggerToken } from "./logger";
-import { CognitoJwtVerifierToken } from "../types";
-import { RequestIdToken } from "../middleware/dependencyInjectionMiddleware";
+import { ConfigOptions, getConfigOptions } from "../config.js";
+import LoggerInstance, { LoggerToken } from "./logger.js";
+import { CognitoJwtVerifierToken } from "../types.js";
+import { RequestIdToken } from "../middleware/dependencyInjectionMiddleware.js";
 
 export default () => {
   try {

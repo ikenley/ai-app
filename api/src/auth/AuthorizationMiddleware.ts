@@ -1,10 +1,10 @@
 import winston from "winston";
 import { injectable } from "tsyringe";
 import { Request, Response, NextFunction } from "express";
-import { ConfigOptions } from "../config";
-import LoggerProvider from "../utils/LoggerProvider";
-import User from "./User";
-import ForbiddenException from "../middleware/ForbiddenException";
+import { ConfigOptions } from "../config.js";
+import LoggerProvider from "../utils/LoggerProvider.js";
+import User from "./User.js";
+import ForbiddenException from "../middleware/ForbiddenException.js";
 
 /** Checks whether a user is on a narrow allow-list */
 @injectable()

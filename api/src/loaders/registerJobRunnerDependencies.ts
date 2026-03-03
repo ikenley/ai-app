@@ -5,11 +5,11 @@ import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { S3Client } from "@aws-sdk/client-s3";
 import { SESClient } from "@aws-sdk/client-ses";
 import { SQSClient } from "@aws-sdk/client-sqs";
-import LoggerInstance from "./logger";
-import { ConfigOptions, getConfigOptions } from "../config";
-import { LoggerToken } from "./logger";
-import { RequestIdToken } from "../middleware/dependencyInjectionMiddleware";
-import User from "../auth/User";
+import LoggerInstance from "./logger.js";
+import { ConfigOptions, getConfigOptions } from "../config.js";
+import { LoggerToken } from "./logger.js";
+import { RequestIdToken } from "../middleware/dependencyInjectionMiddleware.js";
+import User from "../auth/User.js";
 
 /** Register dependencies for Job Runner service */
 export default () => {
