@@ -1,9 +1,9 @@
 import "reflect-metadata";
 import { container } from "tsyringe";
-import serverlessExpress from "@vendia/serverless-express";
+import { configure as serverlessExpress } from "@vendia/serverless-express";
 import { ALBEvent, Context } from "aws-lambda";
 import { SSMClient } from "@aws-sdk/client-ssm";
-import { getConfigOptions } from "./config.js";
+import { getConfigOptions } from "./config/index.js";
 import express from "express";
 import Logger from "./loaders/logger.js";
 import loadGlobalDependencies from "./loaders/loadGlobalDependencies.js";

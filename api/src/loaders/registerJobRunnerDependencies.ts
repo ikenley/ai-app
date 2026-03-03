@@ -6,7 +6,7 @@ import { S3Client } from "@aws-sdk/client-s3";
 import { SESClient } from "@aws-sdk/client-ses";
 import { SQSClient } from "@aws-sdk/client-sqs";
 import LoggerInstance from "./logger.js";
-import { ConfigOptions, getConfigOptions } from "../config.js";
+import { ConfigOptions, getConfigOptions } from "../config/index.js";
 import { LoggerToken } from "./logger.js";
 import { RequestIdToken } from "../middleware/dependencyInjectionMiddleware.js";
 import User from "../auth/User.js";

@@ -2,10 +2,10 @@ import { inject, injectable } from "tsyringe";
 import winston from "winston";
 import { SFNClient, StartExecutionCommand } from "@aws-sdk/client-sfn";
 import LoggerProvider from "../../utils/LoggerProvider.js";
-import { ConfigOptions } from "../../config.js";
+import { ConfigOptions } from "../../config/index.js";
 import User from "../../auth/User.js";
 import { RequestIdToken } from "../../middleware/dependencyInjectionMiddleware.js";
-import { CreateStoryParams } from "../../types.js";
+import { CreateStoryParams } from "../../types/index.js";
 
 @injectable()
 export default class StorybookService {

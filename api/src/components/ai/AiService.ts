@@ -1,7 +1,7 @@
 import { injectable } from "tsyringe";
 import winston from "winston";
-import { CreatePunParams, CreatePunResponse } from "../../types.js";
-import { ConfigOptions } from "../../config.js";
+import { CreatePunParams, CreatePunResponse } from "../../types/index.js";
+import { ConfigOptions } from "../../config/index.js";
 import LoggerProvider from "../../utils/LoggerProvider.js";
 import OpenAI from "openai";
 

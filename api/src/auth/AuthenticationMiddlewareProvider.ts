@@ -1,7 +1,7 @@
 import winston from "winston";
 import { injectable } from "tsyringe";
 import { Request, Response, NextFunction } from "express";
-import { ConfigOptions } from "../config.js";
+import { ConfigOptions } from "../config/index.js";
 import UnauthorizedException from "../middleware/UnauthorizedException.js";
 import LoggerProvider from "../utils/LoggerProvider.js";
 import JwtValidationService from "./JwtValidationService.js";

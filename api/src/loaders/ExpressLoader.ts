@@ -5,7 +5,7 @@ import cors from "cors";
 import morgan from "morgan";
 import methodOverride from "method-override";
 import logger from "./logger.js";
-import { ConfigOptions, getConfigOptions } from "../config.js";
+import { ConfigOptions, getConfigOptions } from "../config/index.js";
 import dependencyInjectionMiddleware from "../middleware/dependencyInjectionMiddleware.js";
 import exceptionMiddleware from "../middleware/exceptionMiddleware.js";
 import RouteService from "../routes/RouteService.js";

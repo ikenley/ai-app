@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { getConfigOptions } from "../config.js";
+import { getConfigOptions } from "../config/index.js";
 import LoggerInstance from "../loaders/logger.js";
 import { v4 as uuidv4 } from "uuid";
 

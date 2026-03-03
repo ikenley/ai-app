@@ -1,7 +1,7 @@
 import winston from "winston";
 import { injectable, inject } from "tsyringe";
 import { CognitoJwtVerifier } from "aws-jwt-verify";
-import { CognitoJwtVerifierToken } from "../types.js";
+import { CognitoJwtVerifierToken } from "../types/index.js";
 import UnauthorizedException from "../middleware/UnauthorizedException.js";
 import LoggerProvider from "../utils/LoggerProvider.js";
 import User from "./User.js";

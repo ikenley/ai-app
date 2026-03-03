@@ -9,7 +9,7 @@ import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { injectable } from "tsyringe";
 import winston from "winston";
 import LoggerProvider from "../../utils/LoggerProvider.js";
-import { ConfigOptions } from "../../config.js";
+import { ConfigOptions } from "../../config/index.js";
 import EmailService from "../../services/EmailService.js";
 import CreateImageMessage from "./CreateImageMessage.js";
 import ImageMetadataService from "./ImageMetadataService.js";

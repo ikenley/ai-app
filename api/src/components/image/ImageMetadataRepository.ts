@@ -7,7 +7,7 @@ import {
   GetItemCommand,
 } from "@aws-sdk/client-dynamodb";
 import LoggerProvider from "../../utils/LoggerProvider.js";
-import { ConfigOptions } from "../../config.js";
+import { ConfigOptions } from "../../config/index.js";
 import User from "../../auth/User.js";
 import ImageMetadataEntity from "./ImageMetadataEntity.js";
 

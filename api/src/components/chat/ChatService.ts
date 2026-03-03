@@ -7,10 +7,10 @@ import {
   ReturnControlPayload,
 } from "@aws-sdk/client-bedrock-agent-runtime";
 import LoggerProvider from "../../utils/LoggerProvider.js";
-import { ConfigOptions } from "../../config.js";
+import { ConfigOptions } from "../../config/index.js";
 import User from "../../auth/User.js";
 import { RequestIdToken } from "../../middleware/dependencyInjectionMiddleware.js";
-import { SendChatParams, SendChatResponse } from "../../types.js";
+import { SendChatParams, SendChatResponse } from "../../types/index.js";
 import EmailService from "../../services/EmailService.js";
 
 /** Service for managing interactions with AI chat agent. */

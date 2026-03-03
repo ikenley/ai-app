@@ -1,7 +1,7 @@
 import { DependencyContainer, injectable } from "tsyringe";
 import { Request, Response, Router } from "express";
-import { SendChatParams } from "../../types.js";
-import { ConfigOptions } from "../../config.js";
+import { SendChatParams } from "../../types/index.js";
+import { ConfigOptions } from "../../config/index.js";
 import AuthenticationMiddlewareProvider from "../../auth/AuthenticationMiddlewareProvider.js";
 import AuthorizationMiddleware from "../../auth/AuthorizationMiddleware.js";
 import ChatService from "./ChatService.js";

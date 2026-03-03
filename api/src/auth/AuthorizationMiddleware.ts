@@ -1,7 +1,7 @@
 import winston from "winston";
 import { injectable } from "tsyringe";
 import { Request, Response, NextFunction } from "express";
-import { ConfigOptions } from "../config.js";
+import { ConfigOptions } from "../config/index.js";
 import LoggerProvider from "../utils/LoggerProvider.js";
 import User from "./User.js";
 import ForbiddenException from "../middleware/ForbiddenException.js";
