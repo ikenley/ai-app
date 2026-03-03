@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "module": "ES2022",
+    "moduleResolution": "bundler",
     "declaration": true,
     "strict": true,
     "noImplicitAny": true,
@@ -18,7 +18,6 @@
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "isolatedModules": true,
     "sourceMap": true,
     "outDir": "./dist",
     "types": [
@@ -26,12 +25,14 @@
       "jest"
     ],
     "lib": [
-      "ES2022"
+      "ES6",
+      "DOM"
     ],
     "baseUrl": "./"
   },
   "ts-node": {
-    "esm": true
+    "esm": true,
+    "experimentalResolver": true
   },
   "include": [
     "src/**/*.ts"
