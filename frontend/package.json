@@ -7,6 +7,7 @@
   "scripts": {
     "prestart": "cp ../api/src/types/index.ts ./src/types/index.ts",
     "start": "vite",
+    "prebuild": "eslint --ext .ts,.tsx src",
     "build": "vite build",
     "serve": "vite preview",
     "test": "vitest"
@@ -41,20 +42,15 @@
     "@typescript-eslint/eslint-plugin": "^8.53.1",
     "@typescript-eslint/parser": "^8.56.0",
     "@vitejs/plugin-react": "^4.3.4",
-    "eslint": "^10.0.2",
+    "eslint": "^9.7.0",
     "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^5.0.0",
     "http-proxy-middleware": "^2.0.9",
     "jsdom": "^26.0.0",
     "typescript": "^5.9.2",
+    "typescript-eslint": "^8.56.1",
     "vite": "^6.4.1",
-    "vite-plugin-eslint": "^1.8.1",
     "vitest": "^3.1.1"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
   },
   "browserslist": {
     "production": [

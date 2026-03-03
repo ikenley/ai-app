@@ -18,7 +18,7 @@ const getModelAdapter = (
   sessionId: string
 ): ChatModelAdapter => {
   return {
-    async run({ messages, abortSignal }) {
+    async run({ messages }) {
       const lastMessage = messages[messages.length - 1];
       const content = lastMessage.content[0];
       if (content.type !== "text") {

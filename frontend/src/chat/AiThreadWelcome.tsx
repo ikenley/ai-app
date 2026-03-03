@@ -19,13 +19,13 @@ const AiThreadWelcome = () => {
           <SmartToyIcon />
         </Avatar>
         <Box className="ai-thread-welcome-message" sx={{ mt: 1 }}>
-          Welcome to an AI chat demo! This "chat agent" combines three
+          Welcome to an AI chat demo! This &quot;chat agent&quot; combines three
           capabilities:{" "}
           <ol>
             <li>A private copy of a foundational AI model</li>
-            <li>A "Knowledge Base" of internal data</li>
+            <li>A &quot;Knowledge Base&quot; of internal data</li>
             <li>
-              "Action Groups" that allow the agent to make internal API calls.
+              &quot;Action Groups&quot; that allow the agent to make internal API calls.
               For example, try asking it to send you an email summary of your
               conversation.
             </li>
