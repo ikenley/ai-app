@@ -1,12 +1,12 @@
 import { injectable } from "tsyringe";
 import winston from "winston";
 import { SendMessageCommand, SQSClient } from "@aws-sdk/client-sqs";
-import LoggerProvider from "../../utils/LoggerProvider";
-import { RequestImageParams } from "../../types";
-import { ConfigOptions } from "../../config";
-import User from "../../auth/User";
-import CreateImageMessage from "./CreateImageMessage";
-import ImageMetadataRepository from "./ImageMetadataRepository";
+import LoggerProvider from "../../utils/LoggerProvider.js";
+import { RequestImageParams } from "../../types/index.js";
+import { ConfigOptions } from "../../config/index.js";
+import User from "../../auth/User.js";
+import CreateImageMessage from "./CreateImageMessage.js";
+import ImageMetadataRepository from "./ImageMetadataRepository.js";
 
 @injectable()
 export default class ImageMetadataService {

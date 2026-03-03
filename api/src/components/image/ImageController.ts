@@ -1,10 +1,10 @@
 import { DependencyContainer, injectable } from "tsyringe";
 import { Request, Response, Router } from "express";
-import { RequestImageParams } from "../../types";
-import { ConfigOptions } from "../../config";
-import AuthenticationMiddlewareProvider from "../../auth/AuthenticationMiddlewareProvider";
-import AuthorizationMiddleware from "../../auth/AuthorizationMiddleware";
-import ImageMetadataService from "./ImageMetadataService";
+import { RequestImageParams } from "../../types/index.js";
+import { ConfigOptions } from "../../config/index.js";
+import AuthenticationMiddlewareProvider from "../../auth/AuthenticationMiddlewareProvider.js";
+import AuthorizationMiddleware from "../../auth/AuthorizationMiddleware.js";
+import ImageMetadataService from "./ImageMetadataService.js";
 
 const route = Router();
 

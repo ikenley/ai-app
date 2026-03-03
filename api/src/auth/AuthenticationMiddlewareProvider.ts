@@ -1,11 +1,11 @@
 import winston from "winston";
 import { injectable } from "tsyringe";
 import { Request, Response, NextFunction } from "express";
-import { ConfigOptions } from "../config";
-import UnauthorizedException from "../middleware/UnauthorizedException";
-import LoggerProvider from "../utils/LoggerProvider";
-import JwtValidationService from "./JwtValidationService";
-import User from "./User";
+import { ConfigOptions } from "../config/index.js";
+import UnauthorizedException from "../middleware/UnauthorizedException.js";
+import LoggerProvider from "../utils/LoggerProvider.js";
+import JwtValidationService from "./JwtValidationService.js";
+import User from "./User.js";
 
 @injectable()
 export default class AuthMiddlewareProvider {

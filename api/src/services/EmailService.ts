@@ -1,8 +1,8 @@
 import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses";
 import { injectable } from "tsyringe";
 import winston from "winston";
-import LoggerProvider from "../utils/LoggerProvider";
-import { ConfigOptions } from "../config";
+import LoggerProvider from "../utils/LoggerProvider.js";
+import { ConfigOptions } from "../config/index.js";
 
 /** Generalized email service.
  * Uses AWS SES.

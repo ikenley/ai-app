@@ -1,9 +1,9 @@
 import { DependencyContainer, injectable } from "tsyringe";
 import { Request, Response, Router } from "express";
-import { CreatePunParams } from "../../types";
-import { ConfigOptions } from "../../config";
-import AuthenticationMiddlewareProvider from "../../auth/AuthenticationMiddlewareProvider";
-import AiService from "./AiService";
+import { CreatePunParams } from "../../types/index.js";
+import { ConfigOptions } from "../../config/index.js";
+import AuthenticationMiddlewareProvider from "../../auth/AuthenticationMiddlewareProvider.js";
+import AiService from "./AiService.js";
 
 const route = Router();
 

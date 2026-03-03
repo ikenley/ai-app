@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "target": "es6",
-    "module": "commonjs",
-    "moduleResolution": "node",
+    "target": "ES2022",
+    "module": "ES2022",
+    "moduleResolution": "bundler",
     "declaration": true,
     "strict": true,
     "noImplicitAny": true,
@@ -29,6 +29,10 @@
       "DOM"
     ],
     "baseUrl": "./"
+  },
+  "ts-node": {
+    "esm": true,
+    "experimentalResolver": true
   },
   "include": [
     "src/**/*.ts"

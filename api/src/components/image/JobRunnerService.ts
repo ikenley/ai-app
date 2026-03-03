@@ -1,9 +1,9 @@
 import { injectable } from "tsyringe";
 import winston from "winston";
 import { SQSEvent } from "aws-lambda";
-import LoggerProvider from "../../utils/LoggerProvider";
-import ImageGeneratorService from "./ImageGeneratorService";
-import CreateImageMessage from "./CreateImageMessage";
+import LoggerProvider from "../../utils/LoggerProvider.js";
+import ImageGeneratorService from "./ImageGeneratorService.js";
+import CreateImageMessage from "./CreateImageMessage.js";
 
 /** Handler for job-runner lambda function.
  * Parses event and routes to relevent business layer.
