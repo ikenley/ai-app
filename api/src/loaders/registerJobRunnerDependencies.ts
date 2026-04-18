@@ -10,6 +10,7 @@ import { ConfigOptions, getConfigOptions } from "../config/index.js";
 import { LoggerToken } from "./logger.js";
 import { RequestIdToken } from "../middleware/dependencyInjectionMiddleware.js";
 import User from "../auth/User.js";
+import { GoogleGenAI } from "@google/genai";
 
 /** Register dependencies for Job Runner service */
 export default () => {
@@ -29,6 +30,9 @@ export default () => {
       email: `default@example.net`,
     };
     container.register(User, { useValue: defaultUser });
+
+    const genAI = new GoogleGenAI({ apiKey: config.googleGenAI.apiKey });
+    container.register(GoogleGenAI, { useValue: genAI });
 
     const bedrockClient = new BedrockRuntimeClient() as any;
     container.register(BedrockRuntimeClient, { useValue: bedrockClient });

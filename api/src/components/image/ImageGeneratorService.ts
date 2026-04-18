@@ -8,6 +8,7 @@ import {
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { injectable } from "tsyringe";
 import winston from "winston";
+import { GoogleGenAI } from "@google/genai";
 import LoggerProvider from "../../utils/LoggerProvider.js";
 import { ConfigOptions } from "../../config/index.js";
 import EmailService from "../../services/EmailService.js";
@@ -21,7 +22,7 @@ export default class ImageGeneratorService {
   constructor(
     protected loggerProvider: LoggerProvider,
     protected config: ConfigOptions,
-    protected bedrockRuntimeClient: BedrockRuntimeClient,
+    genAI: GoogleGenAI,
     protected s3Client: S3Client,
     protected emailService: EmailService,
     protected imageMetadataService: ImageMetadataService
@@ -44,41 +45,23 @@ export default class ImageGeneratorService {
 
   /** Generate an image based on a prompt */
   private async createImage(imageId: string, prompt: string) {
-    const input = {
-      // InvokeModelRequest
-      body: JSON.stringify({
-        taskType: "TEXT_IMAGE",
-        textToImageParams: { text: prompt },
-        imageGenerationConfig: {
-          numberOfImages: 1,
-          quality: "premium",
-          cfgScale: 8.0,
-          height: 1024,
-          width: 1024,
-        },
-      }),
-      contentType: "application/json",
-      accept: "*/*",
-      modelId: "amazon.nova-canvas-v1:0",
-    };
-    const command = new InvokeModelCommand(input);
     this.logger.info("createImage", { imageId, prompt });
-    const response = await this.bedrockRuntimeClient.send(command);
 
-    const blobAdapter = response.body;
-    const textDecoder = new TextDecoder("utf-8");
-    const jsonString = textDecoder.decode(blobAdapter.buffer);
+    const response = await this.genAI.models.generateContent({
+      model: "gemini-2.5-flash-image",
+      contents: prompt,
+    });
 
-    try {
-      const parsedData = JSON.parse(jsonString);
-      const base64Data = parsedData.images[0];
-      const filePath = path.join("/tmp", `${imageId}.png`);
-      await writeFile(filePath, base64Data, { encoding: "base64" });
-      return filePath;
-    } catch (error: any) {
-      this.logger.error("Error parsing JSON:", error);
-      throw new Error(error);
+    const imagePart = response.candidates?.[0]?.content?.parts?.find(
+      (p: any) => p.inlineData
+    );
+    if (!imagePart?.inlineData?.data) {
+      throw new Error("No image data in Gemini response");
     }
+
+    const filePath = path.join("/tmp", `${imageId}.png`);
+    await writeFile(filePath, imagePart.inlineData.data, { encoding: "base64" });
+    return filePath;
   }
 
   private async uploadToS3(imageId: string, filePath: string) {

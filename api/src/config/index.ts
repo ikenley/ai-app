@@ -25,6 +25,9 @@ export class ConfigOptions {
     userPoolClientSecret: string;
   };
   fromEmailAddress: string;
+  googleGenAI: {
+    apiKey: string;
+  };
   imageMetadataTableName: string;
   imageS3BucketName: string;
   jobQueueUrl: string;
@@ -72,6 +75,9 @@ export const getConfigOptions = () => {
       userPoolClientSecret: process.env.COGNITO_USER_POOL_CLIENT_SECRET!,
     },
     fromEmailAddress: process.env.FROM_EMAIL_ADDRESS!,
+    googleGenAI: {
+      apiKey: process.env.GEMINI_API_KEY!,
+    },
     imageMetadataTableName: process.env.IMAGE_METADATA_TABLE_NAME!,
     jobQueueUrl: process.env.JOB_QUEUE_URL!,
     // db: {

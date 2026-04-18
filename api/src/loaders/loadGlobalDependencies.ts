@@ -10,6 +10,7 @@ import { ConfigOptions, getConfigOptions } from "../config/index.js";
 import LoggerInstance, { LoggerToken } from "./logger.js";
 import { CognitoJwtVerifierToken } from "../types/index.js";
 import { RequestIdToken } from "../middleware/dependencyInjectionMiddleware.js";
+import { GoogleGenAI } from "@google/genai";
 
 export default () => {
   try {
@@ -28,6 +29,9 @@ export default () => {
       clientId: config.cognito.userPoolClientId,
     });
     container.register(CognitoJwtVerifierToken, { useValue: jwtVerifier });
+
+    const genAI = new GoogleGenAI({ apiKey: config.googleGenAI.apiKey });
+    container.register(GoogleGenAI, { useValue: genAI });
 
     const bedrockAgentClient = new BedrockAgentRuntimeClient() as any;
     container.register(BedrockAgentRuntimeClient, {
