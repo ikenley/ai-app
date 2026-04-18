@@ -1,10 +1,6 @@
 import { readFileSync } from "fs";
 import { writeFile } from "fs/promises";
 import * as path from "path";
-import {
-  BedrockRuntimeClient,
-  InvokeModelCommand,
-} from "@aws-sdk/client-bedrock-runtime";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { injectable } from "tsyringe";
 import winston from "winston";
@@ -22,7 +18,7 @@ export default class ImageGeneratorService {
   constructor(
     protected loggerProvider: LoggerProvider,
     protected config: ConfigOptions,
-    genAI: GoogleGenAI,
+    protected genAI: GoogleGenAI,
     protected s3Client: S3Client,
     protected emailService: EmailService,
     protected imageMetadataService: ImageMetadataService

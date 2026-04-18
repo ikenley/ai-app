@@ -1,6 +1,9 @@
+import "reflect-metadata";
 import { SQSEvent, Context } from "aws-lambda";
 import dotenv from "dotenv";
 import { handler } from "./index-job-runner.js";
+
+console.log("test-job-runner");
 
 const sqsRecord: any = {
   messageId: "f7262c2a-08b4-47c6-b540-e072bdc25e53",
@@ -27,11 +30,11 @@ const context: Context = {
   logGroupName: "",
   logStreamName: "",
   getRemainingTimeInMillis: () => 1000,
-  done: (_error?: Error | undefined, _result?: any) => {},
+  done: (_error?: Error | undefined, _result?: any) => { },
   fail: () => {
     throw new Error("Function not implemented.");
   },
-  succeed: () => {},
+  succeed: () => { },
 };
 
 const invoke = async () => {
@@ -40,5 +43,9 @@ const invoke = async () => {
   console.log("res", res);
 };
 
-console.log("test-job-runner");
-invoke();
+try {
+  await invoke();
+}
+catch (e) {
+  console.error("Error invoking handler:", e);
+}
