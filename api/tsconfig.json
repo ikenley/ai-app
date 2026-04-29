@@ -19,6 +19,7 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "sourceMap": true,
+    "rootDir": "./src",
     "outDir": "./dist",
     "types": [
       "node",
@@ -28,7 +29,6 @@
       "ES6",
       "DOM"
     ],
-    "baseUrl": "./"
   },
   "ts-node": {
     "esm": true,
