@@ -4,11 +4,11 @@ import { useEffect, useRef } from "react";
  * Source: https://usehooks-ts.com/react-hook/use-timeout
  */
 export function useInterval(callback: () => void, delay: number | null) {
-  const savedCallback = useRef(callback);
+  const savedCallbackRef = useRef(callback);
 
   // Remember the latest callback if it changes.
   useEffect(() => {
-    savedCallback.current = callback;
+    savedCallbackRef.current = callback;
   }, [callback]);
 
   // Set up the interval.
@@ -19,7 +19,7 @@ export function useInterval(callback: () => void, delay: number | null) {
       return;
     }
 
-    const id = setInterval(() => savedCallback.current(), delay);
+    const id = setInterval(() => savedCallbackRef.current(), delay);
 
     return () => clearInterval(id);
   }, [delay]);
