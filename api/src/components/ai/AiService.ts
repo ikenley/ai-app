@@ -3,7 +3,10 @@ import winston from "winston";
 import { CreatePunParams, CreatePunResponse } from "../../types/index.js";
 import { ConfigOptions } from "../../config/index.js";
 import LoggerProvider from "../../utils/LoggerProvider.js";
-import OpenAI from "openai";
+import {
+  BedrockRuntimeClient,
+  InvokeModelCommand,
+} from "@aws-sdk/client-bedrock-runtime";
 
 @injectable()
 export default class AiService {
@@ -12,7 +15,7 @@ export default class AiService {
   constructor(
     protected loggerProvider: LoggerProvider,
     protected config: ConfigOptions,
-    protected openai: OpenAI
+    protected bedrockRuntime: BedrockRuntimeClient
   ) {
     this.logger = loggerProvider.provide("AiService");
   }
@@ -21,18 +24,29 @@ export default class AiService {
     const { prompt } = params;
     this.logger.info("createPun", { prompt });
 
-    const chatCompletion = await this.openai.chat.completions.create({
+    const body = JSON.stringify({
+      anthropic_version: "bedrock-2023-05-31",
+      max_tokens: 1024,
       messages: [
         {
           role: "user",
           content: `Create a pun based on the following words: ${prompt}`,
         },
       ],
-      model: "gpt-3.5-turbo",
     });
 
+    const command = new InvokeModelCommand({
+      modelId: "us.anthropic.claude-sonnet-4-6",
+      contentType: "application/json",
+      accept: "application/json",
+      body,
+    });
+
+    const result = await this.bedrockRuntime.send(command);
+    const parsed = JSON.parse(new TextDecoder().decode(result.body));
+
     const response: CreatePunResponse = {
-      content: chatCompletion.choices[0].message.content || "",
+      content: parsed.content[0].text,
     };
 
     return response;
