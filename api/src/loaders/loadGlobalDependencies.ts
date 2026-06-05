@@ -1,11 +1,11 @@
 import { container } from "tsyringe";
 import { NIL } from "uuid";
-import OpenAI from "openai";
 import { SESClient } from "@aws-sdk/client-ses";
 import { CognitoJwtVerifier } from "aws-jwt-verify";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { SQSClient } from "@aws-sdk/client-sqs";
 import { BedrockAgentRuntimeClient } from "@aws-sdk/client-bedrock-agent-runtime";
+import { BedrockRuntimeClient } from "@aws-sdk/client-bedrock-runtime";
 import { ConfigOptions, getConfigOptions } from "../config/index.js";
 import LoggerInstance, { LoggerToken } from "./logger.js";
 import { CognitoJwtVerifierToken } from "../types/index.js";
@@ -38,6 +38,11 @@ export default () => {
       useValue: bedrockAgentClient,
     });
 
+    const bedrockRuntimeClient = new BedrockRuntimeClient() as any;
+    container.register(BedrockRuntimeClient, {
+      useValue: bedrockRuntimeClient,
+    });
+
     const dynamoDBClient = new DynamoDBClient() as any;
     container.register(DynamoDBClient, { useValue: dynamoDBClient });
 
@@ -47,8 +52,6 @@ export default () => {
     const sqsClient = new SQSClient() as any;
     container.register(SQSClient, { useValue: sqsClient });
 
-    const openai = new OpenAI(); // uses OPENAI_API_KEY env var
-    container.register(OpenAI, { useValue: openai });
   } catch (e) {
     LoggerInstance.error("🔥 Error on dependency injector loader: %o", e);
     throw e;
