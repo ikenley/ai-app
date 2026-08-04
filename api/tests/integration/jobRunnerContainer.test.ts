@@ -1,11 +1,8 @@
 import { container } from "tsyringe";
+import { findImplicitDependencies } from "../helpers/dependencyAudit.js";
+import { jobRunnerGraph } from "../helpers/diManagedClasses.js";
 import registerJobRunnerDependencies from "../../src/loaders/registerJobRunnerDependencies.js";
-import JobRunnerService from "../../src/components/image/JobRunnerService.js";
-import ImageGeneratorService from "../../src/components/image/ImageGeneratorService.js";
 import ImageMetadataService from "../../src/components/image/ImageMetadataService.js";
-import ImageMetadataRepository from "../../src/components/image/ImageMetadataRepository.js";
-import EmailService from "../../src/services/EmailService.js";
-import LoggerProvider from "../../src/utils/LoggerProvider.js";
 
 /**
  * Resolution harness for the job runner dependency graph.
@@ -16,15 +13,6 @@ import LoggerProvider from "../../src/utils/LoggerProvider.js";
  * must not share one. Phase 2 mirrors this split as buildJobRunnerContainer vs
  * buildApiContainer.
  */
-const jobRunnerGraph = {
-  JobRunnerService,
-  ImageGeneratorService,
-  ImageMetadataService,
-  ImageMetadataRepository,
-  EmailService,
-  LoggerProvider,
-};
-
 beforeAll(async () => {
   await registerJobRunnerDependencies();
 });
@@ -43,5 +31,19 @@ describe("job runner container", () => {
     const service = container.resolve(ImageMetadataService);
 
     expect((service as any).user.email).toBe("default@example.net");
+  });
+
+  /**
+   * Unlike the API container, the job runner registers User itself, so nothing
+   * is expected to be scope-provided here. See tests/helpers/dependencyAudit.ts.
+   */
+  test("no dependency is resolved implicitly", () => {
+    const findings = findImplicitDependencies(
+      container,
+      jobRunnerGraph,
+      Object.values(jobRunnerGraph)
+    );
+
+    expect(findings).toEqual([]);
   });
 });

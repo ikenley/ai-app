@@ -1,6 +1,7 @@
 import { container } from "tsyringe";
 import { NIL } from "uuid";
 import { SESClient } from "@aws-sdk/client-ses";
+import { SFNClient } from "@aws-sdk/client-sfn";
 import { CognitoJwtVerifier } from "aws-jwt-verify";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { SQSClient } from "@aws-sdk/client-sqs";
@@ -48,6 +49,9 @@ export default () => {
 
     const sesClient = new SESClient() as any;
     container.register(SESClient, { useValue: sesClient });
+
+    const sfnClient = new SFNClient() as any;
+    container.register(SFNClient, { useValue: sfnClient });
 
     const sqsClient = new SQSClient() as any;
     container.register(SQSClient, { useValue: sqsClient });

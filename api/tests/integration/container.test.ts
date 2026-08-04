@@ -1,26 +1,20 @@
 import { container } from "tsyringe";
 import { NIL } from "uuid";
+import { SFNClient } from "@aws-sdk/client-sfn";
+import {
+  findImplicitDependencies,
+  findInjectableClassNames,
+} from "../helpers/dependencyAudit.js";
+import {
+  allManagedClassNames,
+  bootTimeGraph,
+  requestScopedGraph,
+} from "../helpers/diManagedClasses.js";
 import loadGlobalDependencies from "../../src/loaders/loadGlobalDependencies.js";
 import { RequestIdToken } from "../../src/middleware/dependencyInjectionMiddleware.js";
 import User from "../../src/auth/User.js";
-import ExpressLoader from "../../src/loaders/ExpressLoader.js";
-import RouteService from "../../src/routes/RouteService.js";
-import AiController from "../../src/components/ai/AiController.js";
-import ChatController from "../../src/components/chat/ChatController.js";
-import ImageController from "../../src/components/image/ImageController.js";
-import StatusController from "../../src/components/status/StatusController.js";
-import StorybookController from "../../src/components/storybook/StorybookController.js";
 import AuthenticationMiddlewareProvider from "../../src/auth/AuthenticationMiddlewareProvider.js";
-import AuthorizationMiddleware from "../../src/auth/AuthorizationMiddleware.js";
-import JwtValidationService from "../../src/auth/JwtValidationService.js";
 import LoggerProvider from "../../src/utils/LoggerProvider.js";
-import AiService from "../../src/components/ai/AiService.js";
-import ChatService from "../../src/components/chat/ChatService.js";
-import EmailService from "../../src/services/EmailService.js";
-import ImageMetadataRepository from "../../src/components/image/ImageMetadataRepository.js";
-import ImageMetadataService from "../../src/components/image/ImageMetadataService.js";
-import StorybookService from "../../src/components/storybook/StorybookService.js";
-
 /**
  * Resolution harness for the API dependency graph.
  *
@@ -38,32 +32,6 @@ const testUser = new User(
   "00000000-0000-0000-0000-000000000001",
   "authorized@example.com"
 );
-
-/** Constructed once at boot, from the root container. */
-const bootTimeGraph = {
-  ExpressLoader,
-  RouteService,
-  AiController,
-  ChatController,
-  ImageController,
-  StatusController,
-  StorybookController,
-  AuthenticationMiddlewareProvider,
-  AuthorizationMiddleware,
-  JwtValidationService,
-  LoggerProvider,
-};
-
-/** Constructed per request, from the child container. */
-const requestScopedGraph = {
-  AiService,
-  ChatService,
-  EmailService,
-  ImageMetadataRepository,
-  ImageMetadataService,
-  StorybookService,
-  LoggerProvider,
-};
 
 beforeAll(async () => {
   await loadGlobalDependencies();
@@ -94,19 +62,41 @@ describe("request-scoped child container", () => {
   );
 });
 
-describe("implicit registrations", () => {
+describe("registration completeness", () => {
   /**
-   * StorybookService depends on SFNClient, which is registered in neither
-   * loader. tsyringe silently constructs it via `design:paramtypes` reflection.
-   * awilix has no such fallback and will throw AwilixResolutionError.
+   * Every dependency must be either explicitly registered by the loader or a
+   * DI-managed class of ours. Anything else is being auto-constructed by
+   * tsyringe reflection and will throw AwilixResolutionError after the swap.
    *
-   * Phase 1 registers SFNClient explicitly; this test should keep passing.
+   * User is excluded deliberately: it is registered into the child container
+   * per request by the auth middleware, which is the intended design.
    */
-  test("StorybookService resolves even though SFNClient is never registered", () => {
-    const service = buildRequestScope().resolve(StorybookService);
+  test("no dependency is resolved implicitly", () => {
+    const findings = findImplicitDependencies(
+      container,
+      { ...bootTimeGraph, ...requestScopedGraph },
+      [...Object.values(bootTimeGraph), ...Object.values(requestScopedGraph)],
+      [User]
+    );
 
-    expect(service).toBeInstanceOf(StorybookService);
-    expect((service as any).sfnClient).toBeDefined();
+    expect(findings).toEqual([]);
+  });
+
+  test("SFNClient is registered explicitly, not reflected into existence", () => {
+    expect(container.isRegistered(SFNClient, true)).toBe(true);
+  });
+
+  /**
+   * Guards the inventory itself. The audit above only walks the classes listed
+   * in diManagedClasses.ts, so an @injectable added to src/ without being listed
+   * there would never be checked. This fails the build instead.
+   */
+  test("the DI inventory covers every @injectable class in src/", () => {
+    const declared = findInjectableClassNames("src");
+    const missing = declared.filter((name) => !allManagedClassNames.has(name));
+
+    expect(declared.length).toBeGreaterThan(0);
+    expect(missing).toEqual([]);
   });
 });
 
