@@ -1,8 +1,6 @@
-import "reflect-metadata";
-import { container } from "tsyringe";
 import { SQSEvent, Context } from "aws-lambda";
 import { SSMClient } from "@aws-sdk/client-ssm";
-import registerJobRunnerDependencies from "./loaders/registerJobRunnerDependencies.js";
+import buildJobRunnerContainer from "./container/buildJobRunnerContainer.js";
 import JobRunnerService from "./components/image/JobRunnerService.js";
 import SsmParamLoader from "./loaders/SsmParamLoader.js";
 
@@ -16,10 +14,10 @@ const setup = async (event: SQSEvent) => {
   const configParamName = process.env.CONFIG_SSM_PARAM_NAME!;
   await ssmParamLoader.loadToEnv(configParamName);
 
-  // Register dependencies
-  await registerJobRunnerDependencies();
+  // Built after loadToEnv, since the container reads config from env vars
+  const container = buildJobRunnerContainer();
 
-  jobRunnerService = container.resolve(JobRunnerService);
+  jobRunnerService = container.cradle.jobRunnerService;
   return jobRunnerService.handleEvent(event);
 };
 

@@ -1,11 +1,6 @@
 import express from "express";
-import { container } from "tsyringe";
-import { BedrockRuntimeClient } from "@aws-sdk/client-bedrock-runtime";
-import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { SQSClient } from "@aws-sdk/client-sqs";
-import loadGlobalDependencies from "../../src/loaders/loadGlobalDependencies.js";
-import ExpressLoader from "../../src/loaders/ExpressLoader.js";
-import { CognitoJwtVerifierToken } from "../../src/types/index.js";
+import { asValue } from "awilix";
+import buildApiContainer from "../../src/container/buildApiContainer.js";
 
 export const AUTHORIZED_EMAIL = "authorized@example.com";
 export const UNAUTHORIZED_EMAIL = "stranger@example.com";
@@ -46,6 +41,16 @@ export const dynamoDBStub = {
   send: async () => ({}),
 };
 
+/** Captures Step Function executions. The execution name is the request id,
+ *  which makes this the end-to-end probe for request-scoped values. */
+export const sfnStub = {
+  sent: [] as any[],
+  send: async (command: any) => {
+    sfnStub.sent.push(command.input);
+    return {};
+  },
+};
+
 let app: express.Application | null = null;
 
 /**
@@ -63,20 +68,21 @@ export const buildTestApp = async () => {
     return app;
   }
 
-  await loadGlobalDependencies();
+  const container = buildApiContainer();
 
-  // Last registration wins in tsyringe, and child containers inherit from the
-  // parent, so these override the real clients for request scopes too. They
-  // must land before ExpressLoader is resolved: the auth middleware captures
-  // JwtValidationService (and therefore the verifier) at construction time.
-  container.register(CognitoJwtVerifierToken, { useValue: jwtVerifierStub });
-  container.register(BedrockRuntimeClient, { useValue: bedrockRuntimeStub });
-  container.register(DynamoDBClient, { useValue: dynamoDBStub });
-  container.register(SQSClient, { useValue: sqsStub });
+  // Re-registering a key on the root container replaces it, and scopes inherit
+  // from the root, so these reach request-scoped consumers too. The casts are
+  // because the stubs implement only the handful of methods the code calls.
+  container.register({
+    jwtVerifier: asValue(jwtVerifierStub as any),
+    bedrockRuntimeClient: asValue(bedrockRuntimeStub as any),
+    dynamoDBClient: asValue(dynamoDBStub as any),
+    sqsClient: asValue(sqsStub as any),
+    sfnClient: asValue(sfnStub as any),
+  });
 
   app = express();
-  const expressLoader = container.resolve(ExpressLoader);
-  await expressLoader.load(app);
+  await container.cradle.expressLoader.load(app, container);
 
   return app;
 };

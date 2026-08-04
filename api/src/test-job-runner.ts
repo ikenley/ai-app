@@ -1,4 +1,3 @@
-import "reflect-metadata";
 import { SQSEvent, Context } from "aws-lambda";
 import dotenv from "dotenv";
 import { handler } from "./index-job-runner.js";

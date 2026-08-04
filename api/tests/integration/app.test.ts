@@ -1,5 +1,6 @@
 import request from "supertest";
 import type express from "express";
+import { NIL } from "uuid";
 import {
   API_PREFIX,
   AUTHORIZED_EMAIL,
@@ -8,6 +9,7 @@ import {
   UNAUTHORIZED_EMAIL,
   buildTestApp,
   jwtVerifierStub,
+  sfnStub,
   sqsStub,
 } from "../helpers/buildTestApp.js";
 
@@ -31,6 +33,7 @@ beforeAll(async () => {
 beforeEach(() => {
   jwtVerifierStub.email = AUTHORIZED_EMAIL;
   sqsStub.sent.length = 0;
+  sfnStub.sent.length = 0;
 });
 
 describe("status routes (unauthenticated)", () => {
@@ -128,5 +131,41 @@ describe("authorization", () => {
       email: AUTHORIZED_EMAIL,
       userId: TEST_USER_ID,
     });
+  });
+});
+
+/**
+ * The bug that motivated the migration, asserted end to end.
+ *
+ * StorybookService names its Step Function execution after the request id, so
+ * what reaches the SFN client is direct evidence of which request id the graph
+ * was built with. Under the old wiring anything constructed at boot was stuck
+ * with NIL; each request must now carry its own id, and two requests must
+ * differ.
+ */
+const UUID_V4 = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
+describe("request-scoped request id", () => {
+  test("each request carries its own id, and never the NIL placeholder", async () => {
+    const story = { title: "T", description: "D", artNote: "A" };
+
+    await request(app)
+      .post(`${API_PREFIX}/storybook`)
+      .set("Authorization", "Bearer valid")
+      .send(story)
+      .expect(200);
+    await request(app)
+      .post(`${API_PREFIX}/storybook`)
+      .set("Authorization", "Bearer valid")
+      .send(story)
+      .expect(200);
+
+    expect(sfnStub.sent).toHaveLength(2);
+
+    const [first, second] = sfnStub.sent;
+    expect(first.name).toMatch(UUID_V4);
+    expect(second.name).toMatch(UUID_V4);
+    expect(first.name).not.toBe(NIL);
+    expect(first.name).not.toBe(second.name);
   });
 });

@@ -1,6 +1,7 @@
 # Migrating `/api` from tsyringe to awilix
 
-Status: **proposed, not started**
+Status: **Phases 0–5 complete.** Phase 6 (drop the tsyringe dependency) and
+Phase 7 (native TypeScript) remain.
 Last updated: 2026-08-04
 
 ## Why
@@ -241,11 +242,29 @@ No decorators and no parameter properties remain in the tree.
 
 ## Phase 7 — Native TypeScript, the original goal (~1–2 hrs)
 
-Now unblocked, in strip-only mode (no `--experimental-transform-types` needed):
+Decorators and parameter properties are gone as of Phase 3, so strip-only mode handles the class
+syntax and `--experimental-transform-types` is not needed.
+
+**One blocker remains, and an earlier draft of this document got it wrong.** It claimed that carrying
+`.js` extensions on relative imports meant "module resolution won't fight you". It does. Node does
+not rewrite a `.js` specifier to the `.ts` file on disk, so `node src/index.ts` fails with
+`ERR_MODULE_NOT_FOUND: Cannot find module .../src/config/index.js`. Verified against Node 25.6.1.
+
+The fix, verified against TypeScript 7.0.2:
+
+- Rewrite relative import specifiers from `.js` to `.ts` across `src/` and `tests/`
+- Set `"allowImportingTsExtensions": true` and `"rewriteRelativeImportExtensions": true`
+
+Node then runs the `.ts` specifiers directly, and `tsc` still emits `import ... from "./dep.js"` for
+the build output, so both paths work from one source tree. Do this first — the rest of the phase
+depends on it.
+
+Then:
 
 - `nodemon.json` `exec` → `node --watch src/index.ts` (nodemon becomes optional)
-- The four `ts-node` scripts (`cli`, `run-job-runner`, `test-api-lambda`, `test-job-runner`) → plain
-  `node src/*.ts`
+- The `ts-node` scripts (`run-job-runner`, `test-api-lambda`, `test-job-runner`) → plain
+  `node src/*.ts`. Note that `cli` points at `src/cli.ts`, which does not exist — delete the script
+  or write the file.
 - Add `"typecheck": "tsc --noEmit"`
 - Drop `ts-node` from devDependencies and the `ts-node` block from `tsconfig.json`
 
