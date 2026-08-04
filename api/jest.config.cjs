@@ -3,6 +3,9 @@ module.exports = {
   extensionsToTreatAsEsm: [".ts"],
   testEnvironment: "node",
   roots: ["<rootDir>/tests"],
+  // Runs before any test module is imported, so hermetic env vars are in place
+  // before src/config/index.ts calls dotenv.config().
+  setupFiles: ["<rootDir>/tests/setup/testEnv.ts"],
   testMatch: [
     "**/__tests__/**/*.+(ts|tsx|js)",
     "**/?(*.)+(spec|test).+(ts|tsx|js)",
