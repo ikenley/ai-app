@@ -4,7 +4,13 @@ import { SSMClient, GetParameterCommand } from "@aws-sdk/client-ssm";
  * Designed to be a cheap, secure way to load sensitive environment vars into Lambda functions.
  */
 export default class SsmParamLoader {
-  constructor(protected client: SSMClient) {}
+  protected client: SSMClient;
+
+  /** Constructed directly by the lambda entrypoints, before the container
+   *  exists, so this keeps a positional argument rather than a cradle. */
+  constructor(client: SSMClient) {
+    this.client = client;
+  }
 
   /** Fetch SSM param and load each property into env vars. */
   public async loadToEnv(ssmParamName: string) {

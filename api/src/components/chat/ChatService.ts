@@ -1,4 +1,3 @@
-import { inject, injectable } from "tsyringe";
 import winston from "winston";
 import {
   BedrockAgentRuntimeClient,
@@ -6,26 +5,31 @@ import {
   InvokeAgentCommandOutput,
   ReturnControlPayload,
 } from "@aws-sdk/client-bedrock-agent-runtime";
-import LoggerProvider from "../../utils/LoggerProvider.js";
 import { ConfigOptions } from "../../config/index.js";
 import User from "../../auth/User.js";
-import { RequestIdToken } from "../../middleware/dependencyInjectionMiddleware.js";
+import type { ApiCradle } from "../../container/Cradle.js";
 import { SendChatParams, SendChatResponse } from "../../types/index.js";
 import EmailService from "../../services/EmailService.js";
 
 /** Service for managing interactions with AI chat agent. */
-@injectable()
 export default class ChatService {
   private logger: winston.Logger;
+  protected config: ConfigOptions;
+  protected user: User;
+  protected bedrockAgentClient: BedrockAgentRuntimeClient;
+  protected emailService: EmailService;
 
-  constructor(
-    protected loggerProvider: LoggerProvider,
-    protected config: ConfigOptions,
-    protected user: User,
-    @inject(RequestIdToken) protected requestId: string,
-    protected bedrockAgentClient: BedrockAgentRuntimeClient,
-    protected emailService: EmailService
-  ) {
+  constructor({
+    loggerProvider,
+    config,
+    user,
+    bedrockAgentClient,
+    emailService,
+  }: ApiCradle) {
+    this.config = config;
+    this.user = user;
+    this.bedrockAgentClient = bedrockAgentClient;
+    this.emailService = emailService;
     this.logger = loggerProvider.provide("ChatService");
   }
 

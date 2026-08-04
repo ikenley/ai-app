@@ -1,12 +1,15 @@
 import { Router } from "express";
-import { injectable } from "tsyringe";
 import { ConfigOptions } from "../../config/index.js";
+import type { ApiCradle } from "../../container/Cradle.js";
 
 const route = Router();
 
-@injectable()
 export default class StatusController {
-  constructor(protected config: ConfigOptions) {}
+  protected config: ConfigOptions;
+
+  constructor({ config }: ApiCradle) {
+    this.config = config;
+  }
 
   public registerRoutes(app: Router) {
     app.use("/status", route);

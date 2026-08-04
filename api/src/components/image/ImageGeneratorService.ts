@@ -2,27 +2,35 @@ import { readFileSync } from "fs";
 import { writeFile } from "fs/promises";
 import * as path from "path";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
-import { injectable } from "tsyringe";
 import winston from "winston";
 import { GoogleGenAI } from "@google/genai";
-import LoggerProvider from "../../utils/LoggerProvider.js";
 import { ConfigOptions } from "../../config/index.js";
 import EmailService from "../../services/EmailService.js";
+import type { JobRunnerCradle } from "../../container/Cradle.js";
 import CreateImageMessage from "./CreateImageMessage.js";
 import ImageMetadataService from "./ImageMetadataService.js";
 
-@injectable()
 export default class ImageGeneratorService {
   private logger: winston.Logger;
+  protected config: ConfigOptions;
+  protected genAI: GoogleGenAI;
+  protected s3Client: S3Client;
+  protected emailService: EmailService;
+  protected imageMetadataService: ImageMetadataService;
 
-  constructor(
-    protected loggerProvider: LoggerProvider,
-    protected config: ConfigOptions,
-    protected genAI: GoogleGenAI,
-    protected s3Client: S3Client,
-    protected emailService: EmailService,
-    protected imageMetadataService: ImageMetadataService
-  ) {
+  constructor({
+    loggerProvider,
+    config,
+    genAI,
+    s3Client,
+    emailService,
+    imageMetadataService,
+  }: JobRunnerCradle) {
+    this.config = config;
+    this.genAI = genAI;
+    this.s3Client = s3Client;
+    this.emailService = emailService;
+    this.imageMetadataService = imageMetadataService;
     this.logger = loggerProvider.provide("ImageGeneratorService");
   }
 

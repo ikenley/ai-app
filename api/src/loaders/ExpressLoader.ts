@@ -1,4 +1,4 @@
-import { injectable } from "tsyringe";
+import type { AwilixContainer } from "awilix";
 import express from "express";
 import helmet from "helmet";
 import cors from "cors";
@@ -6,9 +6,10 @@ import morgan from "morgan";
 import methodOverride from "method-override";
 import logger from "./logger.js";
 import { ConfigOptions, getConfigOptions } from "../config/index.js";
-import dependencyInjectionMiddleware from "../middleware/dependencyInjectionMiddleware.js";
+import requestScopeMiddleware from "../middleware/requestScopeMiddleware.js";
 import exceptionMiddleware from "../middleware/exceptionMiddleware.js";
 import RouteService from "../routes/RouteService.js";
+import type { ApiCradle } from "../container/Cradle.js";
 
 const getCorsOrigin = (config: ConfigOptions) => {
   const { baseDomain, app } = config;
@@ -20,11 +21,17 @@ const getCorsOrigin = (config: ConfigOptions) => {
   return new RegExp(`${domainPattern}:?\\d*$`);
 };
 
-@injectable()
 export default class ExpressLoader {
-  constructor(protected routeService: RouteService) {}
+  protected routeService: RouteService;
 
-  public load(app: express.Application) {
+  constructor({ routeService }: ApiCradle) {
+    this.routeService = routeService;
+  }
+
+  /** Takes the root container so the request-scope middleware can create a
+   *  child scope per request. The container cannot arrive through the cradle —
+   *  it is what builds the cradle — so the entrypoint passes it in. */
+  public load(app: express.Application, container: AwilixContainer<ApiCradle>) {
     const config = getConfigOptions();
     // Useful if you're behind a reverse proxy (Heroku, Bluemix, AWS ELB, Nginx, etc)
     // It shows the real origin IP in the heroku or Cloudwatch logs
@@ -55,7 +62,7 @@ export default class ExpressLoader {
     );
 
     // Load API routes
-    app.use(config.api.prefix, dependencyInjectionMiddleware);
+    app.use(config.api.prefix, requestScopeMiddleware(container));
     app.use(config.api.prefix, this.routeService.registerRoutes());
 
     /// catch 404 and forward to error handler

@@ -1,20 +1,23 @@
-import { DependencyContainer, injectable } from "tsyringe";
 import { Request, Response, Router } from "express";
 import { SendChatParams } from "../../types/index.js";
-import { ConfigOptions } from "../../config/index.js";
+import type { ApiCradle } from "../../container/Cradle.js";
+import { getRequestScope } from "../../container/getRequestScope.js";
 import AuthenticationMiddlewareProvider from "../../auth/AuthenticationMiddlewareProvider.js";
 import AuthorizationMiddleware from "../../auth/AuthorizationMiddleware.js";
-import ChatService from "./ChatService.js";
 
 const route = Router();
 
-@injectable()
-export default class StorybookController {
-  constructor(
-    protected config: ConfigOptions,
-    protected authenticationMiddlewareProvider: AuthenticationMiddlewareProvider,
-    protected authorizationMiddleware: AuthorizationMiddleware
-  ) {}
+export default class ChatController {
+  protected authenticationMiddlewareProvider: AuthenticationMiddlewareProvider;
+  protected authorizationMiddleware: AuthorizationMiddleware;
+
+  constructor({
+    authenticationMiddlewareProvider,
+    authorizationMiddleware,
+  }: ApiCradle) {
+    this.authenticationMiddlewareProvider = authenticationMiddlewareProvider;
+    this.authorizationMiddleware = authorizationMiddleware;
+  }
 
   public registerRoutes(app: Router) {
     app.use("/chat", route);
@@ -22,15 +25,13 @@ export default class StorybookController {
     route.use(this.authenticationMiddlewareProvider.provide());
     route.use(this.authorizationMiddleware.isAuthorized);
 
-    const getService = (res: Response) => {
-      const container = res.locals.container as DependencyContainer;
-      return container.resolve(ChatService);
-    };
-
-    route.post("/", async (req: Request<{}, {}, SendChatParams>, res) => {
-      const service = getService(res);
-      const response = await service.sendPrompt(req.body);
-      res.send(response);
-    });
+    route.post(
+      "/",
+      async (req: Request<{}, {}, SendChatParams>, res: Response) => {
+        const { chatService } = getRequestScope(res).cradle;
+        const response = await chatService.sendPrompt(req.body);
+        res.send(response);
+      }
+    );
   }
 }

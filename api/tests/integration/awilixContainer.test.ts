@@ -196,27 +196,104 @@ describe("job runner container", () => {
 });
 
 /**
- * Phase 3 rewrites every constructor to destructure the cradle. Until then
- * `asClass` hands the cradle in as the first positional argument, which the
- * tsyringe-shaped constructors misread. Remove `.skip` as the final step of
- * Phase 3 — these should then pass without further changes.
+ * Full graph resolution. This supersedes the tsyringe resolution harnesses that
+ * container.test.ts and jobRunnerContainer.test.ts provided: registration
+ * completeness is now a compile error, so what is left to prove at runtime is
+ * that every registered class can actually be constructed from its cradle.
  */
-describe.skip("class resolution (enable in Phase 3)", () => {
-  test("the API graph resolves from a request scope", () => {
-    const scope = buildApiContainer().createScope();
-    scope.register({
-      requestId: asValue(TEST_REQUEST_ID),
-      user: asValue(testUser),
-    });
+const API_BOOT_TIME_KEYS = [
+  "expressLoader",
+  "routeService",
+  "aiController",
+  "chatController",
+  "imageController",
+  "statusController",
+  "storybookController",
+  "authenticationMiddlewareProvider",
+  "authorizationMiddleware",
+] as const;
 
-    expect(scope.cradle.chatService).toBeDefined();
-    expect(scope.cradle.imageMetadataService).toBeDefined();
-    expect(scope.cradle.expressLoader).toBeDefined();
+const API_REQUEST_SCOPED_KEYS = [
+  "loggerProvider",
+  "jwtValidationService",
+  "emailService",
+  "imageMetadataRepository",
+  "imageMetadataService",
+  "aiService",
+  "chatService",
+  "storybookService",
+] as const;
+
+const JOB_RUNNER_CLASS_KEYS = [
+  "jobRunnerService",
+  "imageGeneratorService",
+  "imageMetadataService",
+  "imageMetadataRepository",
+  "emailService",
+  "loggerProvider",
+] as const;
+
+const apiRequestScope = () => {
+  const scope = buildApiContainer().createScope();
+  scope.register({
+    requestId: asValue(TEST_REQUEST_ID),
+    user: asValue(testUser),
+  });
+  return scope;
+};
+
+describe("API graph resolution", () => {
+  test.each(API_BOOT_TIME_KEYS)("resolves %s at boot", (key) => {
+    expect(buildApiContainer().cradle[key]).toBeDefined();
   });
 
-  test("the job runner graph resolves from the root", () => {
+  test.each(API_REQUEST_SCOPED_KEYS)("resolves %s in a request scope", (key) => {
+    expect(apiRequestScope().cradle[key]).toBeDefined();
+  });
+
+  test("scoped services are shared within a request but not across requests", () => {
+    const container = buildApiContainer();
+    const scopeFor = () => {
+      const scope = container.createScope();
+      scope.register({
+        requestId: asValue(TEST_REQUEST_ID),
+        user: asValue(testUser),
+      });
+      return scope;
+    };
+
+    const first = scopeFor();
+    const second = scopeFor();
+
+    expect(first.cradle.emailService).toBe(first.cradle.emailService);
+    expect(first.cradle.emailService).not.toBe(second.cradle.emailService);
+  });
+
+  /**
+   * The bug this migration set out to fix. A LoggerProvider built in a request
+   * scope carries that request's id; there is no longer any way to obtain one
+   * carrying NIL, because the root registration throws and strict mode stops a
+   * singleton from capturing a scoped value.
+   */
+  test("LoggerProvider carries the real request id", () => {
+    const scope = apiRequestScope();
+
+    expect((scope.cradle.loggerProvider as any).requestId).toBe(
+      TEST_REQUEST_ID
+    );
+  });
+});
+
+describe("job runner graph resolution", () => {
+  test.each(JOB_RUNNER_CLASS_KEYS)("resolves %s", (key) => {
+    expect(buildJobRunnerContainer().cradle[key]).toBeDefined();
+  });
+
+  test("wires the placeholder user through to the services", () => {
     const { cradle } = buildJobRunnerContainer();
 
-    expect(cradle.jobRunnerService).toBeDefined();
+    expect((cradle.imageMetadataService as any).user.email).toBe(
+      JOB_RUNNER_USER_EMAIL
+    );
   });
 });

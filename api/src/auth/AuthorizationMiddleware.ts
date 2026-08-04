@@ -1,32 +1,27 @@
-import winston from "winston";
-import { injectable } from "tsyringe";
 import { Request, Response, NextFunction } from "express";
 import { ConfigOptions } from "../config/index.js";
-import LoggerProvider from "../utils/LoggerProvider.js";
-import User from "./User.js";
+import type { ApiCradle } from "../container/Cradle.js";
+import { getRequestScope } from "../container/getRequestScope.js";
 import ForbiddenException from "../middleware/ForbiddenException.js";
 
 /** Checks whether a user is on a narrow allow-list */
-@injectable()
 export default class AuthorizationMiddleware {
-  private logger: winston.Logger;
+  protected config: ConfigOptions;
 
-  constructor(
-    protected loggerProvider: LoggerProvider,
-    protected config: ConfigOptions
-  ) {
-    this.logger = loggerProvider.provide("AuthorizationMiddleware");
+  /** Only app-lifetime config is held here. The user and the logger are
+   *  request-scoped, so they are read from the scope on each request. */
+  constructor({ config }: ApiCradle) {
+    this.config = config;
   }
 
-  /** Provide array of "isAuthenticated" and "isAuthorized" middleware */
+  /** Middleware which rejects users who are not on the allow-list */
   public isAuthorized = async (
     _req: Request,
     res: Response,
     next: NextFunction
   ) => {
-    // Inject User to request-level dependency injection container
-    const requestContainer = res.locals.container;
-    const user = requestContainer.resolve(User);
+    const scope = getRequestScope(res);
+    const user = scope.cradle.user;
 
     // If user on authorized emails list, continue
     if (this.config.authorizedEmails.includes(user.email)) {
@@ -34,7 +29,10 @@ export default class AuthorizationMiddleware {
     }
     // else return 403 error
     else {
-      this.logger.info("Unauthorized user", { email: user.email });
+      const logger = scope.cradle.loggerProvider.provide(
+        "AuthorizationMiddleware"
+      );
+      logger.info("Unauthorized user", { email: user.email });
       throw new ForbiddenException();
     }
   };

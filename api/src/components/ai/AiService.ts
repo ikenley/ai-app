@@ -1,22 +1,20 @@
-import { injectable } from "tsyringe";
 import winston from "winston";
 import { CreatePunParams, CreatePunResponse } from "../../types/index.js";
 import { ConfigOptions } from "../../config/index.js";
-import LoggerProvider from "../../utils/LoggerProvider.js";
+import type { ApiCradle } from "../../container/Cradle.js";
 import {
   BedrockRuntimeClient,
   InvokeModelCommand,
 } from "@aws-sdk/client-bedrock-runtime";
 
-@injectable()
 export default class AiService {
   private logger: winston.Logger;
+  protected config: ConfigOptions;
+  protected bedrockRuntime: BedrockRuntimeClient;
 
-  constructor(
-    protected loggerProvider: LoggerProvider,
-    protected config: ConfigOptions,
-    protected bedrockRuntime: BedrockRuntimeClient
-  ) {
+  constructor({ loggerProvider, config, bedrockRuntimeClient }: ApiCradle) {
+    this.config = config;
+    this.bedrockRuntime = bedrockRuntimeClient;
     this.logger = loggerProvider.provide("AiService");
   }
 

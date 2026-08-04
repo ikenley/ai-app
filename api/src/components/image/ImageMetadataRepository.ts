@@ -1,4 +1,3 @@
-import { injectable } from "tsyringe";
 import winston from "winston";
 import { v4 as uuidv4 } from "uuid";
 import {
@@ -6,21 +5,20 @@ import {
   PutItemCommand,
   GetItemCommand,
 } from "@aws-sdk/client-dynamodb";
-import LoggerProvider from "../../utils/LoggerProvider.js";
 import { ConfigOptions } from "../../config/index.js";
 import User from "../../auth/User.js";
+import type { CoreCradle } from "../../container/Cradle.js";
 import ImageMetadataEntity from "./ImageMetadataEntity.js";
 
 /** Handle database layer interactions */
-@injectable()
 export default class ImageMetadataRepository {
   private logger: winston.Logger;
+  protected config: ConfigOptions;
+  protected dynamoDBClient: DynamoDBClient;
 
-  constructor(
-    protected loggerProvider: LoggerProvider,
-    protected config: ConfigOptions,
-    protected dynamoDBClient: DynamoDBClient
-  ) {
+  constructor({ loggerProvider, config, dynamoDBClient }: CoreCradle) {
+    this.config = config;
+    this.dynamoDBClient = dynamoDBClient;
     this.logger = loggerProvider.provide("ImageMetadataRepository");
   }
 
