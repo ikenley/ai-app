@@ -8,7 +8,7 @@ import JwtValidationService from "./JwtValidationService.js";
 import User from "./User.js";
 
 @injectable()
-export default class AuthMiddlewareProvider {
+export default class AuthenticationMiddlewareProvider {
   private logger: winston.Logger;
 
   constructor(
@@ -16,7 +16,7 @@ export default class AuthMiddlewareProvider {
     protected config: ConfigOptions,
     protected jwtValidationService: JwtValidationService
   ) {
-    this.logger = loggerProvider.provide("AuthMiddlewareProvider");
+    this.logger = loggerProvider.provide("AuthenticationMiddlewareProvider");
   }
 
   /** Provide array of "isAuthenticated" and "isAuthorized" middleware */

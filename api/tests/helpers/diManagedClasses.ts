@@ -65,9 +65,7 @@ export const jobRunnerGraph = {
 
 /**
  * Keyed on the runtime class name rather than the table key above, because a
- * default export's import binding is arbitrary and the two can drift — e.g.
- * src/auth/AuthenticationMiddlewareProvider.ts declares
- * `export default class AuthMiddlewareProvider`.
+ * default export's import binding is arbitrary and the two can drift.
  */
 export const allManagedClassNames = new Set(
   [
