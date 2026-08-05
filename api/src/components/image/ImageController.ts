@@ -1,20 +1,23 @@
-import { DependencyContainer, injectable } from "tsyringe";
-import { Request, Response, Router } from "express";
-import { RequestImageParams } from "../../types/index.js";
-import { ConfigOptions } from "../../config/index.js";
-import AuthenticationMiddlewareProvider from "../../auth/AuthenticationMiddlewareProvider.js";
-import AuthorizationMiddleware from "../../auth/AuthorizationMiddleware.js";
-import ImageMetadataService from "./ImageMetadataService.js";
+import { type Request, type Response, Router } from "express";
+import type { RequestImageParams } from "../../types/index.ts";
+import type { ApiCradle } from "../../container/Cradle.ts";
+import { getRequestScope } from "../../container/getRequestScope.ts";
+import AuthenticationMiddlewareProvider from "../../auth/AuthenticationMiddlewareProvider.ts";
+import AuthorizationMiddleware from "../../auth/AuthorizationMiddleware.ts";
 
 const route = Router();
 
-@injectable()
 export default class ImageController {
-  constructor(
-    protected config: ConfigOptions,
-    protected authenticationMiddlewareProvider: AuthenticationMiddlewareProvider,
-    protected authorizationMiddleware: AuthorizationMiddleware
-  ) {}
+  protected authenticationMiddlewareProvider: AuthenticationMiddlewareProvider;
+  protected authorizationMiddleware: AuthorizationMiddleware;
+
+  constructor({
+    authenticationMiddlewareProvider,
+    authorizationMiddleware,
+  }: ApiCradle) {
+    this.authenticationMiddlewareProvider = authenticationMiddlewareProvider;
+    this.authorizationMiddleware = authorizationMiddleware;
+  }
 
   public registerRoutes(app: Router) {
     app.use("/image", route);
@@ -22,15 +25,13 @@ export default class ImageController {
     route.use(this.authenticationMiddlewareProvider.provide());
     route.use(this.authorizationMiddleware.isAuthorized);
 
-    const getService = (res: Response) => {
-      const container = res.locals.container as DependencyContainer;
-      return container.resolve(ImageMetadataService);
-    };
-
-    route.post("/", async (req: Request<{}, {}, RequestImageParams>, res) => {
-      const service = getService(res);
-      await service.publishImageRequest(req.body);
-      res.send({});
-    });
+    route.post(
+      "/",
+      async (req: Request<{}, {}, RequestImageParams>, res: Response) => {
+        const { imageMetadataService } = getRequestScope(res).cradle;
+        await imageMetadataService.publishImageRequest(req.body);
+        res.send({});
+      }
+    );
   }
 }

@@ -1,33 +1,30 @@
-import { DependencyContainer, injectable } from "tsyringe";
-import { Request, Response, Router } from "express";
-import { CreatePunParams } from "../../types/index.js";
-import { ConfigOptions } from "../../config/index.js";
-import AuthenticationMiddlewareProvider from "../../auth/AuthenticationMiddlewareProvider.js";
-import AiService from "./AiService.js";
+import { type Request, type Response, Router } from "express";
+import type { CreatePunParams } from "../../types/index.ts";
+import type { ApiCradle } from "../../container/Cradle.ts";
+import { getRequestScope } from "../../container/getRequestScope.ts";
+import AuthenticationMiddlewareProvider from "../../auth/AuthenticationMiddlewareProvider.ts";
 
 const route = Router();
 
-@injectable()
 export default class AiController {
-  constructor(
-    protected config: ConfigOptions,
-    protected authenticationMiddlewareProvider: AuthenticationMiddlewareProvider
-  ) {}
+  protected authenticationMiddlewareProvider: AuthenticationMiddlewareProvider;
+
+  constructor({ authenticationMiddlewareProvider }: ApiCradle) {
+    this.authenticationMiddlewareProvider = authenticationMiddlewareProvider;
+  }
 
   public registerRoutes(app: Router) {
     app.use("/ai", route);
 
     route.use(this.authenticationMiddlewareProvider.provide());
 
-    const getService = (res: Response) => {
-      const container = res.locals.container as DependencyContainer;
-      return container.resolve(AiService);
-    };
-
-    route.post("/pun", async (req: Request<{}, {}, CreatePunParams>, res) => {
-      const service = getService(res);
-      const result = await service.createPun(req.body);
-      res.send(result);
-    });
+    route.post(
+      "/pun",
+      async (req: Request<{}, {}, CreatePunParams>, res: Response) => {
+        const { aiService } = getRequestScope(res).cradle;
+        const result = await aiService.createPun(req.body);
+        res.send(result);
+      }
+    );
   }
 }

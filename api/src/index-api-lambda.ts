@@ -1,14 +1,11 @@
-import "reflect-metadata";
-import { container } from "tsyringe";
 import { configure as serverlessExpress } from "@vendia/serverless-express";
-import { ALBEvent, Context } from "aws-lambda";
+import type { ALBEvent, Context } from "aws-lambda";
 import { SSMClient } from "@aws-sdk/client-ssm";
-import { getConfigOptions } from "./config/index.js";
+import { getConfigOptions } from "./config/index.ts";
 import express from "express";
-import Logger from "./loaders/logger.js";
-import loadGlobalDependencies from "./loaders/loadGlobalDependencies.js";
-import ExpressLoader from "./loaders/ExpressLoader.js";
-import SsmParamLoader from "./loaders/SsmParamLoader.js";
+import Logger from "./loaders/logger.ts";
+import buildApiContainer from "./container/buildApiContainer.ts";
+import SsmParamLoader from "./loaders/SsmParamLoader.ts";
 
 let serverlessExpressInstance: any = null;
 
@@ -22,11 +19,9 @@ const setup = async (event: ALBEvent, context: Context) => {
   const config = getConfigOptions();
   const app = express();
 
-  // Register dependencies
-  await loadGlobalDependencies();
-  // Configure Express
-  const expressLoader = container.resolve(ExpressLoader);
-  await expressLoader.load(app);
+  // Built after loadToEnv, since the container reads config from env vars
+  const container = buildApiContainer();
+  await container.cradle.expressLoader.load(app, container);
 
   app
     .listen(config.port, () => {

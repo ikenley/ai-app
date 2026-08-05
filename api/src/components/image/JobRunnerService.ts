@@ -1,21 +1,18 @@
-import { injectable } from "tsyringe";
 import winston from "winston";
-import { SQSEvent } from "aws-lambda";
-import LoggerProvider from "../../utils/LoggerProvider.js";
-import ImageGeneratorService from "./ImageGeneratorService.js";
-import CreateImageMessage from "./CreateImageMessage.js";
+import type { SQSEvent } from "aws-lambda";
+import type { JobRunnerCradle } from "../../container/Cradle.ts";
+import ImageGeneratorService from "./ImageGeneratorService.ts";
+import CreateImageMessage from "./CreateImageMessage.ts";
 
 /** Handler for job-runner lambda function.
  * Parses event and routes to relevent business layer.
  */
-@injectable()
 export default class JobRunnerService {
   private logger: winston.Logger;
+  protected imageGeneratorService: ImageGeneratorService;
 
-  constructor(
-    protected loggerProvider: LoggerProvider,
-    protected imageGeneratorService: ImageGeneratorService
-  ) {
+  constructor({ loggerProvider, imageGeneratorService }: JobRunnerCradle) {
+    this.imageGeneratorService = imageGeneratorService;
     this.logger = loggerProvider.provide("JobRunnerService");
   }
 

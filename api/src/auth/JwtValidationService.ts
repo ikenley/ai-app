@@ -1,20 +1,15 @@
 import winston from "winston";
-import { injectable, inject } from "tsyringe";
 import { CognitoJwtVerifier } from "aws-jwt-verify";
-import { CognitoJwtVerifierToken } from "../types/index.js";
-import UnauthorizedException from "../middleware/UnauthorizedException.js";
-import LoggerProvider from "../utils/LoggerProvider.js";
-import User from "./User.js";
+import UnauthorizedException from "../middleware/UnauthorizedException.ts";
+import type { ApiCradle } from "../container/Cradle.ts";
+import User from "./User.ts";
 
-@injectable()
 export default class JwtValidationService {
   private logger: winston.Logger;
+  protected jwtVerifier: CognitoJwtVerifier<any, any, any>;
 
-  constructor(
-    protected loggerProvider: LoggerProvider,
-    @inject(CognitoJwtVerifierToken)
-    protected jwtVerifier: CognitoJwtVerifier<any, any, any>
-  ) {
+  constructor({ loggerProvider, jwtVerifier }: ApiCradle) {
+    this.jwtVerifier = jwtVerifier;
     this.logger = loggerProvider.provide("JwtValidationService");
   }
 

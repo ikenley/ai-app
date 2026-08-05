@@ -1,20 +1,31 @@
-import { injectable } from "tsyringe";
 import { Router } from "express";
-import AiController from "../components/ai/AiController.js";
-import ChatController from "../components/chat/ChatController.js";
-import ImageController from "../components/image/ImageController.js";
-import StatusController from "../components/status/StatusController.js";
-import StorybookController from "../components/storybook/StorybookController.js";
+import type { ApiCradle } from "../container/Cradle.ts";
+import AiController from "../components/ai/AiController.ts";
+import ChatController from "../components/chat/ChatController.ts";
+import ImageController from "../components/image/ImageController.ts";
+import StatusController from "../components/status/StatusController.ts";
+import StorybookController from "../components/storybook/StorybookController.ts";
 
-@injectable()
 export default class RouteService {
-  constructor(
-    protected aiController: AiController,
-    protected chatController: ChatController,
-    protected imageController: ImageController,
-    protected statusController: StatusController,
-    protected storybookController: StorybookController
-  ) {}
+  protected aiController: AiController;
+  protected chatController: ChatController;
+  protected imageController: ImageController;
+  protected statusController: StatusController;
+  protected storybookController: StorybookController;
+
+  constructor({
+    aiController,
+    chatController,
+    imageController,
+    statusController,
+    storybookController,
+  }: ApiCradle) {
+    this.aiController = aiController;
+    this.chatController = chatController;
+    this.imageController = imageController;
+    this.statusController = statusController;
+    this.storybookController = storybookController;
+  }
 
   public registerRoutes() {
     const app = Router();

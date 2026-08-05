@@ -1,23 +1,28 @@
-import { inject, injectable } from "tsyringe";
 import winston from "winston";
 import { SFNClient, StartExecutionCommand } from "@aws-sdk/client-sfn";
-import LoggerProvider from "../../utils/LoggerProvider.js";
-import { ConfigOptions } from "../../config/index.js";
-import User from "../../auth/User.js";
-import { RequestIdToken } from "../../middleware/dependencyInjectionMiddleware.js";
-import { CreateStoryParams } from "../../types/index.js";
+import { ConfigOptions } from "../../config/index.ts";
+import User from "../../auth/User.ts";
+import type { ApiCradle } from "../../container/Cradle.ts";
+import type { CreateStoryParams } from "../../types/index.ts";
 
-@injectable()
 export default class StorybookService {
   private logger: winston.Logger;
+  protected config: ConfigOptions;
+  protected user: User;
+  protected requestId: string;
+  protected sfnClient: SFNClient;
 
-  constructor(
-    protected loggerProvider: LoggerProvider,
-    protected config: ConfigOptions,
-    protected user: User,
-    @inject(RequestIdToken) protected requestId: string,
-    protected sfnClient: SFNClient
-  ) {
+  constructor({
+    loggerProvider,
+    config,
+    user,
+    requestId,
+    sfnClient,
+  }: ApiCradle) {
+    this.config = config;
+    this.user = user;
+    this.requestId = requestId;
+    this.sfnClient = sfnClient;
     this.logger = loggerProvider.provide("StorybookService");
   }
 

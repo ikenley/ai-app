@@ -1,5 +1,11 @@
 export default class User {
-  constructor(public id: string, public email: string) {}
+  public id: string;
+  public email: string;
+
+  constructor(id: string, email: string) {
+    this.id = id;
+    this.email = email;
+  }
 
   public static fromIdToken(decodedJwt: any) {
     const id = decodedJwt.sub;

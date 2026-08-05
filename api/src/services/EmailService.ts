@@ -1,21 +1,19 @@
 import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses";
-import { injectable } from "tsyringe";
 import winston from "winston";
-import LoggerProvider from "../utils/LoggerProvider.js";
-import { ConfigOptions } from "../config/index.js";
+import { ConfigOptions } from "../config/index.ts";
+import type { CoreCradle } from "../container/Cradle.ts";
 
 /** Generalized email service.
  * Uses AWS SES.
  */
-@injectable()
 export default class EmailService {
   private logger: winston.Logger;
+  protected config: ConfigOptions;
+  protected sesClient: SESClient;
 
-  constructor(
-    protected loggerProvider: LoggerProvider,
-    protected config: ConfigOptions,
-    protected sesClient: SESClient
-  ) {
+  constructor({ loggerProvider, config, sesClient }: CoreCradle) {
+    this.config = config;
+    this.sesClient = sesClient;
     this.logger = loggerProvider.provide("EmailService");
   }
 

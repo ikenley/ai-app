@@ -1,25 +1,19 @@
-import winston from "winston";
-import { injectable } from "tsyringe";
-import { Request, Response, NextFunction } from "express";
-import { ConfigOptions } from "../config/index.js";
-import UnauthorizedException from "../middleware/UnauthorizedException.js";
-import LoggerProvider from "../utils/LoggerProvider.js";
-import JwtValidationService from "./JwtValidationService.js";
-import User from "./User.js";
+import { asValue } from "awilix";
+import type { Request, Response, NextFunction } from "express";
+import UnauthorizedException from "../middleware/UnauthorizedException.ts";
+import { getRequestScope } from "../container/getRequestScope.ts";
 
-@injectable()
-export default class AuthMiddlewareProvider {
-  private logger: winston.Logger;
-
-  constructor(
-    protected loggerProvider: LoggerProvider,
-    protected config: ConfigOptions,
-    protected jwtValidationService: JwtValidationService
-  ) {
-    this.logger = loggerProvider.provide("AuthMiddlewareProvider");
-  }
-
-  /** Provide array of "isAuthenticated" and "isAuthorized" middleware */
+/**
+ * Provides the "isAuthenticated" middleware.
+ *
+ * App-lifetime, and deliberately stateless: it registers its handler once at
+ * boot, so anything captured in a constructor would be frozen for the life of
+ * the process. That is exactly what used to happen — a logger built at boot
+ * carried `requestId: NIL` on every line it ever wrote. Request-scoped
+ * dependencies are resolved per request from res.locals.scope instead.
+ */
+export default class AuthenticationMiddlewareProvider {
+  /** Provide the "isAuthenticated" middleware */
   public provide() {
     const isAuthenticated = async (
       req: Request,
@@ -35,19 +29,24 @@ export default class AuthMiddlewareProvider {
       }
 
       const authHeader = req.headers.authorization;
+      const scope = getRequestScope(res);
 
       try {
         // Validate JWT
-        const user = await this.jwtValidationService.validate(authHeader);
+        const user = await scope.cradle.jwtValidationService.validate(
+          authHeader
+        );
 
-        // Inject User to request-level dependency injection container
-        const requestContainer = res.locals.container;
-        requestContainer.register(User, { useValue: user });
+        // Inject User into the request scope, for everything downstream
+        scope.register({ user: asValue(user) });
 
         // Continue to next middleware
         next();
       } catch (e: any) {
-        this.logger.info("Invalid jwt", { e });
+        const logger = scope.cradle.loggerProvider.provide(
+          "AuthenticationMiddlewareProvider"
+        );
+        logger.info("Invalid jwt", { e });
         throw new UnauthorizedException();
       }
     };

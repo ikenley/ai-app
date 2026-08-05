@@ -6,18 +6,16 @@
   "main": "src/index.ts",
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "cli": "ts-node src/cli.ts",
-    "dev": "tsc --project tsconfig.json --watch & NODE_ENV=development nodemon dist",
-    "run-job-runner": "node --loader ts-node/esm ./src/index-job-runner.ts",
-    "prestart": "npm run build",
-    "start": "nodemon",
+    "typecheck": "tsc --noEmit",
+    "dev": "NODE_ENV=development node --watch src/index.ts",
+    "start": "node src/index.ts",
+    "run-job-runner": "node ./src/index-job-runner.ts",
     "test": "NODE_OPTIONS='--experimental-vm-modules' jest --detectOpenHandles",
     "test-coverage": "NODE_OPTIONS='--experimental-vm-modules' jest --coverage",
-    "test-api-lambda": "node --loader ts-node/esm ./src/test-api-lambda.ts",
-    "test-job-runner": "node --loader ts-node/esm ./src/test-job-runner.ts",
+    "test-api-lambda": "node ./src/test-api-lambda.ts",
+    "test-job-runner": "node ./src/test-job-runner.ts",
     "lint": "eslint src/ --ext .js,.jsx,.ts,.tsx",
-    "clean": "rm -rf dist build",
-    "ts-node": "ts-node"
+    "clean": "rm -rf dist build"
   },
   "author": "ikenley",
   "license": "SEE LICENSE IN LICENSE.txt",
@@ -37,6 +35,7 @@
     "@aws-sdk/lib-storage": "^3.1075.0",
     "@google/genai": "^2.10.0",
     "@vendia/serverless-express": "^4.12.6",
+    "awilix": "^13.0.5",
     "aws-jwt-verify": "^5.2.1",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
@@ -45,8 +44,6 @@
     "method-override": "^3.0.0",
     "morgan": "^1.11.0",
     "openai": "^6.45.0",
-    "reflect-metadata": "^0.2.2",
-    "tsyringe": "^4.10.0",
     "uuid": "^14.0.1",
     "winston": "^3.19.0"
   },
@@ -64,10 +61,8 @@
     "@typescript-eslint/parser": "^8.62.0",
     "eslint": "^10.7.0",
     "jest": "^30.4.2",
-    "nodemon": "^3.1.14",
     "supertest": "^7.2.2",
     "ts-jest": "^29.4.11",
-    "ts-node": "^10.9.2",
     "typescript": "^6.0.3"
   }
 }
