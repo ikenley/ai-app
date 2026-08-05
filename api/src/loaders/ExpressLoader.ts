@@ -4,12 +4,12 @@ import helmet from "helmet";
 import cors from "cors";
 import morgan from "morgan";
 import methodOverride from "method-override";
-import logger from "./logger.js";
-import { ConfigOptions, getConfigOptions } from "../config/index.js";
-import requestScopeMiddleware from "../middleware/requestScopeMiddleware.js";
-import exceptionMiddleware from "../middleware/exceptionMiddleware.js";
-import RouteService from "../routes/RouteService.js";
-import type { ApiCradle } from "../container/Cradle.js";
+import logger from "./logger.ts";
+import { ConfigOptions, getConfigOptions } from "../config/index.ts";
+import requestScopeMiddleware from "../middleware/requestScopeMiddleware.ts";
+import exceptionMiddleware from "../middleware/exceptionMiddleware.ts";
+import RouteService from "../routes/RouteService.ts";
+import type { ApiCradle } from "../container/Cradle.ts";
 
 const getCorsOrigin = (config: ConfigOptions) => {
   const { baseDomain, app } = config;

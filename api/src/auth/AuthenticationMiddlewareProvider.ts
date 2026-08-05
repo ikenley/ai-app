@@ -1,7 +1,7 @@
 import { asValue } from "awilix";
-import { Request, Response, NextFunction } from "express";
-import UnauthorizedException from "../middleware/UnauthorizedException.js";
-import { getRequestScope } from "../container/getRequestScope.js";
+import type { Request, Response, NextFunction } from "express";
+import UnauthorizedException from "../middleware/UnauthorizedException.ts";
+import { getRequestScope } from "../container/getRequestScope.ts";
 
 /**
  * Provides the "isAuthenticated" middleware.

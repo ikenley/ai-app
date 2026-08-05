@@ -4,11 +4,11 @@ import * as path from "path";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import winston from "winston";
 import { GoogleGenAI } from "@google/genai";
-import { ConfigOptions } from "../../config/index.js";
-import EmailService from "../../services/EmailService.js";
-import type { JobRunnerCradle } from "../../container/Cradle.js";
-import CreateImageMessage from "./CreateImageMessage.js";
-import ImageMetadataService from "./ImageMetadataService.js";
+import { ConfigOptions } from "../../config/index.ts";
+import EmailService from "../../services/EmailService.ts";
+import type { JobRunnerCradle } from "../../container/Cradle.ts";
+import CreateImageMessage from "./CreateImageMessage.ts";
+import ImageMetadataService from "./ImageMetadataService.ts";
 
 export default class ImageGeneratorService {
   private logger: winston.Logger;

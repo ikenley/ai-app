@@ -13,16 +13,16 @@ import { S3Client } from "@aws-sdk/client-s3";
 import { SESClient } from "@aws-sdk/client-ses";
 import { SQSClient } from "@aws-sdk/client-sqs";
 import { GoogleGenAI } from "@google/genai";
-import { getConfigOptions } from "../config/index.js";
-import LoggerInstance from "../loaders/logger.js";
-import User from "../auth/User.js";
-import LoggerProvider from "../utils/LoggerProvider.js";
-import EmailService from "../services/EmailService.js";
-import ImageMetadataRepository from "../components/image/ImageMetadataRepository.js";
-import ImageMetadataService from "../components/image/ImageMetadataService.js";
-import ImageGeneratorService from "../components/image/ImageGeneratorService.js";
-import JobRunnerService from "../components/image/JobRunnerService.js";
-import type { JobRunnerCradle } from "./Cradle.js";
+import { getConfigOptions } from "../config/index.ts";
+import LoggerInstance from "../loaders/logger.ts";
+import User from "../auth/User.ts";
+import LoggerProvider from "../utils/LoggerProvider.ts";
+import EmailService from "../services/EmailService.ts";
+import ImageMetadataRepository from "../components/image/ImageMetadataRepository.ts";
+import ImageMetadataService from "../components/image/ImageMetadataService.ts";
+import ImageGeneratorService from "../components/image/ImageGeneratorService.ts";
+import JobRunnerService from "../components/image/JobRunnerService.ts";
+import type { JobRunnerCradle } from "./Cradle.ts";
 
 /** Every key in JobRunnerCradle must appear below, or this fails to compile. */
 type JobRunnerRegistrations = {

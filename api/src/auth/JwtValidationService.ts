@@ -1,8 +1,8 @@
 import winston from "winston";
 import { CognitoJwtVerifier } from "aws-jwt-verify";
-import UnauthorizedException from "../middleware/UnauthorizedException.js";
-import type { ApiCradle } from "../container/Cradle.js";
-import User from "./User.js";
+import UnauthorizedException from "../middleware/UnauthorizedException.ts";
+import type { ApiCradle } from "../container/Cradle.ts";
+import User from "./User.ts";
 
 export default class JwtValidationService {
   private logger: winston.Logger;

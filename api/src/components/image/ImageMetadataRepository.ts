@@ -5,10 +5,10 @@ import {
   PutItemCommand,
   GetItemCommand,
 } from "@aws-sdk/client-dynamodb";
-import { ConfigOptions } from "../../config/index.js";
-import User from "../../auth/User.js";
-import type { CoreCradle } from "../../container/Cradle.js";
-import ImageMetadataEntity from "./ImageMetadataEntity.js";
+import { ConfigOptions } from "../../config/index.ts";
+import User from "../../auth/User.ts";
+import type { CoreCradle } from "../../container/Cradle.ts";
+import ImageMetadataEntity from "./ImageMetadataEntity.ts";
 
 /** Handle database layer interactions */
 export default class ImageMetadataRepository {

@@ -1,7 +1,7 @@
 import { type AwilixContainer, asValue } from "awilix";
-import { Request, Response, NextFunction } from "express";
+import type { Request, Response, NextFunction } from "express";
 import { v4 as uuidv4 } from "uuid";
-import type { ApiCradle } from "../container/Cradle.js";
+import type { ApiCradle } from "../container/Cradle.ts";
 
 /**
  * Creates the request-level container scope.

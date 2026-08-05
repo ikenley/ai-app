@@ -1,8 +1,8 @@
-import { Request, Response, Router } from "express";
-import { CreatePunParams } from "../../types/index.js";
-import type { ApiCradle } from "../../container/Cradle.js";
-import { getRequestScope } from "../../container/getRequestScope.js";
-import AuthenticationMiddlewareProvider from "../../auth/AuthenticationMiddlewareProvider.js";
+import { type Request, type Response, Router } from "express";
+import type { CreatePunParams } from "../../types/index.ts";
+import type { ApiCradle } from "../../container/Cradle.ts";
+import { getRequestScope } from "../../container/getRequestScope.ts";
+import AuthenticationMiddlewareProvider from "../../auth/AuthenticationMiddlewareProvider.ts";
 
 const route = Router();
 

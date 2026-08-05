@@ -1,11 +1,11 @@
 import winston from "winston";
 import { SendMessageCommand, SQSClient } from "@aws-sdk/client-sqs";
-import { RequestImageParams } from "../../types/index.js";
-import { ConfigOptions } from "../../config/index.js";
-import User from "../../auth/User.js";
-import type { CoreCradle } from "../../container/Cradle.js";
-import CreateImageMessage from "./CreateImageMessage.js";
-import ImageMetadataRepository from "./ImageMetadataRepository.js";
+import type { RequestImageParams } from "../../types/index.ts";
+import { ConfigOptions } from "../../config/index.ts";
+import User from "../../auth/User.ts";
+import type { CoreCradle } from "../../container/Cradle.ts";
+import CreateImageMessage from "./CreateImageMessage.ts";
+import ImageMetadataRepository from "./ImageMetadataRepository.ts";
 
 export default class ImageMetadataService {
   private logger: winston.Logger;

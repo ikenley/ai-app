@@ -3,25 +3,22 @@ import { NIL } from "uuid";
 import { CognitoJwtVerifier } from "aws-jwt-verify";
 import { SFNClient } from "@aws-sdk/client-sfn";
 import { GoogleGenAI } from "@google/genai";
-import buildApiContainer from "../../src/container/buildApiContainer.js";
+import buildApiContainer from "../../src/container/buildApiContainer.ts";
 import buildJobRunnerContainer, {
   JOB_RUNNER_USER_EMAIL,
-} from "../../src/container/buildJobRunnerContainer.js";
-import type { ApiCradle } from "../../src/container/Cradle.js";
-import User from "../../src/auth/User.js";
+} from "../../src/container/buildJobRunnerContainer.ts";
+import type { ApiCradle } from "../../src/container/Cradle.ts";
+import User from "../../src/auth/User.ts";
 
 /**
- * Validation harness for the awilix containers (Phase 2 of docs/di-migration.md).
+ * Validation harness for the awilix containers (see docs/di-migration.md).
  *
  * Registration *completeness* is enforced at compile time: the registration
  * tables are typed as `{ [K in keyof Cradle]: Resolver<...> }`, so a missing key
  * is a build error, not something a test has to catch. What is left for runtime
- * is that the values resolve, that the lifetimes are what we intended, and that
- * the request-scoped keys fail loudly outside a request.
- *
- * The classes still have tsyringe-shaped positional constructors, so `asClass`
- * resolution cannot work until Phase 3 rewrites them. That block is skipped
- * below rather than omitted, so enabling it is the visible last step of Phase 3.
+ * is that the values resolve, that every registered class can be constructed
+ * from its cradle, that the lifetimes are what we intended, and that the
+ * request-scoped keys fail loudly outside a request.
  */
 const TEST_REQUEST_ID = "11111111-1111-1111-1111-111111111111";
 

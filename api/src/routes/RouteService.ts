@@ -1,10 +1,10 @@
 import { Router } from "express";
-import type { ApiCradle } from "../container/Cradle.js";
-import AiController from "../components/ai/AiController.js";
-import ChatController from "../components/chat/ChatController.js";
-import ImageController from "../components/image/ImageController.js";
-import StatusController from "../components/status/StatusController.js";
-import StorybookController from "../components/storybook/StorybookController.js";
+import type { ApiCradle } from "../container/Cradle.ts";
+import AiController from "../components/ai/AiController.ts";
+import ChatController from "../components/chat/ChatController.ts";
+import ImageController from "../components/image/ImageController.ts";
+import StatusController from "../components/status/StatusController.ts";
+import StorybookController from "../components/storybook/StorybookController.ts";
 
 export default class RouteService {
   protected aiController: AiController;

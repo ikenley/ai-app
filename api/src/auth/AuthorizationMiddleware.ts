@@ -1,8 +1,8 @@
-import { Request, Response, NextFunction } from "express";
-import { ConfigOptions } from "../config/index.js";
-import type { ApiCradle } from "../container/Cradle.js";
-import { getRequestScope } from "../container/getRequestScope.js";
-import ForbiddenException from "../middleware/ForbiddenException.js";
+import type { Request, Response, NextFunction } from "express";
+import { ConfigOptions } from "../config/index.ts";
+import type { ApiCradle } from "../container/Cradle.ts";
+import { getRequestScope } from "../container/getRequestScope.ts";
+import ForbiddenException from "../middleware/ForbiddenException.ts";
 
 /** Checks whether a user is on a narrow allow-list */
 export default class AuthorizationMiddleware {

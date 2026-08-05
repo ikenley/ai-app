@@ -1,9 +1,9 @@
 import winston from "winston";
 import { SFNClient, StartExecutionCommand } from "@aws-sdk/client-sfn";
-import { ConfigOptions } from "../../config/index.js";
-import User from "../../auth/User.js";
-import type { ApiCradle } from "../../container/Cradle.js";
-import { CreateStoryParams } from "../../types/index.js";
+import { ConfigOptions } from "../../config/index.ts";
+import User from "../../auth/User.ts";
+import type { ApiCradle } from "../../container/Cradle.ts";
+import type { CreateStoryParams } from "../../types/index.ts";
 
 export default class StorybookService {
   private logger: winston.Logger;

@@ -2,14 +2,14 @@ import winston from "winston";
 import {
   BedrockAgentRuntimeClient,
   InvokeAgentCommand,
-  InvokeAgentCommandOutput,
-  ReturnControlPayload,
+  type InvokeAgentCommandOutput,
+  type ReturnControlPayload,
 } from "@aws-sdk/client-bedrock-agent-runtime";
-import { ConfigOptions } from "../../config/index.js";
-import User from "../../auth/User.js";
-import type { ApiCradle } from "../../container/Cradle.js";
-import { SendChatParams, SendChatResponse } from "../../types/index.js";
-import EmailService from "../../services/EmailService.js";
+import { ConfigOptions } from "../../config/index.ts";
+import User from "../../auth/User.ts";
+import type { ApiCradle } from "../../container/Cradle.ts";
+import type { SendChatParams, SendChatResponse } from "../../types/index.ts";
+import EmailService from "../../services/EmailService.ts";
 
 /** Service for managing interactions with AI chat agent. */
 export default class ChatService {

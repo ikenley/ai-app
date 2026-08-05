@@ -14,7 +14,9 @@ module.exports = {
     "^.+\\.tsx?$": ["ts-jest", { useESM: true }],
   },
   moduleNameMapper: {
-    // Remap .js imports back to .ts source files for Jest resolution
+    // Sources import with .ts extensions, but ts-jest honors
+    // rewriteRelativeImportExtensions and emits .js specifiers, which do not
+    // exist on disk. Map them back to the source file for resolution.
     "^(\\.{1,2}/.*)\\.js$": "$1",
   },
 };

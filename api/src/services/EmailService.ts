@@ -1,7 +1,7 @@
 import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses";
 import winston from "winston";
-import { ConfigOptions } from "../config/index.js";
-import type { CoreCradle } from "../container/Cradle.js";
+import { ConfigOptions } from "../config/index.ts";
+import type { CoreCradle } from "../container/Cradle.ts";
 
 /** Generalized email service.
  * Uses AWS SES.

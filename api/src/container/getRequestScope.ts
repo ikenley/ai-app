@@ -1,6 +1,6 @@
 import type { AwilixContainer } from "awilix";
 import type { Response } from "express";
-import type { ApiCradle } from "./Cradle.js";
+import type { ApiCradle } from "./Cradle.ts";
 
 /**
  * The per-request container scope attached by requestScopeMiddleware.

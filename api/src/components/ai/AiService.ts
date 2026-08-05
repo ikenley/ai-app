@@ -1,7 +1,7 @@
 import winston from "winston";
-import { CreatePunParams, CreatePunResponse } from "../../types/index.js";
-import { ConfigOptions } from "../../config/index.js";
-import type { ApiCradle } from "../../container/Cradle.js";
+import type { CreatePunParams, CreatePunResponse } from "../../types/index.ts";
+import { ConfigOptions } from "../../config/index.ts";
+import type { ApiCradle } from "../../container/Cradle.ts";
 import {
   BedrockRuntimeClient,
   InvokeModelCommand,

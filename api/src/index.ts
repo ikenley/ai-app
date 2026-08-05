@@ -1,7 +1,7 @@
 import express from "express";
-import { getConfigOptions } from "./config/index.js";
-import Logger from "./loaders/logger.js";
-import buildApiContainer from "./container/buildApiContainer.js";
+import { getConfigOptions } from "./config/index.ts";
+import Logger from "./loaders/logger.ts";
+import buildApiContainer from "./container/buildApiContainer.ts";
 
 async function startServer() {
   const config = getConfigOptions();

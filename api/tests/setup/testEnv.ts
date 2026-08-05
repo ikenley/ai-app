@@ -1,5 +1,3 @@
-import "reflect-metadata";
-
 /**
  * Hermetic environment for the test suite.
  *

@@ -1,5 +1,5 @@
 import winston from "winston";
-import type { CoreCradle } from "../container/Cradle.js";
+import type { CoreCradle } from "../container/Cradle.ts";
 
 /** Provides a module-specific Logger instance.
  * Includes additional container-provides context values

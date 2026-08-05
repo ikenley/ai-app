@@ -1,8 +1,8 @@
-import { SQSEvent, Context } from "aws-lambda";
+import type { SQSEvent, Context } from "aws-lambda";
 import { SSMClient } from "@aws-sdk/client-ssm";
-import buildJobRunnerContainer from "./container/buildJobRunnerContainer.js";
-import JobRunnerService from "./components/image/JobRunnerService.js";
-import SsmParamLoader from "./loaders/SsmParamLoader.js";
+import buildJobRunnerContainer from "./container/buildJobRunnerContainer.ts";
+import JobRunnerService from "./components/image/JobRunnerService.ts";
+import SsmParamLoader from "./loaders/SsmParamLoader.ts";
 
 let jobRunnerService: JobRunnerService | null = null;
 

@@ -1,9 +1,9 @@
-import { Request, Response, Router } from "express";
-import { SendChatParams } from "../../types/index.js";
-import type { ApiCradle } from "../../container/Cradle.js";
-import { getRequestScope } from "../../container/getRequestScope.js";
-import AuthenticationMiddlewareProvider from "../../auth/AuthenticationMiddlewareProvider.js";
-import AuthorizationMiddleware from "../../auth/AuthorizationMiddleware.js";
+import { type Request, type Response, Router } from "express";
+import type { SendChatParams } from "../../types/index.ts";
+import type { ApiCradle } from "../../container/Cradle.ts";
+import { getRequestScope } from "../../container/getRequestScope.ts";
+import AuthenticationMiddlewareProvider from "../../auth/AuthenticationMiddlewareProvider.ts";
+import AuthorizationMiddleware from "../../auth/AuthorizationMiddleware.ts";
 
 const route = Router();
 

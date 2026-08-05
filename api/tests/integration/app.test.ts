@@ -11,7 +11,7 @@ import {
   jwtVerifierStub,
   sfnStub,
   sqsStub,
-} from "../helpers/buildTestApp.js";
+} from "../helpers/buildTestApp.ts";
 
 /**
  * Characterization test for the HTTP surface.
