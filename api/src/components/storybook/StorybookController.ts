@@ -31,7 +31,7 @@ export default class StorybookController {
         const { storybookService } = getRequestScope(res).cradle;
         await storybookService.create(req.body);
         res.send({});
-      }
+      },
     );
   }
 }

@@ -51,7 +51,7 @@ export default class ChatService {
    */
   private async promptBedrockAgent(
     sessionId: string,
-    prompt: string
+    prompt: string,
   ): Promise<SendChatResponse> {
     this.logger.info("promptBedrockAgent:begin", { sessionId });
     const { agentId, agentAliasId } = this.config.bedrockAgent;
@@ -71,7 +71,7 @@ export default class ChatService {
   /** Process the BedrockAgent response */
   private async handleAgentResponse(
     sessionId: string,
-    response: InvokeAgentCommandOutput
+    response: InvokeAgentCommandOutput,
   ): Promise<SendChatResponse> {
     let agentReply = "";
     if (response.completion === undefined) {
@@ -83,7 +83,7 @@ export default class ChatService {
       if (chunkEvent.returnControl !== undefined) {
         return await this.handlReturnControl(
           sessionId,
-          chunkEvent.returnControl
+          chunkEvent.returnControl,
         );
       }
 
@@ -105,7 +105,7 @@ export default class ChatService {
    */
   private async handlReturnControl(
     sessionId: string,
-    returnControl: ReturnControlPayload
+    returnControl: ReturnControlPayload,
   ): Promise<SendChatResponse> {
     const { invocationId, invocationInputs } = returnControl;
     this.logger.info("handlReturnControl:inputs", {
@@ -130,7 +130,7 @@ export default class ChatService {
     // Route based on the functionName
     if (functionName === "SendSumaryEmail") {
       const summaryParam = invocationInput.parameters?.find(
-        (p) => p.name === "summary"
+        (p) => p.name === "summary",
       );
       if (!summaryParam) {
         this.logger.error("summaryParam not found");
@@ -142,7 +142,7 @@ export default class ChatService {
         sessionId,
         invocationId,
         actionGroup,
-        summary
+        summary,
       );
     }
 
@@ -156,7 +156,7 @@ export default class ChatService {
     sessionId: string,
     invocationId: string,
     actionGroup: string,
-    summary: string
+    summary: string,
   ): Promise<SendChatResponse> {
     this.logger.info("sendSummaryEmail", { sessionId, invocationId });
 
@@ -170,7 +170,7 @@ export default class ChatService {
       this.user.email,
       subject,
       textMessage,
-      htmlMessage
+      htmlMessage,
     );
 
     // Return response to agent

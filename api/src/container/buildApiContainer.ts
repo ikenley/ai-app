@@ -68,14 +68,14 @@ export const buildApiContainer = (): AwilixContainer<ApiCradle> => {
         userPoolId: config.cognito.userPoolId,
         tokenUse: "id",
         clientId: config.cognito.userPoolClientId,
-      })
+      }),
     ).singleton(),
 
     bedrockAgentClient: asFunction(
-      () => new BedrockAgentRuntimeClient()
+      () => new BedrockAgentRuntimeClient(),
     ).singleton(),
     bedrockRuntimeClient: asFunction(
-      () => new BedrockRuntimeClient()
+      () => new BedrockRuntimeClient(),
     ).singleton(),
     dynamoDBClient: asFunction(() => new DynamoDBClient()).singleton(),
     sesClient: asFunction(() => new SESClient()).singleton(),
@@ -96,7 +96,7 @@ export const buildApiContainer = (): AwilixContainer<ApiCradle> => {
     // App-lifetime: these register Express routes once at boot and must pull
     // request-scoped dependencies from res.locals.scope inside their handlers.
     authenticationMiddlewareProvider: asClass(
-      AuthenticationMiddlewareProvider
+      AuthenticationMiddlewareProvider,
     ).singleton(),
     authorizationMiddleware: asClass(AuthorizationMiddleware).singleton(),
     aiController: asClass(AiController).singleton(),

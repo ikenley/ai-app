@@ -25,9 +25,9 @@ const AiThreadWelcome = () => {
             <li>A private copy of a foundational AI model</li>
             <li>A &quot;Knowledge Base&quot; of internal data</li>
             <li>
-              &quot;Action Groups&quot; that allow the agent to make internal API calls.
-              For example, try asking it to send you an email summary of your
-              conversation.
+              &quot;Action Groups&quot; that allow the agent to make internal
+              API calls. For example, try asking it to send you an email summary
+              of your conversation.
             </li>
           </ol>
         </Box>

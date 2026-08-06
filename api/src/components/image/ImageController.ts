@@ -31,7 +31,7 @@ export default class ImageController {
         const { imageMetadataService } = getRequestScope(res).cradle;
         await imageMetadataService.publishImageRequest(req.body);
         res.send({});
-      }
+      },
     );
   }
 }

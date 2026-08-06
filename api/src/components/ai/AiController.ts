@@ -24,7 +24,7 @@ export default class AiController {
         const { aiService } = getRequestScope(res).cradle;
         const result = await aiService.createPun(req.body);
         res.send(result);
-      }
+      },
     );
   }
 }

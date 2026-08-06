@@ -17,7 +17,7 @@ const PunPanel = () => {
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setPrompt(event.target.value);
     },
-    [setPrompt]
+    [setPrompt],
   );
 
   const {

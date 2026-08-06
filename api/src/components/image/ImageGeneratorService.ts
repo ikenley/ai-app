@@ -57,14 +57,16 @@ export default class ImageGeneratorService {
     });
 
     const imagePart = response.candidates?.[0]?.content?.parts?.find(
-      (p: any) => p.inlineData
+      (p: any) => p.inlineData,
     );
     if (!imagePart?.inlineData?.data) {
       throw new Error("No image data in Gemini response");
     }
 
     const filePath = path.join("/tmp", `${imageId}.png`);
-    await writeFile(filePath, imagePart.inlineData.data, { encoding: "base64" });
+    await writeFile(filePath, imagePart.inlineData.data, {
+      encoding: "base64",
+    });
     return filePath;
   }
 
@@ -86,7 +88,7 @@ export default class ImageGeneratorService {
   private async sendEmail(
     destinationEmail: string,
     s3Key: string,
-    prompt: string
+    prompt: string,
   ) {
     this.logger.info("sendEmail", { destinationEmail });
 
@@ -105,7 +107,7 @@ export default class ImageGeneratorService {
       destinationEmail,
       subject,
       textMessage,
-      htmlMessage
+      htmlMessage,
     );
   }
 }

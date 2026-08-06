@@ -1,7 +1,10 @@
 import { jwtDecode } from "jwt-decode";
 
 export default class User {
-  constructor(public id: string, public email: string) {}
+  constructor(
+    public id: string,
+    public email: string,
+  ) {}
 
   public static fromIdToken(idToken: string) {
     const decoded = jwtDecode(idToken) as any;

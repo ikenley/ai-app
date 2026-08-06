@@ -31,7 +31,7 @@ export default class ChatController {
         const { chatService } = getRequestScope(res).cradle;
         const response = await chatService.sendPrompt(req.body);
         res.send(response);
-      }
+      },
     );
   }
 }

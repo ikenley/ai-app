@@ -15,7 +15,7 @@ import { SendChatParams, SendChatResponse } from "../types";
  */
 const getModelAdapter = (
   sendChatPrompt: (params: SendChatParams) => Promise<SendChatResponse>,
-  sessionId: string
+  sessionId: string,
 ): ChatModelAdapter => {
   return {
     async run({ messages }) {

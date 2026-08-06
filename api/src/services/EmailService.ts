@@ -21,7 +21,7 @@ export default class EmailService {
     destinationEmail: string,
     subject: string,
     textMessage: string,
-    htmlMessage: string
+    htmlMessage: string,
   ) {
     this.logger.info("sendEmail", { destinationEmail });
     const input = {

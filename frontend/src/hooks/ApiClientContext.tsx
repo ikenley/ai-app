@@ -33,7 +33,7 @@ _axios.interceptors.response.use(
       toast.error("An error has occurred 🔥");
     }
     Promise.reject(err);
-  }
+  },
 );
 
 export type ApiClientType = {
@@ -57,7 +57,7 @@ const defaultApiClient: ApiClientType = {
             delete headers["Authorization"];
             return data;
           },
-        }
+        },
       );
       const idToken = response.data as string;
 

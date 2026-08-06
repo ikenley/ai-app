@@ -34,7 +34,7 @@ export default class ImageMetadataService {
 
     const imageMetadata = await this.imageMetadataRepo.insert(
       prompt,
-      this.user
+      this.user,
     );
     const message = new CreateImageMessage(imageMetadata);
     this.logger.info("publishImageRequest", { message });

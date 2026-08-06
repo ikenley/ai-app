@@ -10,7 +10,10 @@
     "prebuild": "eslint --ext .ts,.tsx src",
     "build": "vite build",
     "serve": "vite preview",
-    "test": "vitest"
+    "test": "vitest",
+    "format": "biome format --write",
+    "lint": "biome lint",
+    "lint:write": "biome lint --write"
   },
   "dependencies": {
     "@assistant-ui/react": "^0.5.100",
@@ -30,6 +33,7 @@
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {
+    "@biomejs/biome": "2.5.7",
     "@eslint-react/eslint-plugin": "^5.9.2",
     "@eslint/js": "^10.0.1",
     "@testing-library/jest-dom": "^5.17.0",

@@ -24,7 +24,7 @@ const TEST_REQUEST_ID = "11111111-1111-1111-1111-111111111111";
 
 const testUser = new User(
   "00000000-0000-0000-0000-000000000001",
-  "authorized@example.com"
+  "authorized@example.com",
 );
 
 const API_KEYS = [
@@ -111,9 +111,9 @@ describe("API container", () => {
         const container = buildApiContainer();
 
         expect(() => (container.cradle as any)[key]).toThrow(
-          /is request-scoped/
+          /is request-scoped/,
         );
-      }
+      },
     );
 
     test("resolve once the scope supplies them", () => {
@@ -143,7 +143,7 @@ describe("API container", () => {
     scope.register({ requestId: asValue(TEST_REQUEST_ID) });
 
     expect(() => (scope.cradle as any).leaky).toThrow(
-      /has a shorter lifetime than its ancestor/
+      /has a shorter lifetime than its ancestor/,
     );
   });
 
@@ -171,7 +171,7 @@ describe("job runner container", () => {
     const container = buildJobRunnerContainer();
 
     expect(Object.keys(container.registrations).sort()).toEqual(
-      JOB_RUNNER_KEYS
+      JOB_RUNNER_KEYS,
     );
   });
 
@@ -244,9 +244,12 @@ describe("API graph resolution", () => {
     expect(buildApiContainer().cradle[key]).toBeDefined();
   });
 
-  test.each(API_REQUEST_SCOPED_KEYS)("resolves %s in a request scope", (key) => {
-    expect(apiRequestScope().cradle[key]).toBeDefined();
-  });
+  test.each(API_REQUEST_SCOPED_KEYS)(
+    "resolves %s in a request scope",
+    (key) => {
+      expect(apiRequestScope().cradle[key]).toBeDefined();
+    },
+  );
 
   test("scoped services are shared within a request but not across requests", () => {
     const container = buildApiContainer();
@@ -276,7 +279,7 @@ describe("API graph resolution", () => {
     const scope = apiRequestScope();
 
     expect((scope.cradle.loggerProvider as any).requestId).toBe(
-      TEST_REQUEST_ID
+      TEST_REQUEST_ID,
     );
   });
 });
@@ -290,7 +293,7 @@ describe("job runner graph resolution", () => {
     const { cradle } = buildJobRunnerContainer();
 
     expect((cradle.imageMetadataService as any).user.email).toBe(
-      JOB_RUNNER_USER_EMAIL
+      JOB_RUNNER_USER_EMAIL,
     );
   });
 });

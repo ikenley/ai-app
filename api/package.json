@@ -14,7 +14,9 @@
     "test-coverage": "NODE_OPTIONS='--experimental-vm-modules' jest --coverage",
     "test-api-lambda": "node ./src/test-api-lambda.ts",
     "test-job-runner": "node ./src/test-job-runner.ts",
-    "lint": "eslint src/ --ext .js,.jsx,.ts,.tsx",
+    "format": "biome format --write",
+    "lint": "biome lint",
+    "lint:write": "biome lint --write",
     "clean": "rm -rf dist build"
   },
   "author": "ikenley",
@@ -48,6 +50,7 @@
     "winston": "^3.19.0"
   },
   "devDependencies": {
+    "@biomejs/biome": "2.5.7",
     "@types/aws-lambda": "^8.10.162",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",

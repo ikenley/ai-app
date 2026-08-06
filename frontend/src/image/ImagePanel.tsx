@@ -49,7 +49,7 @@ const ImagePanel = () => {
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setPrompt(event.target.value);
     },
-    [setPrompt]
+    [setPrompt],
   );
 
   const handleStyleChange = (event: SelectChangeEvent) => {
@@ -58,7 +58,7 @@ const ImagePanel = () => {
 
   const { mutate: handleCreateImage, isLoading: punIsLoading } = useMutation(
     createImage,
-    {}
+    {},
   );
 
   const handleSubmit = useCallback(() => {

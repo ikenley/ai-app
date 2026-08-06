@@ -38,7 +38,7 @@ export default class StorybookService {
   private async startJobExecution(
     title: string,
     description: string,
-    artNote: string
+    artNote: string,
   ): Promise<void> {
     const input = {
       stateMachineArn: this.config.stateFunctionArn,

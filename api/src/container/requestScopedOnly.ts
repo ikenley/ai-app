@@ -11,14 +11,12 @@
  * and an unregistered User, which tsyringe reflected into
  * `new User(undefined, undefined)` rather than rejecting.
  */
-export const requestScopedOnly =
-  (key: string) =>
-  (): never => {
-    throw new Error(
-      `"${key}" is request-scoped and has no value outside a request. ` +
-        `It is registered on the scope created by dependencyInjectionMiddleware; ` +
-        `resolve it from res.locals.scope rather than the root container.`
-    );
-  };
+export const requestScopedOnly = (key: string) => (): never => {
+  throw new Error(
+    `"${key}" is request-scoped and has no value outside a request. ` +
+      `It is registered on the scope created by dependencyInjectionMiddleware; ` +
+      `resolve it from res.locals.scope rather than the root container.`,
+  );
+};
 
 export default requestScopedOnly;

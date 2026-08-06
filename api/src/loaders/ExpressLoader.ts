@@ -58,7 +58,7 @@ export default class ExpressLoader {
           // Configure Morgan to use our custom logger with the http severity
           write: (message) => logger.http(message.trim()),
         },
-      })
+      }),
     );
 
     // Load API routes

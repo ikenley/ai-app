@@ -55,7 +55,7 @@ export const buildJobRunnerContainer = (): AwilixContainer<JobRunnerCradle> => {
 
     genAI: asFunction(
       ({ config }: JobRunnerCradle) =>
-        new GoogleGenAI({ apiKey: config.googleGenAI.apiKey })
+        new GoogleGenAI({ apiKey: config.googleGenAI.apiKey }),
     ).singleton(),
     dynamoDBClient: asFunction(() => new DynamoDBClient()).singleton(),
     s3Client: asFunction(() => new S3Client()).singleton(),
