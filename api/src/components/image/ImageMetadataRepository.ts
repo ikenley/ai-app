@@ -1,8 +1,12 @@
-import type winston from "winston";
+import {
+  type DynamoDBDocumentClient,
+  GetCommand,
+  PutCommand,
+} from "@aws-sdk/lib-dynamodb";
 import { v4 as uuidv4 } from "uuid";
-import { type DynamoDBDocumentClient, PutCommand, GetCommand } from "@aws-sdk/lib-dynamodb";
-import type { ConfigOptions } from "../../config/index.ts";
+import type winston from "winston";
 import type User from "../../auth/User.ts";
+import type { ConfigOptions } from "../../config/index.ts";
 import type { CoreCradle } from "../../container/Cradle.ts";
 import type ImageMetadataEntity from "./ImageMetadataEntity.ts";
 
@@ -88,9 +92,8 @@ export default class ImageMetadataRepository {
       throw new Error(`No item found with imageId ${imageId}`);
     }
 
-    const completedAt = item.completedAt === null
-      ? null
-      : new Date(item.completedAt);
+    const completedAt =
+      item.completedAt === null ? null : new Date(item.completedAt);
 
     const image: ImageMetadataEntity = {
       imageId: item.imageId,

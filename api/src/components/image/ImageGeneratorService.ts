@@ -1,12 +1,12 @@
 import { readFileSync } from "node:fs";
 import { writeFile } from "node:fs/promises";
 import * as path from "node:path";
-import { type S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
-import type winston from "winston";
+import { PutObjectCommand, type S3Client } from "@aws-sdk/client-s3";
 import type { GoogleGenAI } from "@google/genai";
+import type winston from "winston";
 import type { ConfigOptions } from "../../config/index.ts";
-import type EmailService from "../../services/EmailService.ts";
 import type { JobRunnerCradle } from "../../container/Cradle.ts";
+import type EmailService from "../../services/EmailService.ts";
 import type CreateImageMessage from "./CreateImageMessage.ts";
 import type ImageMetadataService from "./ImageMetadataService.ts";
 

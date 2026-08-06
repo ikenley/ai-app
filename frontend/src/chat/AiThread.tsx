@@ -1,6 +1,6 @@
-import { Thread, Composer, type ThreadConfig } from "@assistant-ui/react";
-import AiThreadWelcome from "./AiThreadWelcome";
+import { Composer, Thread, type ThreadConfig } from "@assistant-ui/react";
 import AiAssistantMessage from "./AiAssistantMessage";
+import AiThreadWelcome from "./AiThreadWelcome";
 import "./AiThread.css";
 
 /** Custom overrides for assistant-ui Thread.

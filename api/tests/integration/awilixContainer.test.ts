@@ -1,15 +1,15 @@
-import { describe, expect, test } from "vitest";
-import { asFunction, asValue } from "awilix";
-import { NIL } from "uuid";
-import { CognitoJwtVerifier } from "aws-jwt-verify";
 import { SFNClient } from "@aws-sdk/client-sfn";
 import { GoogleGenAI } from "@google/genai";
+import { asFunction, asValue } from "awilix";
+import { CognitoJwtVerifier } from "aws-jwt-verify";
+import { NIL } from "uuid";
+import { describe, expect, test } from "vitest";
+import User from "../../src/auth/User.ts";
 import buildApiContainer from "../../src/container/buildApiContainer.ts";
 import buildJobRunnerContainer, {
   JOB_RUNNER_USER_EMAIL,
 } from "../../src/container/buildJobRunnerContainer.ts";
 import type { ApiCradle } from "../../src/container/Cradle.ts";
-import User from "../../src/auth/User.ts";
 
 /**
  * Validation harness for the awilix containers (see docs/di-migration.md).

@@ -1,4 +1,4 @@
-import { type SSMClient, GetParameterCommand } from "@aws-sdk/client-ssm";
+import { GetParameterCommand, type SSMClient } from "@aws-sdk/client-ssm";
 
 /** Service which fetches an SSM param and loads the properties into environment variables.
  * Designed to be a cheap, secure way to load sensitive environment vars into Lambda functions.

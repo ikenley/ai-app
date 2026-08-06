@@ -1,11 +1,11 @@
-import type winston from "winston";
-import type { CreatePunParams, CreatePunResponse } from "../../types/index.ts";
-import type { ConfigOptions } from "../../config/index.ts";
-import type { ApiCradle } from "../../container/Cradle.ts";
 import {
   type BedrockRuntimeClient,
   InvokeModelCommand,
 } from "@aws-sdk/client-bedrock-runtime";
+import type winston from "winston";
+import type { ConfigOptions } from "../../config/index.ts";
+import type { ApiCradle } from "../../container/Cradle.ts";
+import type { CreatePunParams, CreatePunResponse } from "../../types/index.ts";
 
 export default class AiService {
   private logger: winston.Logger;

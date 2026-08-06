@@ -1,8 +1,8 @@
-import type winston from "winston";
 import type { SQSEvent } from "aws-lambda";
+import type winston from "winston";
 import type { JobRunnerCradle } from "../../container/Cradle.ts";
-import type ImageGeneratorService from "./ImageGeneratorService.ts";
 import type CreateImageMessage from "./CreateImageMessage.ts";
+import type ImageGeneratorService from "./ImageGeneratorService.ts";
 
 /** Handler for job-runner lambda function.
  * Parses event and routes to relevent business layer.

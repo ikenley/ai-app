@@ -1,9 +1,9 @@
-import type winston from "winston";
 import { SendMessageCommand, type SQSClient } from "@aws-sdk/client-sqs";
-import type { RequestImageParams } from "../../types/index.ts";
-import type { ConfigOptions } from "../../config/index.ts";
+import type winston from "winston";
 import type User from "../../auth/User.ts";
+import type { ConfigOptions } from "../../config/index.ts";
 import type { CoreCradle } from "../../container/Cradle.ts";
+import type { RequestImageParams } from "../../types/index.ts";
 import CreateImageMessage from "./CreateImageMessage.ts";
 import type ImageMetadataRepository from "./ImageMetadataRepository.ts";
 

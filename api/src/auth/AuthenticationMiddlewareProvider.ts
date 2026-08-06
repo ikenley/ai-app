@@ -1,7 +1,7 @@
 import { asValue } from "awilix";
-import type { Request, Response, NextFunction } from "express";
-import UnauthorizedException from "../middleware/UnauthorizedException.ts";
+import type { NextFunction, Request, Response } from "express";
 import { getRequestScope } from "../container/getRequestScope.ts";
+import UnauthorizedException from "../middleware/UnauthorizedException.ts";
 
 /**
  * Provides the "isAuthenticated" middleware.
@@ -20,10 +20,7 @@ export default class AuthenticationMiddlewareProvider {
       res: Response,
       next: NextFunction,
     ) => {
-      if (
-        !req?.headers?.authorization ||
-        req.headers.authorization === ""
-      ) {
+      if (!req?.headers?.authorization || req.headers.authorization === "") {
         throw new UnauthorizedException();
       }
 

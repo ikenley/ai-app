@@ -4,9 +4,9 @@ import {
   BranchPicker,
   useMessageContext,
 } from "@assistant-ui/react";
+import SmartToyIcon from "@mui/icons-material/SmartToy";
 import { Avatar, Box, CircularProgress } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import SmartToyIcon from "@mui/icons-material/SmartToy";
 
 /** A message written by the AI.
  * https://www.assistant-ui.com/docs/ui/styled/Decomposition#assistantmessage

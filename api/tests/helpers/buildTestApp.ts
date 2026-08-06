@@ -1,5 +1,5 @@
-import express from "express";
 import { asValue } from "awilix";
+import express from "express";
 import buildApiContainer from "../../src/container/buildApiContainer.ts";
 
 export const AUTHORIZED_EMAIL = "authorized@example.com";

@@ -1,8 +1,8 @@
 import { type Request, type Response, Router } from "express";
-import type { CreatePunParams } from "../../types/index.ts";
+import type AuthenticationMiddlewareProvider from "../../auth/AuthenticationMiddlewareProvider.ts";
 import type { ApiCradle } from "../../container/Cradle.ts";
 import { getRequestScope } from "../../container/getRequestScope.ts";
-import type AuthenticationMiddlewareProvider from "../../auth/AuthenticationMiddlewareProvider.ts";
+import type { CreatePunParams } from "../../types/index.ts";
 
 const route = Router();
 
@@ -20,7 +20,10 @@ export default class AiController {
 
     route.post(
       "/pun",
-      async (req: Request<unknown, unknown, CreatePunParams>, res: Response) => {
+      async (
+        req: Request<unknown, unknown, CreatePunParams>,
+        res: Response,
+      ) => {
         const { aiService } = getRequestScope(res).cradle;
         const result = await aiService.createPun(req.body);
         res.send(result);

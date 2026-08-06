@@ -1,9 +1,9 @@
-import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
+import Typography from "@mui/material/Typography";
 import "@assistant-ui/react/styles/index.css";
 import Navbar from "../shared/Navbar";
-import { ApiRuntimeProvider } from "./ApiRuntimeProvider";
 import AiChatPanel from "./AiChatPanel";
+import { ApiRuntimeProvider } from "./ApiRuntimeProvider";
 
 const ChatPage = () => {
   return (

@@ -1,7 +1,7 @@
 import { ThreadWelcome } from "@assistant-ui/react";
+import SmartToyIcon from "@mui/icons-material/SmartToy";
 import { Avatar, Box } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import SmartToyIcon from "@mui/icons-material/SmartToy";
 import "./AiThreadWelcome.css";
 
 const AiThreadWelcome = () => {
