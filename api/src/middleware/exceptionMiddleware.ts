@@ -3,14 +3,13 @@ import { v4 as uuidv4 } from "uuid";
 import { getConfigOptions } from "../config/index.ts";
 import LoggerInstance from "../loaders/logger.ts";
 
-const config = getConfigOptions();
-
 export const exceptionMiddleware = (
   err: any,
   _req: Request,
   res: Response,
   _next: any,
 ) => {
+  const config = getConfigOptions();
   const nodeEnv = config.nodeEnv;
   const isProduction = nodeEnv !== "development";
   const errorId = uuidv4();
@@ -21,7 +20,6 @@ export const exceptionMiddleware = (
   const status = err.status || 500;
 
   if (status === 500) {
-    LoggerInstance.info(`config.nodeEnv=${config.nodeEnv}`, config.nodeEnv);
     LoggerInstance.error(defaultMessage, {
       errorMessage: message,
       stack,
