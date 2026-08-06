@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import { useAuthContext } from "./AuthContext";
 import Loadmask from "../shared/Loadmask";
 

@@ -1,8 +1,9 @@
-import React, { createContext, useContext, useMemo } from "react";
+import type React from "react";
+import { createContext, useContext, useMemo } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import config from "../config";
-import {
+import type {
   CreatePunParams,
   CreatePunResponse,
   RequestImageParams,
