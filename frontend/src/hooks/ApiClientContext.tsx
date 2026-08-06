@@ -55,7 +55,7 @@ const defaultApiClient: ApiClientType = {
         {
           withCredentials: true,
           transformRequest: (data: any, headers: any) => {
-            delete headers["Authorization"];
+            delete headers.Authorization;
             return data;
           },
         },
@@ -63,8 +63,8 @@ const defaultApiClient: ApiClientType = {
       const idToken = response.data as string;
 
       // Add authorization header to all requests
-      _axios.defaults.headers["Authorization"] = `bearer ${idToken}`;
-      _axios.defaults.headers.common["Authorization"] = `bearer ${idToken}`;
+      _axios.defaults.headers.Authorization = `bearer ${idToken}`;
+      _axios.defaults.headers.common.Authorization = `bearer ${idToken}`;
 
       return idToken;
     } catch {

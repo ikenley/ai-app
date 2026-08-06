@@ -50,7 +50,7 @@ const ImagePanel = () => {
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setPrompt(event.target.value);
     },
-    [setPrompt],
+    [],
   );
 
   const handleStyleChange = (event: SelectChangeEvent) => {

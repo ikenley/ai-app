@@ -17,21 +17,21 @@ const ImagePanel = () => {
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setTitle(event.target.value);
     },
-    [setTitle],
+    [],
   );
 
   const handleDescriptionChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setDescription(event.target.value);
     },
-    [setDescription],
+    [],
   );
 
   const handleArtNoteChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setArtNote(event.target.value);
     },
-    [setArtNote],
+    [],
   );
 
   const { mutate: handleCreateStory, isLoading: storyIsLoading } = useMutation(
