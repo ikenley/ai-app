@@ -60,9 +60,10 @@ let app: express.Application | null = null;
  * routing, both auth middlewares, the request-scoped child container, and the
  * full service graph — is the production wiring.
  *
- * Call this at most once per Jest module registry. Controllers register their
- * handlers onto module-level `Router()` singletons, so a second boot inside one
- * test file would stack duplicate handlers onto the same router.
+ * Call this at most once per module registry — Vitest gives each test file its
+ * own. Controllers register their handlers onto module-level `Router()`
+ * singletons, so a second boot inside one test file would stack duplicate
+ * handlers onto the same router.
  */
 export const buildTestApp = async () => {
   if (app) {
@@ -77,7 +78,7 @@ export const buildTestApp = async () => {
   container.register({
     jwtVerifier: asValue(jwtVerifierStub as any),
     bedrockRuntimeClient: asValue(bedrockRuntimeStub as any),
-    dynamoDBClient: asValue(dynamoDBStub as any),
+    dynamoDBDocumentClient: asValue(dynamoDBStub as any),
     sqsClient: asValue(sqsStub as any),
     sfnClient: asValue(sfnStub as any),
   });

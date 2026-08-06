@@ -1,3 +1,4 @@
+import { describe, expect, test } from "vitest";
 import { asFunction, asValue } from "awilix";
 import { NIL } from "uuid";
 import { CognitoJwtVerifier } from "aws-jwt-verify";
@@ -37,7 +38,7 @@ const API_KEYS = [
   "chatController",
   "chatService",
   "config",
-  "dynamoDBClient",
+  "dynamoDBDocumentClient",
   "emailService",
   "expressLoader",
   "imageController",
@@ -60,7 +61,7 @@ const API_KEYS = [
 
 const JOB_RUNNER_KEYS = [
   "config",
-  "dynamoDBClient",
+  "dynamoDBDocumentClient",
   "emailService",
   "genAI",
   "imageGeneratorService",

@@ -3,7 +3,7 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      nodejs: 22
+      nodejs: 24
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
@@ -16,8 +16,16 @@ phases:
       - echo Build started on `date`
       - IMAGE_TAG=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - echo "IMAGE_TAG=$IMAGE_TAG"
-      - echo "Building Lambda Docker image..."
       - cd api
+      # Lint and test before any image is built, so a failure here costs a
+      # Docker build rather than a deploy. The images install their own
+      # dependencies, so this needs its own npm ci on the host.
+      - npm ci
+      - echo "Linting API..."
+      - npm run lint
+      - echo "Testing API..."
+      - npm test
+      - echo "Building Lambda Docker image..."
       - LAMBDA_IMAGE_URI="$LAMBDA_REPOSITORY_URL:$IMAGE_TAG"
       - echo LAMBDA_IMAGE_URI=$LAMBDA_IMAGE_URI
       - docker build -t $LAMBDA_REPOSITORY_NAME:$IMAGE_TAG -f Dockerfile-lambda --build-arg APP_VERSION=$IMAGE_TAG .
