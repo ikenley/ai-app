@@ -10,8 +10,9 @@
     "dev": "NODE_ENV=development node --watch src/index.ts",
     "start": "node src/index.ts",
     "run-job-runner": "node ./src/index-job-runner.ts",
-    "test": "NODE_OPTIONS='--experimental-vm-modules' jest --detectOpenHandles",
-    "test-coverage": "NODE_OPTIONS='--experimental-vm-modules' jest --coverage",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test-coverage": "vitest run --coverage",
     "test-api-lambda": "node ./src/test-api-lambda.ts",
     "test-job-runner": "node ./src/test-job-runner.ts",
     "format": "biome format --write",
@@ -55,7 +56,6 @@
     "@types/aws-lambda": "^8.10.162",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
-    "@types/jest": "^30.0.0",
     "@types/method-override": "^3.0.0",
     "@types/morgan": "^1.9.10",
     "@types/node": "^26.1.1",
@@ -63,10 +63,10 @@
     "@types/uuid": "^11.0.0",
     "@typescript-eslint/eslint-plugin": "^8.62.0",
     "@typescript-eslint/parser": "^8.62.0",
+    "@vitest/coverage-v8": "^4.1.10",
     "eslint": "^10.7.0",
-    "jest": "^30.4.2",
     "supertest": "^7.2.2",
-    "ts-jest": "^29.4.11",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.10"
   }
 }

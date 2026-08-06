@@ -1,7 +1,7 @@
 /**
  * Hermetic environment for the test suite.
  *
- * This runs as a Jest `setupFiles` entry, i.e. before any test module (and
+ * This runs as a Vitest `setupFiles` entry, i.e. before any test module (and
  * therefore before `src/config/index.ts`) is imported. That ordering matters:
  * `src/config/index.ts` calls `dotenv.config({ path: "../.env" })` at module
  * load, and dotenv does not overwrite keys that are already present in
