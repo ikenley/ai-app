@@ -29,11 +29,11 @@ const context: Context = {
   logGroupName: "",
   logStreamName: "",
   getRemainingTimeInMillis: () => 1000,
-  done: (_error?: Error | undefined, _result?: any) => { },
+  done: (_error?: Error | undefined, _result?: any) => {},
   fail: () => {
     throw new Error("Function not implemented.");
   },
-  succeed: () => { },
+  succeed: () => {},
 };
 
 const invoke = async () => {
@@ -44,7 +44,6 @@ const invoke = async () => {
 
 try {
   await invoke();
-}
-catch (e) {
+} catch (e) {
   console.error("Error invoking handler:", e);
 }

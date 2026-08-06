@@ -1,9 +1,9 @@
-import winston from "winston";
+import type winston from "winston";
 import type { CreatePunParams, CreatePunResponse } from "../../types/index.ts";
-import { ConfigOptions } from "../../config/index.ts";
+import type { ConfigOptions } from "../../config/index.ts";
 import type { ApiCradle } from "../../container/Cradle.ts";
 import {
-  BedrockRuntimeClient,
+  type BedrockRuntimeClient,
   InvokeModelCommand,
 } from "@aws-sdk/client-bedrock-runtime";
 

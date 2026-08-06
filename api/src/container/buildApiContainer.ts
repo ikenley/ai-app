@@ -11,6 +11,7 @@ import { CognitoJwtVerifier } from "aws-jwt-verify";
 import { BedrockAgentRuntimeClient } from "@aws-sdk/client-bedrock-agent-runtime";
 import { BedrockRuntimeClient } from "@aws-sdk/client-bedrock-runtime";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
+import { DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
 import { SESClient } from "@aws-sdk/client-ses";
 import { SFNClient } from "@aws-sdk/client-sfn";
 import { SQSClient } from "@aws-sdk/client-sqs";
@@ -68,16 +69,18 @@ export const buildApiContainer = (): AwilixContainer<ApiCradle> => {
         userPoolId: config.cognito.userPoolId,
         tokenUse: "id",
         clientId: config.cognito.userPoolClientId,
-      })
+      }),
     ).singleton(),
 
     bedrockAgentClient: asFunction(
-      () => new BedrockAgentRuntimeClient()
+      () => new BedrockAgentRuntimeClient(),
     ).singleton(),
     bedrockRuntimeClient: asFunction(
-      () => new BedrockRuntimeClient()
+      () => new BedrockRuntimeClient(),
     ).singleton(),
-    dynamoDBClient: asFunction(() => new DynamoDBClient()).singleton(),
+    dynamoDBDocumentClient: asFunction(() =>
+      DynamoDBDocumentClient.from(new DynamoDBClient()),
+    ).singleton(),
     sesClient: asFunction(() => new SESClient()).singleton(),
     sfnClient: asFunction(() => new SFNClient()).singleton(),
     sqsClient: asFunction(() => new SQSClient()).singleton(),
@@ -96,7 +99,7 @@ export const buildApiContainer = (): AwilixContainer<ApiCradle> => {
     // App-lifetime: these register Express routes once at boot and must pull
     // request-scoped dependencies from res.locals.scope inside their handlers.
     authenticationMiddlewareProvider: asClass(
-      AuthenticationMiddlewareProvider
+      AuthenticationMiddlewareProvider,
     ).singleton(),
     authorizationMiddleware: asClass(AuthorizationMiddleware).singleton(),
     aiController: asClass(AiController).singleton(),

@@ -2,7 +2,7 @@ import type winston from "winston";
 import type { CognitoJwtVerifier } from "aws-jwt-verify";
 import type { BedrockAgentRuntimeClient } from "@aws-sdk/client-bedrock-agent-runtime";
 import type { BedrockRuntimeClient } from "@aws-sdk/client-bedrock-runtime";
-import type { DynamoDBClient } from "@aws-sdk/client-dynamodb";
+import type { DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
 import type { S3Client } from "@aws-sdk/client-s3";
 import type { SESClient } from "@aws-sdk/client-ses";
 import type { SFNClient } from "@aws-sdk/client-sfn";
@@ -55,7 +55,7 @@ export interface CoreCradle {
   /** Request-scoped. Registered by the authentication middleware. */
   user: User;
 
-  dynamoDBClient: DynamoDBClient;
+  dynamoDBDocumentClient: DynamoDBDocumentClient;
   sesClient: SESClient;
   sqsClient: SQSClient;
 

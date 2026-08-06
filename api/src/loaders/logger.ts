@@ -7,7 +7,7 @@ export const LoggerToken = "logger";
 const transports = [];
 if (process.env.NODE_ENV === "test") {
   transports.push(
-    new winston.transports.File({ filename: `${config.app.name}.log` })
+    new winston.transports.File({ filename: `${config.app.name}.log` }),
   );
 } else {
   if (process.env.NODE_ENV !== "development") {
@@ -21,15 +21,19 @@ if (process.env.NODE_ENV === "test") {
           winston.format.metadata({
             fillExcept: ["message", "level", "timestamp", "label"],
           }),
-          winston.format.printf(({ timestamp, level, message, metadata }: any) => {
-            const moduleName = metadata?.module ? ` [${metadata.module}]` : "";
-            return `${timestamp} ${level}${moduleName}: ${message} ${
-              metadata ? JSON.stringify(metadata) : ""
-            }`;
-          }),
-          winston.format.errors({ stack: true })
+          winston.format.printf(
+            ({ timestamp, level, message, metadata }: any) => {
+              const moduleName = metadata?.module
+                ? ` [${metadata.module}]`
+                : "";
+              return `${timestamp} ${level}${moduleName}: ${message} ${
+                metadata ? JSON.stringify(metadata) : ""
+              }`;
+            },
+          ),
+          winston.format.errors({ stack: true }),
         ),
-      })
+      }),
     );
   }
 }
@@ -42,7 +46,7 @@ const LoggerInstance = winston.createLogger({
       format: "YYYY-MM-DD HH:mm:ss",
     }),
     winston.format.json(),
-    winston.format.errors({ stack: true })
+    winston.format.errors({ stack: true }),
   ),
   transports,
   defaultMeta: {

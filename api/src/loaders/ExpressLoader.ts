@@ -5,10 +5,10 @@ import cors from "cors";
 import morgan from "morgan";
 import methodOverride from "method-override";
 import logger from "./logger.ts";
-import { ConfigOptions, getConfigOptions } from "../config/index.ts";
+import { type ConfigOptions, getConfigOptions } from "../config/index.ts";
 import requestScopeMiddleware from "../middleware/requestScopeMiddleware.ts";
 import exceptionMiddleware from "../middleware/exceptionMiddleware.ts";
-import RouteService from "../routes/RouteService.ts";
+import type RouteService from "../routes/RouteService.ts";
 import type { ApiCradle } from "../container/Cradle.ts";
 
 const getCorsOrigin = (config: ConfigOptions) => {
@@ -58,7 +58,7 @@ export default class ExpressLoader {
           // Configure Morgan to use our custom logger with the http severity
           write: (message) => logger.http(message.trim()),
         },
-      })
+      }),
     );
 
     // Load API routes
@@ -68,7 +68,7 @@ export default class ExpressLoader {
     /// catch 404 and forward to error handler
     app.use((_req, _res, next) => {
       const err: any = new Error("Not Found");
-      err["status"] = 404;
+      err.status = 404;
       next(err);
     });
 

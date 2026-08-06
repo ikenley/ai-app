@@ -14,7 +14,9 @@
     "test-coverage": "NODE_OPTIONS='--experimental-vm-modules' jest --coverage",
     "test-api-lambda": "node ./src/test-api-lambda.ts",
     "test-job-runner": "node ./src/test-job-runner.ts",
-    "lint": "eslint src/ --ext .js,.jsx,.ts,.tsx",
+    "format": "biome format --write",
+    "lint": "biome lint",
+    "lint:write": "biome lint --write",
     "clean": "rm -rf dist build"
   },
   "author": "ikenley",
@@ -32,6 +34,7 @@
     "@aws-sdk/client-sfn": "^3.1085.0",
     "@aws-sdk/client-sqs": "^3.1090.0",
     "@aws-sdk/client-ssm": "^3.1091.0",
+    "@aws-sdk/lib-dynamodb": "^3.1104.0",
     "@aws-sdk/lib-storage": "^3.1075.0",
     "@google/genai": "^2.10.0",
     "@vendia/serverless-express": "^4.12.6",
@@ -48,6 +51,7 @@
     "winston": "^3.19.0"
   },
   "devDependencies": {
+    "@biomejs/biome": "2.5.7",
     "@types/aws-lambda": "^8.10.162",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",

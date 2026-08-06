@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from "express";
-import { ConfigOptions } from "../config/index.ts";
+import type { ConfigOptions } from "../config/index.ts";
 import type { ApiCradle } from "../container/Cradle.ts";
 import { getRequestScope } from "../container/getRequestScope.ts";
 import ForbiddenException from "../middleware/ForbiddenException.ts";
@@ -18,7 +18,7 @@ export default class AuthorizationMiddleware {
   public isAuthorized = async (
     _req: Request,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ) => {
     const scope = getRequestScope(res);
     const user = scope.cradle.user;
@@ -30,7 +30,7 @@ export default class AuthorizationMiddleware {
     // else return 403 error
     else {
       const logger = scope.cradle.loggerProvider.provide(
-        "AuthorizationMiddleware"
+        "AuthorizationMiddleware",
       );
       logger.info("Unauthorized user", { email: user.email });
       throw new ForbiddenException();

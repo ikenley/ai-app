@@ -1,4 +1,4 @@
-import { SSMClient, GetParameterCommand } from "@aws-sdk/client-ssm";
+import { type SSMClient, GetParameterCommand } from "@aws-sdk/client-ssm";
 
 /** Service which fetches an SSM param and loads the properties into environment variables.
  * Designed to be a cheap, secure way to load sensitive environment vars into Lambda functions.
@@ -27,7 +27,7 @@ export default class SsmParamLoader {
     });
     const response = await this.client.send(command);
 
-    if (!response.Parameter || !response.Parameter.Value) {
+    if (!response?.Parameter?.Value) {
       throw new Error("Invalid SSM Parameter");
     }
 

@@ -9,7 +9,7 @@ export const exceptionMiddleware = (
   err: any,
   _req: Request,
   res: Response,
-  _next: any
+  _next: any,
 ) => {
   const nodeEnv = config.nodeEnv;
   const isProduction = nodeEnv !== "development";

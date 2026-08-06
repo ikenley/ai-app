@@ -1,7 +1,7 @@
-import winston from "winston";
-import { SFNClient, StartExecutionCommand } from "@aws-sdk/client-sfn";
-import { ConfigOptions } from "../../config/index.ts";
-import User from "../../auth/User.ts";
+import type winston from "winston";
+import { type SFNClient, StartExecutionCommand } from "@aws-sdk/client-sfn";
+import type { ConfigOptions } from "../../config/index.ts";
+import type User from "../../auth/User.ts";
 import type { ApiCradle } from "../../container/Cradle.ts";
 import type { CreateStoryParams } from "../../types/index.ts";
 
@@ -38,7 +38,7 @@ export default class StorybookService {
   private async startJobExecution(
     title: string,
     description: string,
-    artNote: string
+    artNote: string,
   ): Promise<void> {
     const input = {
       stateMachineArn: this.config.stateFunctionArn,

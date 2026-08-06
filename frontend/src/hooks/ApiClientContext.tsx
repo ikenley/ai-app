@@ -1,8 +1,9 @@
-import React, { createContext, useContext, useMemo } from "react";
+import type React from "react";
+import { createContext, useContext, useMemo } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import config from "../config";
-import {
+import type {
   CreatePunParams,
   CreatePunResponse,
   RequestImageParams,
@@ -33,7 +34,7 @@ _axios.interceptors.response.use(
       toast.error("An error has occurred 🔥");
     }
     Promise.reject(err);
-  }
+  },
 );
 
 export type ApiClientType = {
@@ -54,16 +55,16 @@ const defaultApiClient: ApiClientType = {
         {
           withCredentials: true,
           transformRequest: (data: any, headers: any) => {
-            delete headers["Authorization"];
+            delete headers.Authorization;
             return data;
           },
-        }
+        },
       );
       const idToken = response.data as string;
 
       // Add authorization header to all requests
-      _axios.defaults.headers["Authorization"] = `bearer ${idToken}`;
-      _axios.defaults.headers.common["Authorization"] = `bearer ${idToken}`;
+      _axios.defaults.headers.Authorization = `bearer ${idToken}`;
+      _axios.defaults.headers.common.Authorization = `bearer ${idToken}`;
 
       return idToken;
     } catch {

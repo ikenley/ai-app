@@ -1,14 +1,14 @@
-import { readFileSync } from "fs";
-import { writeFile } from "fs/promises";
-import * as path from "path";
-import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
-import winston from "winston";
-import { GoogleGenAI } from "@google/genai";
-import { ConfigOptions } from "../../config/index.ts";
-import EmailService from "../../services/EmailService.ts";
+import { readFileSync } from "node:fs";
+import { writeFile } from "node:fs/promises";
+import * as path from "node:path";
+import { type S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import type winston from "winston";
+import type { GoogleGenAI } from "@google/genai";
+import type { ConfigOptions } from "../../config/index.ts";
+import type EmailService from "../../services/EmailService.ts";
 import type { JobRunnerCradle } from "../../container/Cradle.ts";
-import CreateImageMessage from "./CreateImageMessage.ts";
-import ImageMetadataService from "./ImageMetadataService.ts";
+import type CreateImageMessage from "./CreateImageMessage.ts";
+import type ImageMetadataService from "./ImageMetadataService.ts";
 
 export default class ImageGeneratorService {
   private logger: winston.Logger;
@@ -57,14 +57,16 @@ export default class ImageGeneratorService {
     });
 
     const imagePart = response.candidates?.[0]?.content?.parts?.find(
-      (p: any) => p.inlineData
+      (p: any) => p.inlineData,
     );
     if (!imagePart?.inlineData?.data) {
       throw new Error("No image data in Gemini response");
     }
 
     const filePath = path.join("/tmp", `${imageId}.png`);
-    await writeFile(filePath, imagePart.inlineData.data, { encoding: "base64" });
+    await writeFile(filePath, imagePart.inlineData.data, {
+      encoding: "base64",
+    });
     return filePath;
   }
 
@@ -86,7 +88,7 @@ export default class ImageGeneratorService {
   private async sendEmail(
     destinationEmail: string,
     s3Key: string,
-    prompt: string
+    prompt: string,
   ) {
     this.logger.info("sendEmail", { destinationEmail });
 
@@ -105,7 +107,7 @@ export default class ImageGeneratorService {
       destinationEmail,
       subject,
       textMessage,
-      htmlMessage
+      htmlMessage,
     );
   }
 }

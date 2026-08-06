@@ -1,8 +1,9 @@
 import type { SQSEvent, Context } from "aws-lambda";
 import { SSMClient } from "@aws-sdk/client-ssm";
 import buildJobRunnerContainer from "./container/buildJobRunnerContainer.ts";
-import JobRunnerService from "./components/image/JobRunnerService.ts";
+import type JobRunnerService from "./components/image/JobRunnerService.ts";
 import SsmParamLoader from "./loaders/SsmParamLoader.ts";
+import { requireEnv } from "./config/env.ts";
 
 let jobRunnerService: JobRunnerService | null = null;
 
@@ -11,7 +12,7 @@ const setup = async (event: SQSEvent) => {
   // Inject SSM param configuration into env vars
   const ssmClient = new SSMClient();
   const ssmParamLoader = new SsmParamLoader(ssmClient);
-  const configParamName = process.env.CONFIG_SSM_PARAM_NAME!;
+  const configParamName = requireEnv("CONFIG_SSM_PARAM_NAME");
   await ssmParamLoader.loadToEnv(configParamName);
 
   // Built after loadToEnv, since the container reads config from env vars

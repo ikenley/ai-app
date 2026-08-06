@@ -1,4 +1,5 @@
-import React, { useCallback, useState } from "react";
+import type React from "react";
+import { useCallback, useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -16,26 +17,26 @@ const ImagePanel = () => {
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setTitle(event.target.value);
     },
-    [setTitle]
+    [],
   );
 
   const handleDescriptionChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setDescription(event.target.value);
     },
-    [setDescription]
+    [],
   );
 
   const handleArtNoteChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setArtNote(event.target.value);
     },
-    [setArtNote]
+    [],
   );
 
   const { mutate: handleCreateStory, isLoading: storyIsLoading } = useMutation(
     createStory,
-    {}
+    {},
   );
 
   const handleSubmit = useCallback(() => {

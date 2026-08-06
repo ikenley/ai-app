@@ -1,5 +1,5 @@
-import winston from "winston";
-import { CognitoJwtVerifier } from "aws-jwt-verify";
+import type winston from "winston";
+import type { CognitoJwtVerifier } from "aws-jwt-verify";
 import UnauthorizedException from "../middleware/UnauthorizedException.ts";
 import type { ApiCradle } from "../container/Cradle.ts";
 import User from "./User.ts";

@@ -1,4 +1,5 @@
-import React, { useCallback, useState } from "react";
+import type React from "react";
+import { useCallback, useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Skeleton from "@mui/material/Skeleton";
@@ -17,7 +18,7 @@ const PunPanel = () => {
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setPrompt(event.target.value);
     },
-    [setPrompt]
+    [],
   );
 
   const {

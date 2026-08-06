@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { ConfigOptions } from "../../config/index.ts";
+import type { ConfigOptions } from "../../config/index.ts";
 import type { ApiCradle } from "../../container/Cradle.ts";
 
 const route = Router();
@@ -27,7 +27,7 @@ export default class StatusController {
     });
 
     route.get("/error/:statusCode", (req, res) => {
-      const statusCode = parseInt(req.params.statusCode);
+      const statusCode = parseInt(req.params.statusCode, 10);
       res.status(statusCode);
       res.send(this.config.app);
     });

@@ -8,14 +8,14 @@ import {
 } from "@assistant-ui/react";
 import { v4 as uuidv4 } from "uuid";
 import { useApiClient } from "../hooks/ApiClientContext";
-import { SendChatParams, SendChatResponse } from "../types";
+import type { SendChatParams, SendChatResponse } from "../types";
 
 /** Integrate custom REST API with assistant-ui data workflow.
  * See https://www.assistant-ui.com/docs/runtimes/custom-rest
  */
 const getModelAdapter = (
   sendChatPrompt: (params: SendChatParams) => Promise<SendChatResponse>,
-  sessionId: string
+  sessionId: string,
 ): ChatModelAdapter => {
   return {
     async run({ messages }) {

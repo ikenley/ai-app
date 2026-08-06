@@ -1,10 +1,11 @@
-import React, { useCallback, useState } from "react";
+import type React from "react";
+import { useCallback, useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import MenuItem from "@mui/material/MenuItem";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
+import Select, { type SelectChangeEvent } from "@mui/material/Select";
 import TextField from "@mui/material/TextField";
 import { useMutation } from "react-query";
 import { toast } from "react-toastify";
@@ -49,7 +50,7 @@ const ImagePanel = () => {
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setPrompt(event.target.value);
     },
-    [setPrompt]
+    [],
   );
 
   const handleStyleChange = (event: SelectChangeEvent) => {
@@ -58,7 +59,7 @@ const ImagePanel = () => {
 
   const { mutate: handleCreateImage, isLoading: punIsLoading } = useMutation(
     createImage,
-    {}
+    {},
   );
 
   const handleSubmit = useCallback(() => {

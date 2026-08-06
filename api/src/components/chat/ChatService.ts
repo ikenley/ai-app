@@ -1,15 +1,15 @@
-import winston from "winston";
+import type winston from "winston";
 import {
-  BedrockAgentRuntimeClient,
+  type BedrockAgentRuntimeClient,
   InvokeAgentCommand,
   type InvokeAgentCommandOutput,
   type ReturnControlPayload,
 } from "@aws-sdk/client-bedrock-agent-runtime";
-import { ConfigOptions } from "../../config/index.ts";
-import User from "../../auth/User.ts";
+import type { ConfigOptions } from "../../config/index.ts";
+import type User from "../../auth/User.ts";
 import type { ApiCradle } from "../../container/Cradle.ts";
 import type { SendChatParams, SendChatResponse } from "../../types/index.ts";
-import EmailService from "../../services/EmailService.ts";
+import type EmailService from "../../services/EmailService.ts";
 
 /** Service for managing interactions with AI chat agent. */
 export default class ChatService {
@@ -51,7 +51,7 @@ export default class ChatService {
    */
   private async promptBedrockAgent(
     sessionId: string,
-    prompt: string
+    prompt: string,
   ): Promise<SendChatResponse> {
     this.logger.info("promptBedrockAgent:begin", { sessionId });
     const { agentId, agentAliasId } = this.config.bedrockAgent;
@@ -71,19 +71,19 @@ export default class ChatService {
   /** Process the BedrockAgent response */
   private async handleAgentResponse(
     sessionId: string,
-    response: InvokeAgentCommandOutput
+    response: InvokeAgentCommandOutput,
   ): Promise<SendChatResponse> {
     let agentReply = "";
     if (response.completion === undefined) {
       throw new Error("Completion is undefined");
     }
 
-    for await (let chunkEvent of response.completion) {
+    for await (const chunkEvent of response.completion) {
       //If response is of type "return control" handle ActionGroup on behalf of Agent
       if (chunkEvent.returnControl !== undefined) {
         return await this.handlReturnControl(
           sessionId,
-          chunkEvent.returnControl
+          chunkEvent.returnControl,
         );
       }
 
@@ -105,7 +105,7 @@ export default class ChatService {
    */
   private async handlReturnControl(
     sessionId: string,
-    returnControl: ReturnControlPayload
+    returnControl: ReturnControlPayload,
   ): Promise<SendChatResponse> {
     const { invocationId, invocationInputs } = returnControl;
     this.logger.info("handlReturnControl:inputs", {
@@ -130,7 +130,7 @@ export default class ChatService {
     // Route based on the functionName
     if (functionName === "SendSumaryEmail") {
       const summaryParam = invocationInput.parameters?.find(
-        (p) => p.name === "summary"
+        (p) => p.name === "summary",
       );
       if (!summaryParam) {
         this.logger.error("summaryParam not found");
@@ -142,7 +142,7 @@ export default class ChatService {
         sessionId,
         invocationId,
         actionGroup,
-        summary
+        summary,
       );
     }
 
@@ -156,7 +156,7 @@ export default class ChatService {
     sessionId: string,
     invocationId: string,
     actionGroup: string,
-    summary: string
+    summary: string,
   ): Promise<SendChatResponse> {
     this.logger.info("sendSummaryEmail", { sessionId, invocationId });
 
@@ -170,7 +170,7 @@ export default class ChatService {
       this.user.email,
       subject,
       textMessage,
-      htmlMessage
+      htmlMessage,
     );
 
     // Return response to agent

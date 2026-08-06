@@ -18,11 +18,10 @@ export default class AuthenticationMiddlewareProvider {
     const isAuthenticated = async (
       req: Request,
       res: Response,
-      next: NextFunction
+      next: NextFunction,
     ) => {
       if (
-        !req.headers ||
-        !req.headers.authorization ||
+        !req?.headers?.authorization ||
         req.headers.authorization === ""
       ) {
         throw new UnauthorizedException();
@@ -33,9 +32,8 @@ export default class AuthenticationMiddlewareProvider {
 
       try {
         // Validate JWT
-        const user = await scope.cradle.jwtValidationService.validate(
-          authHeader
-        );
+        const user =
+          await scope.cradle.jwtValidationService.validate(authHeader);
 
         // Inject User into the request scope, for everything downstream
         scope.register({ user: asValue(user) });
@@ -44,7 +42,7 @@ export default class AuthenticationMiddlewareProvider {
         next();
       } catch (e: any) {
         const logger = scope.cradle.loggerProvider.provide(
-          "AuthenticationMiddlewareProvider"
+          "AuthenticationMiddlewareProvider",
         );
         logger.info("Invalid jwt", { e });
         throw new UnauthorizedException();
