@@ -4,7 +4,7 @@ import express from "express";
 import helmet from "helmet";
 import methodOverride from "method-override";
 import morgan from "morgan";
-import { type ConfigOptions, getConfigOptions } from "../config/index.ts";
+import type { ConfigOptions } from "../config/index.ts";
 import type { ApiCradle } from "../container/Cradle.ts";
 import exceptionMiddleware from "../middleware/exceptionMiddleware.ts";
 import requestScopeMiddleware from "../middleware/requestScopeMiddleware.ts";
@@ -23,16 +23,18 @@ const getCorsOrigin = (config: ConfigOptions) => {
 
 export default class ExpressLoader {
   protected routeService: RouteService;
+  protected config: ConfigOptions;
 
-  constructor({ routeService }: ApiCradle) {
+  constructor({ routeService, config }: ApiCradle) {
     this.routeService = routeService;
+    this.config = config;
   }
 
   /** Takes the root container so the request-scope middleware can create a
    *  child scope per request. The container cannot arrive through the cradle —
    *  it is what builds the cradle — so the entrypoint passes it in. */
   public load(app: express.Application, container: AwilixContainer<ApiCradle>) {
-    const config = getConfigOptions();
+    const { config } = this;
     // Useful if you're behind a reverse proxy (Heroku, Bluemix, AWS ELB, Nginx, etc)
     // It shows the real origin IP in the heroku or Cloudwatch logs
     app.enable("trust proxy");

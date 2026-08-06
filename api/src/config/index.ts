@@ -1,10 +1,5 @@
-import dotenv from "dotenv";
+// Importing the env readers also runs the dotenv/NODE_ENV bootstrap in env.ts.
 import { optionalEnv, requireEnv } from "./env.ts";
-
-// Set the NODE_ENV to 'development' by default
-process.env.NODE_ENV = process.env.NODE_ENV || "development";
-
-dotenv.config({ path: "../.env" });
 
 export type AppEnv = "local" | "test" | "dev" | "staging" | "prod";
 
