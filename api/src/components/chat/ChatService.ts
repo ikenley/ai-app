@@ -1,15 +1,15 @@
-import winston from "winston";
+import type winston from "winston";
 import {
-  BedrockAgentRuntimeClient,
+  type BedrockAgentRuntimeClient,
   InvokeAgentCommand,
   type InvokeAgentCommandOutput,
   type ReturnControlPayload,
 } from "@aws-sdk/client-bedrock-agent-runtime";
-import { ConfigOptions } from "../../config/index.ts";
-import User from "../../auth/User.ts";
+import type { ConfigOptions } from "../../config/index.ts";
+import type User from "../../auth/User.ts";
 import type { ApiCradle } from "../../container/Cradle.ts";
 import type { SendChatParams, SendChatResponse } from "../../types/index.ts";
-import EmailService from "../../services/EmailService.ts";
+import type EmailService from "../../services/EmailService.ts";
 
 /** Service for managing interactions with AI chat agent. */
 export default class ChatService {
@@ -78,7 +78,7 @@ export default class ChatService {
       throw new Error("Completion is undefined");
     }
 
-    for await (let chunkEvent of response.completion) {
+    for await (const chunkEvent of response.completion) {
       //If response is of type "return control" handle ActionGroup on behalf of Agent
       if (chunkEvent.returnControl !== undefined) {
         return await this.handlReturnControl(

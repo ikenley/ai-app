@@ -1,14 +1,14 @@
-import winston from "winston";
+import type winston from "winston";
 import { v4 as uuidv4 } from "uuid";
 import {
-  DynamoDBClient,
+  type DynamoDBClient,
   PutItemCommand,
   GetItemCommand,
 } from "@aws-sdk/client-dynamodb";
-import { ConfigOptions } from "../../config/index.ts";
-import User from "../../auth/User.ts";
+import type { ConfigOptions } from "../../config/index.ts";
+import type User from "../../auth/User.ts";
 import type { CoreCradle } from "../../container/Cradle.ts";
-import ImageMetadataEntity from "./ImageMetadataEntity.ts";
+import type ImageMetadataEntity from "./ImageMetadataEntity.ts";
 
 /** Handle database layer interactions */
 export default class ImageMetadataRepository {

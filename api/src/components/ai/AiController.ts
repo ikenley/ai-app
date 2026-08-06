@@ -2,7 +2,7 @@ import { type Request, type Response, Router } from "express";
 import type { CreatePunParams } from "../../types/index.ts";
 import type { ApiCradle } from "../../container/Cradle.ts";
 import { getRequestScope } from "../../container/getRequestScope.ts";
-import AuthenticationMiddlewareProvider from "../../auth/AuthenticationMiddlewareProvider.ts";
+import type AuthenticationMiddlewareProvider from "../../auth/AuthenticationMiddlewareProvider.ts";
 
 const route = Router();
 

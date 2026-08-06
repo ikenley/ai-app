@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from "express";
-import { ConfigOptions } from "../config/index.ts";
+import type { ConfigOptions } from "../config/index.ts";
 import type { ApiCradle } from "../container/Cradle.ts";
 import { getRequestScope } from "../container/getRequestScope.ts";
 import ForbiddenException from "../middleware/ForbiddenException.ts";

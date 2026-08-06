@@ -5,10 +5,10 @@ import cors from "cors";
 import morgan from "morgan";
 import methodOverride from "method-override";
 import logger from "./logger.ts";
-import { ConfigOptions, getConfigOptions } from "../config/index.ts";
+import { type ConfigOptions, getConfigOptions } from "../config/index.ts";
 import requestScopeMiddleware from "../middleware/requestScopeMiddleware.ts";
 import exceptionMiddleware from "../middleware/exceptionMiddleware.ts";
-import RouteService from "../routes/RouteService.ts";
+import type RouteService from "../routes/RouteService.ts";
 import type { ApiCradle } from "../container/Cradle.ts";
 
 const getCorsOrigin = (config: ConfigOptions) => {
