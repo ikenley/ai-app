@@ -20,7 +20,7 @@ export default class AiController {
 
     route.post(
       "/pun",
-      async (req: Request<{}, {}, CreatePunParams>, res: Response) => {
+      async (req: Request<unknown, unknown, CreatePunParams>, res: Response) => {
         const { aiService } = getRequestScope(res).cradle;
         const result = await aiService.createPun(req.body);
         res.send(result);

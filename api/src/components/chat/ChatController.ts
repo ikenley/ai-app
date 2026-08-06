@@ -27,7 +27,7 @@ export default class ChatController {
 
     route.post(
       "/",
-      async (req: Request<{}, {}, SendChatParams>, res: Response) => {
+      async (req: Request<unknown, unknown, SendChatParams>, res: Response) => {
         const { chatService } = getRequestScope(res).cradle;
         const response = await chatService.sendPrompt(req.body);
         res.send(response);

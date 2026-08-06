@@ -27,7 +27,7 @@ export default class ImageController {
 
     route.post(
       "/",
-      async (req: Request<{}, {}, RequestImageParams>, res: Response) => {
+      async (req: Request<unknown, unknown, RequestImageParams>, res: Response) => {
         const { imageMetadataService } = getRequestScope(res).cradle;
         await imageMetadataService.publishImageRequest(req.body);
         res.send({});

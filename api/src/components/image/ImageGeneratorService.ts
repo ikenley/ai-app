@@ -1,6 +1,6 @@
-import { readFileSync } from "fs";
-import { writeFile } from "fs/promises";
-import * as path from "path";
+import { readFileSync } from "node:fs";
+import { writeFile } from "node:fs/promises";
+import * as path from "node:path";
 import { type S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import type winston from "winston";
 import type { GoogleGenAI } from "@google/genai";

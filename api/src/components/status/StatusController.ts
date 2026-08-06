@@ -27,7 +27,7 @@ export default class StatusController {
     });
 
     route.get("/error/:statusCode", (req, res) => {
-      const statusCode = parseInt(req.params.statusCode);
+      const statusCode = parseInt(req.params.statusCode, 10);
       res.status(statusCode);
       res.send(this.config.app);
     });

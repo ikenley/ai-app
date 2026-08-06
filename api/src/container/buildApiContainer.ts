@@ -11,6 +11,7 @@ import { CognitoJwtVerifier } from "aws-jwt-verify";
 import { BedrockAgentRuntimeClient } from "@aws-sdk/client-bedrock-agent-runtime";
 import { BedrockRuntimeClient } from "@aws-sdk/client-bedrock-runtime";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
+import { DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
 import { SESClient } from "@aws-sdk/client-ses";
 import { SFNClient } from "@aws-sdk/client-sfn";
 import { SQSClient } from "@aws-sdk/client-sqs";
@@ -77,7 +78,9 @@ export const buildApiContainer = (): AwilixContainer<ApiCradle> => {
     bedrockRuntimeClient: asFunction(
       () => new BedrockRuntimeClient(),
     ).singleton(),
-    dynamoDBClient: asFunction(() => new DynamoDBClient()).singleton(),
+    dynamoDBDocumentClient: asFunction(() =>
+      DynamoDBDocumentClient.from(new DynamoDBClient()),
+    ).singleton(),
     sesClient: asFunction(() => new SESClient()).singleton(),
     sfnClient: asFunction(() => new SFNClient()).singleton(),
     sqsClient: asFunction(() => new SQSClient()).singleton(),

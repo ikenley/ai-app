@@ -21,8 +21,7 @@ export default class AuthenticationMiddlewareProvider {
       next: NextFunction,
     ) => {
       if (
-        !req.headers ||
-        !req.headers.authorization ||
+        !req?.headers?.authorization ||
         req.headers.authorization === ""
       ) {
         throw new UnauthorizedException();

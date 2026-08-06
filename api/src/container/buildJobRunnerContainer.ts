@@ -9,6 +9,7 @@ import {
 } from "awilix";
 import { NIL } from "uuid";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
+import { DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
 import { S3Client } from "@aws-sdk/client-s3";
 import { SESClient } from "@aws-sdk/client-ses";
 import { SQSClient } from "@aws-sdk/client-sqs";
@@ -57,7 +58,9 @@ export const buildJobRunnerContainer = (): AwilixContainer<JobRunnerCradle> => {
       ({ config }: JobRunnerCradle) =>
         new GoogleGenAI({ apiKey: config.googleGenAI.apiKey }),
     ).singleton(),
-    dynamoDBClient: asFunction(() => new DynamoDBClient()).singleton(),
+    dynamoDBDocumentClient: asFunction(() =>
+      DynamoDBDocumentClient.from(new DynamoDBClient()),
+    ).singleton(),
     s3Client: asFunction(() => new S3Client()).singleton(),
     sesClient: asFunction(() => new SESClient()).singleton(),
     sqsClient: asFunction(() => new SQSClient()).singleton(),

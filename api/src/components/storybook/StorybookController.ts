@@ -27,7 +27,10 @@ export default class StorybookController {
 
     route.post(
       "/",
-      async (req: Request<{}, {}, CreateStoryParams>, res: Response) => {
+      async (
+        req: Request<unknown, unknown, CreateStoryParams>,
+        res: Response,
+      ) => {
         const { storybookService } = getRequestScope(res).cradle;
         await storybookService.create(req.body);
         res.send({});

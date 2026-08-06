@@ -1,4 +1,5 @@
 import dotenv from "dotenv";
+import { requireEnv, optionalEnv } from "./env.ts";
 
 // Set the NODE_ENV to 'development' by default
 process.env.NODE_ENV = process.env.NODE_ENV || "development";
@@ -50,49 +51,41 @@ export class ConfigOptions {
  *    give bootstrap services time to inject env vars)
  */
 export const getConfigOptions = () => {
-  const authorizedEmailsJson = process.env.AUTHORIZED_EMAILS || "[]";
+  const authorizedEmailsJson = optionalEnv("AUTHORIZED_EMAILS", "[]");
   const authorizedEmails = JSON.parse(authorizedEmailsJson) as string[];
 
   const config: ConfigOptions = {
     api: { prefix: "/ai/api" },
     app: {
-      env: process.env.APP_ENV as AppEnv,
-      name: process.env.APP_NAME || "ai-api",
-      version: process.env.APP_VERSION!,
+      env: optionalEnv("APP_ENV") as AppEnv,
+      name: optionalEnv("APP_NAME", "ai-api"),
+      version: requireEnv("APP_VERSION"),
     },
     authorizedEmails: authorizedEmails,
     aws: {
-      region: process.env.AWS_REGION!,
+      region: requireEnv("AWS_REGION"),
     },
-    baseDomain: process.env.BASE_DOMAIN || null,
+    baseDomain: optionalEnv("BASE_DOMAIN") || null,
     bedrockAgent: {
-      agentId: process.env.BEDROCK_AGENT_ID!,
-      agentAliasId: process.env.BEDROCK_AGENT_ALIAS_ID!,
+      agentId: requireEnv("BEDROCK_AGENT_ID"),
+      agentAliasId: requireEnv("BEDROCK_AGENT_ALIAS_ID"),
     },
     cognito: {
-      userPoolId: process.env.COGNITO_USER_POOL_ID!,
-      userPoolClientId: process.env.COGNITO_USER_POOL_CLIENT_ID!,
-      userPoolClientSecret: process.env.COGNITO_USER_POOL_CLIENT_SECRET!,
+      userPoolId: requireEnv("COGNITO_USER_POOL_ID"),
+      userPoolClientId: requireEnv("COGNITO_USER_POOL_CLIENT_ID"),
+      userPoolClientSecret: requireEnv("COGNITO_USER_POOL_CLIENT_SECRET"),
     },
-    fromEmailAddress: process.env.FROM_EMAIL_ADDRESS!,
+    fromEmailAddress: requireEnv("FROM_EMAIL_ADDRESS"),
     googleGenAI: {
-      apiKey: process.env.GEMINI_API_KEY!,
+      apiKey: requireEnv("GEMINI_API_KEY"),
     },
-    imageMetadataTableName: process.env.IMAGE_METADATA_TABLE_NAME!,
-    jobQueueUrl: process.env.JOB_QUEUE_URL!,
-    // db: {
-    //   host: process.env.DB_HOST!,
-    //   port: parseInt(process.env.DB_PORT!),
-    //   user: process.env.DB_USER!,
-    //   password: process.env.DB_PASSWORD!,
-    //   database: process.env.DB_DATABASE!,
-    //   schema: process.env.DB_SCEHMA!,
-    // },
-    logs: { level: process.env.LOGS__LEVEL || "http" },
-    nodeEnv: process.env.NODE_ENV!,
-    port: parseInt(process.env.PORT || "8086", 10),
-    imageS3BucketName: process.env.IMAGE_S3_BUCKET_NAME!,
-    stateFunctionArn: process.env.STATE_FUNCTION_ARN!,
+    imageMetadataTableName: requireEnv("IMAGE_METADATA_TABLE_NAME"),
+    jobQueueUrl: requireEnv("JOB_QUEUE_URL"),
+    logs: { level: optionalEnv("LOGS__LEVEL", "http") },
+    nodeEnv: requireEnv("NODE_ENV"),
+    port: parseInt(optionalEnv("PORT", "8086"), 10),
+    imageS3BucketName: requireEnv("IMAGE_S3_BUCKET_NAME"),
+    stateFunctionArn: requireEnv("STATE_FUNCTION_ARN"),
   };
 
   return config;

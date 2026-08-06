@@ -1,10 +1,6 @@
 import type winston from "winston";
 import { v4 as uuidv4 } from "uuid";
-import {
-  type DynamoDBClient,
-  PutItemCommand,
-  GetItemCommand,
-} from "@aws-sdk/client-dynamodb";
+import { type DynamoDBDocumentClient, PutCommand, GetCommand } from "@aws-sdk/lib-dynamodb";
 import type { ConfigOptions } from "../../config/index.ts";
 import type User from "../../auth/User.ts";
 import type { CoreCradle } from "../../container/Cradle.ts";
@@ -14,11 +10,11 @@ import type ImageMetadataEntity from "./ImageMetadataEntity.ts";
 export default class ImageMetadataRepository {
   private logger: winston.Logger;
   protected config: ConfigOptions;
-  protected dynamoDBClient: DynamoDBClient;
+  protected dynamoDBDocumentClient: DynamoDBDocumentClient;
 
-  constructor({ loggerProvider, config, dynamoDBClient }: CoreCradle) {
+  constructor({ loggerProvider, config, dynamoDBDocumentClient }: CoreCradle) {
     this.config = config;
-    this.dynamoDBClient = dynamoDBClient;
+    this.dynamoDBDocumentClient = dynamoDBDocumentClient;
     this.logger = loggerProvider.provide("ImageMetadataRepository");
   }
 
@@ -35,11 +31,11 @@ export default class ImageMetadataRepository {
     this.logger.info("insert", { image });
 
     const dynamoItem = this.toDynamoItem(image);
-    const command = new PutItemCommand({
+    const command = new PutCommand({
       TableName: this.config.imageMetadataTableName,
       Item: dynamoItem,
     });
-    await this.dynamoDBClient.send(command);
+    await this.dynamoDBDocumentClient.send(command);
 
     return image;
   }
@@ -48,15 +44,15 @@ export default class ImageMetadataRepository {
   private toDynamoItem(imageMetadata: ImageMetadataEntity) {
     const completedAt =
       imageMetadata.completedAt === null
-        ? { NULL: true }
-        : { S: imageMetadata.completedAt.toISOString() };
+        ? null
+        : imageMetadata.completedAt.toISOString();
 
     return {
-      imageId: { S: imageMetadata.imageId },
-      prompt: { S: imageMetadata.prompt },
-      userId: { S: imageMetadata.userId },
-      email: { S: imageMetadata.email },
-      requestedAt: { S: imageMetadata.requestedAt.toISOString() },
+      imageId: imageMetadata.imageId,
+      prompt: imageMetadata.prompt,
+      userId: imageMetadata.userId,
+      email: imageMetadata.email,
+      requestedAt: imageMetadata.requestedAt.toISOString(),
       completedAt: completedAt,
     };
   }
@@ -68,11 +64,11 @@ export default class ImageMetadataRepository {
     imageMetadata.completedAt = new Date();
 
     const dynamoItem = this.toDynamoItem(imageMetadata);
-    const command = new PutItemCommand({
+    const command = new PutCommand({
       TableName: this.config.imageMetadataTableName,
       Item: dynamoItem,
     });
-    await this.dynamoDBClient.send(command);
+    await this.dynamoDBDocumentClient.send(command);
 
     return imageMetadata;
   }
@@ -84,24 +80,24 @@ export default class ImageMetadataRepository {
         imageId: { S: imageId },
       },
     };
-    const command = new GetItemCommand(input);
-    const response = await this.dynamoDBClient.send(command);
+    const command = new GetCommand(input);
+    const response = await this.dynamoDBDocumentClient.send(command);
     const item = response.Item;
 
     if (!item) {
       throw new Error(`No item found with imageId ${imageId}`);
     }
 
-    const completedAt = item.completedAt.NULL
+    const completedAt = item.completedAt === null
       ? null
-      : new Date(item.completedAt.S!);
+      : new Date(item.completedAt);
 
     const image: ImageMetadataEntity = {
-      imageId: item.imageId.S!,
-      prompt: item.prompt.S!,
-      userId: item.userId.S!,
-      email: item.email.S!,
-      requestedAt: new Date(item.requestedAt.S!),
+      imageId: item.imageId,
+      prompt: item.prompt,
+      userId: item.userId,
+      email: item.email,
+      requestedAt: new Date(item.requestedAt),
       completedAt: completedAt,
     };
 
