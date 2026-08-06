@@ -1,12 +1,12 @@
+import { SSMClient } from "@aws-sdk/client-ssm";
 import { configure as serverlessExpress } from "@vendia/serverless-express";
 import type { ALBEvent, Context } from "aws-lambda";
-import { SSMClient } from "@aws-sdk/client-ssm";
-import { getConfigOptions } from "./config/index.ts";
 import express from "express";
-import Logger from "./loaders/logger.ts";
-import buildApiContainer from "./container/buildApiContainer.ts";
-import SsmParamLoader from "./loaders/SsmParamLoader.ts";
 import { requireEnv } from "./config/env.ts";
+import { getConfigOptions } from "./config/index.ts";
+import buildApiContainer from "./container/buildApiContainer.ts";
+import Logger from "./loaders/logger.ts";
+import SsmParamLoader from "./loaders/SsmParamLoader.ts";
 
 let serverlessExpressInstance: any = null;
 

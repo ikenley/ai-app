@@ -1,16 +1,16 @@
 import type React from "react";
 import {
   createContext,
-  useState,
-  useMemo,
   useCallback,
-  useEffect,
   useContext,
+  useEffect,
+  useMemo,
+  useState,
 } from "react";
 import { useApiClient } from "../hooks/ApiClientContext";
 import useInterval from "../hooks/useInterval";
-import User from "./User";
 import redirectToLogin from "./redirectToLogin";
+import User from "./User";
 
 const REFRESH_TOKEN_TIMEOUT = 1740000; // 29 minutes
 

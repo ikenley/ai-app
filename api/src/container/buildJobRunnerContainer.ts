@@ -1,28 +1,28 @@
+import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
+import { S3Client } from "@aws-sdk/client-s3";
+import { SESClient } from "@aws-sdk/client-ses";
+import { SQSClient } from "@aws-sdk/client-sqs";
+import { DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
+import { GoogleGenAI } from "@google/genai";
 import {
   type AwilixContainer,
-  InjectionMode,
-  type Resolver,
   asClass,
   asFunction,
   asValue,
   createContainer,
+  InjectionMode,
+  type Resolver,
 } from "awilix";
 import { NIL } from "uuid";
-import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
-import { S3Client } from "@aws-sdk/client-s3";
-import { SESClient } from "@aws-sdk/client-ses";
-import { SQSClient } from "@aws-sdk/client-sqs";
-import { GoogleGenAI } from "@google/genai";
-import { getConfigOptions } from "../config/index.ts";
-import LoggerInstance from "../loaders/logger.ts";
 import User from "../auth/User.ts";
-import LoggerProvider from "../utils/LoggerProvider.ts";
-import EmailService from "../services/EmailService.ts";
+import ImageGeneratorService from "../components/image/ImageGeneratorService.ts";
 import ImageMetadataRepository from "../components/image/ImageMetadataRepository.ts";
 import ImageMetadataService from "../components/image/ImageMetadataService.ts";
-import ImageGeneratorService from "../components/image/ImageGeneratorService.ts";
 import JobRunnerService from "../components/image/JobRunnerService.ts";
+import { getConfigOptions } from "../config/index.ts";
+import LoggerInstance from "../loaders/logger.ts";
+import EmailService from "../services/EmailService.ts";
+import LoggerProvider from "../utils/LoggerProvider.ts";
 import type { JobRunnerCradle } from "./Cradle.ts";
 
 /** Every key in JobRunnerCradle must appear below, or this fails to compile. */

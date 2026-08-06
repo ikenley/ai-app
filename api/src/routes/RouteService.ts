@@ -1,10 +1,10 @@
 import { Router } from "express";
-import type { ApiCradle } from "../container/Cradle.ts";
 import type AiController from "../components/ai/AiController.ts";
 import type ChatController from "../components/chat/ChatController.ts";
 import type ImageController from "../components/image/ImageController.ts";
 import type StatusController from "../components/status/StatusController.ts";
 import type StorybookController from "../components/storybook/StorybookController.ts";
+import type { ApiCradle } from "../container/Cradle.ts";
 
 export default class RouteService {
   protected aiController: AiController;

@@ -1,9 +1,9 @@
 import { type Request, type Response, Router } from "express";
-import type { RequestImageParams } from "../../types/index.ts";
-import type { ApiCradle } from "../../container/Cradle.ts";
-import { getRequestScope } from "../../container/getRequestScope.ts";
 import type AuthenticationMiddlewareProvider from "../../auth/AuthenticationMiddlewareProvider.ts";
 import type AuthorizationMiddleware from "../../auth/AuthorizationMiddleware.ts";
+import type { ApiCradle } from "../../container/Cradle.ts";
+import { getRequestScope } from "../../container/getRequestScope.ts";
+import type { RequestImageParams } from "../../types/index.ts";
 
 const route = Router();
 
@@ -27,7 +27,10 @@ export default class ImageController {
 
     route.post(
       "/",
-      async (req: Request<unknown, unknown, RequestImageParams>, res: Response) => {
+      async (
+        req: Request<unknown, unknown, RequestImageParams>,
+        res: Response,
+      ) => {
         const { imageMetadataService } = getRequestScope(res).cradle;
         await imageMetadataService.publishImageRequest(req.body);
         res.send({});

@@ -1,11 +1,11 @@
 "use client";
 
-import { useMemo, type ReactNode } from "react";
 import {
   AssistantRuntimeProvider,
-  useLocalRuntime,
   type ChatModelAdapter,
+  useLocalRuntime,
 } from "@assistant-ui/react";
+import { type ReactNode, useMemo } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useApiClient } from "../hooks/ApiClientContext";
 import type { SendChatParams, SendChatResponse } from "../types";

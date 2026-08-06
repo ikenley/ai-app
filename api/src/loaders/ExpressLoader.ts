@@ -1,15 +1,15 @@
 import type { AwilixContainer } from "awilix";
+import cors from "cors";
 import express from "express";
 import helmet from "helmet";
-import cors from "cors";
-import morgan from "morgan";
 import methodOverride from "method-override";
-import logger from "./logger.ts";
+import morgan from "morgan";
 import { type ConfigOptions, getConfigOptions } from "../config/index.ts";
-import requestScopeMiddleware from "../middleware/requestScopeMiddleware.ts";
-import exceptionMiddleware from "../middleware/exceptionMiddleware.ts";
-import type RouteService from "../routes/RouteService.ts";
 import type { ApiCradle } from "../container/Cradle.ts";
+import exceptionMiddleware from "../middleware/exceptionMiddleware.ts";
+import requestScopeMiddleware from "../middleware/requestScopeMiddleware.ts";
+import type RouteService from "../routes/RouteService.ts";
+import logger from "./logger.ts";
 
 const getCorsOrigin = (config: ConfigOptions) => {
   const { baseDomain, app } = config;

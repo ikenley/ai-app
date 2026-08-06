@@ -1,17 +1,17 @@
+import axios from "axios";
 import type React from "react";
 import { createContext, useContext, useMemo } from "react";
-import axios from "axios";
 import { toast } from "react-toastify";
+import redirectToLogin from "../auth/redirectToLogin";
 import config from "../config";
 import type {
   CreatePunParams,
   CreatePunResponse,
-  RequestImageParams,
   CreateStoryParams,
+  RequestImageParams,
   SendChatParams,
   SendChatResponse,
 } from "../types";
-import redirectToLogin from "../auth/redirectToLogin";
 
 /** A context which provides an implementation for all REST API calls.
  * This makes testing easier, becaus we can provide mock implementations.

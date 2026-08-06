@@ -1,6 +1,6 @@
+import SmartToyIcon from "@mui/icons-material/SmartToy";
 import { Avatar, Box, CircularProgress } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import SmartToyIcon from "@mui/icons-material/SmartToy";
 import { MessageType } from "../types/frontEndTypes";
 import "./MessagePanel.css";
 
