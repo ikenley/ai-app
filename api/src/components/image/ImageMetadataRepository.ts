@@ -81,7 +81,7 @@ export default class ImageMetadataRepository {
     const input = {
       TableName: this.config.imageMetadataTableName,
       Key: {
-        imageId: { S: imageId },
+        imageId,
       },
     };
     const command = new GetCommand(input);
@@ -92,8 +92,7 @@ export default class ImageMetadataRepository {
       throw new Error(`No item found with imageId ${imageId}`);
     }
 
-    const completedAt =
-      item.completedAt === null ? null : new Date(item.completedAt);
+    const completedAt = item.completedAt ? new Date(item.completedAt) : null;
 
     const image: ImageMetadataEntity = {
       imageId: item.imageId,
