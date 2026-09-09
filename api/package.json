@@ -38,7 +38,7 @@
     "@aws-sdk/client-ssm": "^3.1110.0",
     "@aws-sdk/lib-dynamodb": "^3.1111.0",
     "@aws-sdk/lib-storage": "^3.1075.0",
-    "@google/genai": "^2.10.0",
+    "@google/genai": "^2.21.0",
     "@vendia/serverless-express": "^4.12.6",
     "awilix": "^13.0.5",
     "aws-jwt-verify": "^5.2.1",
