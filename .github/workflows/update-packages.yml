@@ -33,6 +33,9 @@ jobs:
           --domain ${{ secrets.CODE_ARTIFACT_DOMAIN }} 
           --domain-owner ${{ secrets.CODE_ARTIFACT_DOMAIN_OWNER }} 
           --region ${{ secrets.AWS_REGION }}
+      # npm >= 12 is required by devEngines and the supply chain settings in .npmrc
+      - name: Configure npm
+        run: npm install -g npm@12.2.0
       - name: update-api
         run: cd api && npm update --save
       - name: update-frontend
