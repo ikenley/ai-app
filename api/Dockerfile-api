@@ -4,11 +4,12 @@ FROM node:26 AS build
 
 WORKDIR /usr/src/app
 
+# npm >= 12 is required by devEngines and the supply chain settings in .npmrc
+RUN npm install -g npm@12.2.0
+
 # Install app dependencies
-COPY package*.json ./
-RUN npm install
-# If you are building your code for production
-#RUN npm ci --only=production
+COPY package*.json .npmrc ./
+RUN npm ci
 
 # Bundle app source
 COPY . .
@@ -21,11 +22,11 @@ WORKDIR /usr/src/app
 
 EXPOSE 8080
 
-# Copy results from previous stage
-COPY --from=build /usr/src/app/package*.json ./
-RUN npm ci --production
-COPY --from=build /usr/src/app/dist ./dist
+RUN npm install -g npm@12.2.0
 
-RUN npm prune --production
+# Copy results from previous stage
+COPY --from=build /usr/src/app/package*.json /usr/src/app/.npmrc ./
+RUN npm ci --omit=dev
+COPY --from=build /usr/src/app/dist ./dist
 
 CMD [ "node", "dist/index.js" ]

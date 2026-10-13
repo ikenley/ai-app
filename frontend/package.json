@@ -61,5 +61,15 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devEngines": {
+    "packageManager": {
+      "name": "npm",
+      "version": ">=12",
+      "onFail": "error"
+    }
+  },
+  "allowScripts": {
+    "fsevents": false
   }
 }
