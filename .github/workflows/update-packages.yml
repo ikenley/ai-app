@@ -1,0 +1,46 @@
+name: Update npm packages
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "14 3 * * 2" # At 03:14 on Tuesday
+permissions:
+  id-token: write   # This is required for requesting the JWT
+  contents: write    # This is required for actions/checkout
+  pull-requests: write # Pull requests
+jobs:
+  update-packages:
+    name: update packages
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22.x"
+      - name: Configure AWS
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE }}
+          role-session-name: updatepackagessession
+          aws-region: ${{ secrets.AWS_REGION }}
+      - name: Configure CodeArtifact
+        run: > 
+          aws codeartifact login 
+          --tool npm 
+          --repository ${{ secrets.CODE_ARTIFACT_REPO }} 
+          --domain ${{ secrets.CODE_ARTIFACT_DOMAIN }} 
+          --domain-owner ${{ secrets.CODE_ARTIFACT_DOMAIN_OWNER }} 
+          --region ${{ secrets.AWS_REGION }}
+      - name: update-api
+        run: cd api && npm update --save
+      - name: update-frontend
+        run: cd frontend && npm update --save
+      - name: Commit and create PR
+        uses: peter-evans/create-pull-request@v6
+        with:
+          title: "Update npm packages"
+          branch: "npm-update-job"
+          commit-message: "Update npm packages"
+          body: Update npm packages
