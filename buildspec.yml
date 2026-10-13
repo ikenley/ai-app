@@ -4,6 +4,10 @@ phases:
   install:
     runtime-versions:
       nodejs: 24
+    commands:
+      # npm >= 12 is required by devEngines and the supply chain settings in .npmrc
+      - npm install -g npm@12.2.0
+      - node --version && npm --version
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...

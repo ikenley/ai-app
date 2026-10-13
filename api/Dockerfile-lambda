@@ -5,8 +5,11 @@ FROM public.ecr.aws/lambda/nodejs:24.2026.10.04.23 AS builder
 
 WORKDIR /usr/app
 
+# npm >= 12 is required by devEngines and the supply chain settings in .npmrc
+RUN npm install -g npm@12.2.0
+
 # Install dependencies
-COPY package*.json ./
+COPY package*.json .npmrc ./
 RUN npm ci
 
 # Bundle app source code
@@ -18,8 +21,10 @@ FROM public.ecr.aws/lambda/nodejs:24.2026.10.04.23 AS runtime
 
 WORKDIR ${LAMBDA_TASK_ROOT}
 
+RUN npm install -g npm@12.2.0
+
 # Install runtime dependencies
-COPY --from=builder /usr/app/package*.json ./
+COPY --from=builder /usr/app/package*.json /usr/app/.npmrc ./
 RUN npm ci --omit=dev
 
 COPY --from=builder /usr/app/dist ./dist
