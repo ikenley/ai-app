@@ -1,4 +1,4 @@
-name: Update npm packages
+name: update-npm-packages
 
 on:
   workflow_dispatch:
@@ -11,16 +11,16 @@ permissions:
 jobs:
   update-packages:
     name: update packages
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
-          node-version: "22.x"
+          node-version: "26.x"
       - name: Configure AWS
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v6
         with:
           role-to-assume: ${{ secrets.AWS_ROLE }}
           role-session-name: updatepackagessession
@@ -33,12 +33,15 @@ jobs:
           --domain ${{ secrets.CODE_ARTIFACT_DOMAIN }} 
           --domain-owner ${{ secrets.CODE_ARTIFACT_DOMAIN_OWNER }} 
           --region ${{ secrets.AWS_REGION }}
+      # npm >= 12 is required by devEngines and the supply chain settings in .npmrc
+      - name: Configure npm
+        run: npm install -g npm@12.2.0
       - name: update-api
         run: cd api && npm update --save
       - name: update-frontend
         run: cd frontend && npm update --save
       - name: Commit and create PR
-        uses: peter-evans/create-pull-request@v6
+        uses: peter-evans/create-pull-request@v8
         with:
           title: "Update npm packages"
           branch: "npm-update-job"
