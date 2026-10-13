@@ -41,7 +41,7 @@ jobs:
       - name: update-frontend
         run: cd frontend && npm update --save
       - name: Commit and create PR
-        uses: peter-evans/create-pull-request@v6
+        uses: peter-evans/create-pull-request@v8
         with:
           title: "Update npm packages"
           branch: "npm-update-job"
