@@ -17,7 +17,7 @@
     "lint:write": "biome lint --write"
   },
   "dependencies": {
-    "@assistant-ui/react": "^0.5.100",
+    "@assistant-ui/react": "^0.15.32",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@mui/icons-material": "^7.3.11",
