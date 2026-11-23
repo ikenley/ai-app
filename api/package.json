@@ -40,7 +40,7 @@
     "@aws-sdk/lib-storage": "^3.1169.0",
     "@google/genai": "^2.32.0",
     "@vendia/serverless-express": "^4.12.6",
-    "awilix": "^13.0.5",
+    "awilix": "^13.0.7",
     "aws-jwt-verify": "^5.2.1",
     "cors": "^2.8.6",
     "dotenv": "^18.0.10",
